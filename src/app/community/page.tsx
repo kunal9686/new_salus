@@ -140,7 +140,7 @@ export default function CommunityPage() {
             </Card>
           ))}
           {threads?.map((thread) => (
-            <Card key={thread.id} className="hover:shadow-lg transition-all duration-300 ease-in-out">
+            <Card key={thread.id} className="transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1 hover:scale-[1.02]">
               <CardHeader>
                 <div className="flex justify-between items-start">
                   <div>

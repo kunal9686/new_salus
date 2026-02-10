@@ -89,7 +89,7 @@ export default function JournalPage() {
               </Card>
             ))}
             {journalEntries?.map((entry) => (
-              <Card key={entry.id}>
+              <Card key={entry.id} className="transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1 hover:scale-[1.02]">
                 <CardHeader>
                   <CardTitle className="text-lg">
                      {entry.entryDate ? format(entry.entryDate.toDate(), 'MMMM dd, yyyy') : "Just now"}
