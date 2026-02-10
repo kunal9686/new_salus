@@ -1,3 +1,5 @@
+"use client";
+
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,23 +11,45 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-
-const journalEntries = [
-  {
-    date: "July 20, 2024",
-    content: "Felt a bit overwhelmed today with work, but a short walk in the evening really helped clear my head. I need to remember to take breaks more often. Grateful for the quiet moments.",
-  },
-  {
-    date: "July 19, 2024",
-    content: "Tried a 10-minute meditation this morning. It was difficult to focus, but I felt a bit calmer afterward. I'll try again tomorrow. The quiet start to the day was nice.",
-  },
-  {
-    date: "July 18, 2024",
-    content: "Had a great conversation with a friend. It's amazing how much connecting with others can lift your spirits. I should make more time for people who matter.",
-  },
-];
+import { useUser, useFirestore, useCollection, addDocumentNonBlocking, useMemoFirebase } from "@/firebase";
+import { collection, orderBy, query, serverTimestamp } from "firebase/firestore";
+import { useState } from "react";
+import { format } from "date-fns";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useToast } from "@/hooks/use-toast";
 
 export default function JournalPage() {
+  const { user } = useUser();
+  const firestore = useFirestore();
+  const { toast } = useToast();
+  const [newEntry, setNewEntry] = useState("");
+
+  const entriesRef = useMemoFirebase(() => {
+    if (!user || !firestore) return null;
+    return collection(firestore, "users", user.uid, "journalEntries");
+  }, [user, firestore]);
+
+  const entriesQuery = useMemoFirebase(() => {
+    if (!entriesRef) return null;
+    return query(entriesRef, orderBy("entryDate", "desc"));
+  }, [entriesRef]);
+
+  const { data: journalEntries, isLoading } = useCollection(entriesQuery);
+
+  const handleSaveEntry = () => {
+    if (!entriesRef || !newEntry.trim()) return;
+    addDocumentNonBlocking(entriesRef, {
+      userId: user?.uid,
+      content: newEntry,
+      entryDate: serverTimestamp(),
+    });
+    setNewEntry("");
+    toast({
+      title: "Entry Saved",
+      description: "Your journal entry has been saved.",
+    });
+  };
+
   return (
     <DashboardLayout pageTitle="Journal">
       <div className="flex-1 space-y-8 p-4 md:p-8 pt-6 bg-gradient-to-br from-gray-950 to-green-900 min-h-full">
@@ -40,20 +64,36 @@ export default function JournalPage() {
             <Textarea
               placeholder="Reflect on your day, your feelings, and your experiences..."
               className="min-h-[150px]"
+              value={newEntry}
+              onChange={(e) => setNewEntry(e.target.value)}
             />
           </CardContent>
           <CardFooter>
-            <Button>Save Entry</Button>
+            <Button onClick={handleSaveEntry}>Save Entry</Button>
           </CardFooter>
         </Card>
 
         <div className="space-y-4">
           <h2 className="text-2xl font-bold tracking-tight font-headline">Past Entries</h2>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {journalEntries.map((entry, index) => (
+            {isLoading && Array.from({ length: 3 }).map((_, index) => (
               <Card key={index}>
                 <CardHeader>
-                  <CardTitle className="text-lg">{entry.date}</CardTitle>
+                  <Skeleton className="h-6 w-3/4" />
+                </CardHeader>
+                <CardContent>
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-full mt-2" />
+                  <Skeleton className="h-4 w-2/3 mt-2" />
+                </CardContent>
+              </Card>
+            ))}
+            {journalEntries?.map((entry) => (
+              <Card key={entry.id}>
+                <CardHeader>
+                  <CardTitle className="text-lg">
+                     {entry.entryDate ? format(entry.entryDate.toDate(), 'MMMM dd, yyyy') : "Just now"}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">{entry.content}</p>

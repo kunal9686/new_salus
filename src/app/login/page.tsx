@@ -12,15 +12,45 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuth, useUser } from "@/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import React, { useEffect, useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function LoginPage() {
   const router = useRouter();
+  const auth = useAuth();
+  const { toast } = useToast();
+  const { user, isUserLoading } = useUser();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    if (!isUserLoading && user) {
+      router.push("/dashboard");
+    }
+  }, [user, isUserLoading, router]);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, you'd have authentication logic here.
-    router.push("/dashboard");
+    if (!auth) return;
+    signInWithEmailAndPassword(auth, email, password)
+      .catch((error) => {
+        toast({
+          variant: "destructive",
+          title: "Login Failed",
+          description: "Invalid email or password. Please try again.",
+        });
+      });
   };
+
+  if (isUserLoading || user) {
+    return (
+      <div className="flex min-h-screen w-full items-center justify-center bg-background p-4">
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen w-full items-center justify-center bg-background p-4">
@@ -40,6 +70,8 @@ export default function LoginPage() {
                 type="email"
                 placeholder="m@example.com"
                 required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="grid gap-2">
@@ -49,7 +81,7 @@ export default function LoginPage() {
                   Forgot your password?
                 </Link>
               </div>
-              <Input id="password" type="password" required />
+              <Input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
             <Button type="submit" className="w-full">
               Login

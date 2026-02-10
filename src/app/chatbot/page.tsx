@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { CornerDownLeft, Mic, Paperclip } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { CornerDownLeft } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -10,6 +10,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { chatbotPersonalizedGuidance } from "@/ai/flows/chatbot-personalized-guidance";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useUser, useFirestore, useCollection, useDoc, addDocumentNonBlocking, useMemoFirebase } from "@/firebase";
+import { collection, doc, serverTimestamp, query, orderBy, getDocs } from "firebase/firestore";
 
 interface Message {
   id: string;
@@ -17,71 +19,126 @@ interface Message {
   content: string;
 }
 
-// Mock data as per the AI flow requirements
-const mockProfile = `User is named Alex Doe. 
-Wellness Goals: My main goal is to reduce stress and improve my sleep quality. I want to build a consistent morning routine that includes meditation and light exercise.`;
-
-const mockJournalEntries = `July 20, 2024: Felt a bit overwhelmed today with work, but a short walk in the evening really helped clear my head.
-July 19, 2024: Tried a 10-minute meditation this morning. It was difficult to focus, but I felt a bit calmer afterward.
-July 18, 2024: Had a great conversation with a friend. It's amazing how much connecting with others can lift your spirits.`;
-
 export default function ChatbotPage() {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "1",
-      role: "assistant",
-      content:
-        "Hello Alex! I'm your personal wellness assistant. How can I help you on your journey today?",
-    },
-  ]);
+  const { user } = useUser();
+  const firestore = useFirestore();
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+
+  // Create a new chat session when the user is available
+  useEffect(() => {
+    if (user && firestore && !sessionId) {
+      const sessionsRef = collection(firestore, "users", user.uid, "chatbotSessions");
+      addDocumentNonBlocking(sessionsRef, {
+        userId: user.uid,
+        startTime: serverTimestamp(),
+      }).then(docRef => {
+        if (docRef) {
+          setSessionId(docRef.id);
+        }
+      });
+    }
+  }, [user, firestore, sessionId]);
+
+  const messagesRef = useMemoFirebase(() => {
+    if (!user || !firestore || !sessionId) return null;
+    return collection(firestore, "users", user.uid, "chatbotSessions", sessionId, "chatMessages");
+  }, [user, firestore, sessionId]);
+
+  const messagesQuery = useMemoFirebase(() => {
+    if (!messagesRef) return null;
+    return query(messagesRef, orderBy("messageTime"));
+  }, [messagesRef]);
+
+  const { data: messages, isLoading: isLoadingMessages } = useCollection<Omit<Message, 'id'>>(messagesQuery);
+  
+  const scrollToBottom = () => {
+    setTimeout(() => {
+      const scrollableView = document.querySelector('[data-radix-scroll-area-viewport]');
+      if (scrollableView) {
+        scrollableView.scrollTo({ top: scrollableView.scrollHeight, behavior: 'smooth' });
+      }
+    }, 100);
+  };
+  
+  useEffect(() => {
+      scrollToBottom();
+  }, [messages, isLoading]);
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim() || isLoading) return;
+    if (!input.trim() || isLoading || !messagesRef || !user || !firestore) return;
 
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      role: "user",
-      content: input,
-    };
-    setMessages((prev) => [...prev, userMessage]);
+    const userInput = input;
     setInput("");
+    
+    // Save user message
+    addDocumentNonBlocking(messagesRef, {
+      role: 'user',
+      content: userInput,
+      messageTime: serverTimestamp(),
+    });
+    
     setIsLoading(true);
+    scrollToBottom();
 
     try {
+      // Fetch profile and journal for context
+      const userRef = doc(firestore, "users", user.uid);
+      const journalRef = collection(firestore, "users", user.uid, "journalEntries");
+      
+      const [userDoc, journalSnapshot] = await Promise.all([
+        useDoc(userRef),
+        getDocs(query(journalRef, orderBy("entryDate", "desc"))),
+      ]);
+      
+      const profileData = (userDoc.data as any) ?? {};
+      const journalEntries = journalSnapshot.docs.map(d => d.data().content).join("\n---\n");
+
+      const profile = `Display Name: ${profileData.displayName}\nWellness Goals: ${profileData.wellnessGoals}`;
+
       const response = await chatbotPersonalizedGuidance({
-        profile: mockProfile,
-        journalEntries: mockJournalEntries,
-        query: input,
+        profile,
+        journalEntries,
+        query: userInput,
       });
 
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: "assistant",
+      // Save assistant message
+      addDocumentNonBlocking(messagesRef, {
+        role: 'assistant',
         content: response.guidance,
-      };
-      setMessages((prev) => [...prev, assistantMessage]);
+        messageTime: serverTimestamp(),
+      });
+
     } catch (error) {
       console.error("Error fetching guidance:", error);
-      const errorMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: "assistant",
+      addDocumentNonBlocking(messagesRef, {
+        role: 'assistant',
         content: "I'm sorry, I'm having trouble connecting right now. Please try again later.",
-      };
-      setMessages((prev) => [...prev, errorMessage]);
+        messageTime: serverTimestamp(),
+      });
     } finally {
       setIsLoading(false);
+      scrollToBottom();
     }
   };
 
   return (
     <DashboardLayout pageTitle="Wellness Chatbot">
       <div className="flex flex-col h-[calc(100vh-3.5rem)] bg-gradient-to-br from-gray-950 to-sky-900">
-        <ScrollArea className="flex-1 p-4 md:p-6">
+        <ScrollArea className="flex-1 p-4 md:p-6" ref={scrollAreaRef}>
           <div className="space-y-6 max-w-3xl mx-auto">
-            {messages.map((message) => (
+            {!isLoadingMessages && !messages?.length && (
+               <div className="flex items-start gap-4">
+                  <Avatar className="h-9 w-9"><AvatarFallback>A</AvatarFallback></Avatar>
+                  <div className="rounded-lg p-3 text-sm bg-muted">
+                    <p>Hello! I&apos;m your personal wellness assistant. How can I help you on your journey today?</p>
+                  </div>
+              </div>
+            )}
+            {messages?.map((message) => (
               <div
                 key={message.id}
                 className={`flex items-start gap-4 ${
@@ -106,8 +163,8 @@ export default function ChatbotPage() {
                 </div>
                 {message.role === "user" && (
                   <Avatar className="h-9 w-9">
-                     <AvatarImage src="https://picsum.photos/seed/user/40/40" alt="@user" />
-                    <AvatarFallback>U</AvatarFallback>
+                     <AvatarImage src={user?.photoURL ?? "https://picsum.photos/seed/user/40/40"} alt={user?.displayName ?? "user"} />
+                    <AvatarFallback>{user?.displayName?.[0].toUpperCase() ?? 'U'}</AvatarFallback>
                   </Avatar>
                 )}
               </div>
@@ -146,10 +203,10 @@ export default function ChatbotPage() {
                     handleSendMessage(e);
                 }
               }}
-              disabled={isLoading}
+              disabled={isLoading || !user}
             />
             <div className="flex items-center p-3 pt-0">
-              <Button type="submit" size="sm" className="ml-auto gap-1.5" disabled={isLoading}>
+              <Button type="submit" size="sm" className="ml-auto gap-1.5" disabled={isLoading || !user || !input.trim()}>
                 Send
                 <CornerDownLeft className="size-3.5" />
               </Button>

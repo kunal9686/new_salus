@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import type { ReactNode } from "react";
 import {
   BookHeart,
@@ -37,6 +37,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useAuth, useUser } from "@/firebase";
+import { Skeleton } from "./ui/skeleton";
 
 const navItems = [
   { href: "/profile", label: "Profile", icon: User },
@@ -48,6 +50,17 @@ const navItems = [
 
 const AppSidebar = () => {
   const pathname = usePathname();
+  const auth = useAuth();
+  const { user } = useUser();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    if (auth) {
+      auth.signOut().then(() => {
+        router.push('/login');
+      });
+    }
+  };
 
   return (
     <Sidebar>
@@ -93,28 +106,28 @@ const AppSidebar = () => {
             <DropdownMenuTrigger asChild>
                 <div className="flex items-center gap-3 cursor-pointer p-2 rounded-md hover:bg-sidebar-accent w-full">
                     <Avatar className="h-8 w-8">
-                        <AvatarImage src="https://picsum.photos/seed/user/40/40" alt="@user" />
-                        <AvatarFallback>U</AvatarFallback>
+                        <AvatarImage src={user?.photoURL ?? "https://picsum.photos/seed/user/40/40"} alt={user?.displayName ?? "user"} />
+                        <AvatarFallback>{user?.displayName?.[0].toUpperCase() ?? 'U'}</AvatarFallback>
                     </Avatar>
                      <div className="flex flex-col text-left group-data-[collapsible=icon]:hidden">
-                        <span className="text-sm font-medium">User</span>
-                        <span className="text-xs text-muted-foreground">user@example.com</span>
+                        <span className="text-sm font-medium">{user?.displayName ?? 'User'}</span>
+                        <span className="text-xs text-muted-foreground">{user?.email ?? 'user@example.com'}</span>
                     </div>
                 </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent side="right" align="start">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <Settings className="mr-2 h-4 w-4" />
-                <span>Settings</span>
+              <DropdownMenuItem asChild>
+                 <Link href="/profile">
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>Settings</span>
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <Link href="/login">
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>Log out</span>
-                </Link>
+              <DropdownMenuItem onClick={handleLogout}>
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Log out</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -141,6 +154,32 @@ export function DashboardLayout({
   children: ReactNode;
   pageTitle: string;
 }) {
+  const { user, isUserLoading } = useUser();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (!isUserLoading && !user) {
+       if(pathname !== '/login' && pathname !== '/signup') {
+         router.replace('/login');
+       }
+    }
+  }, [isUserLoading, user, router, pathname]);
+
+  if (isUserLoading || !user) {
+    return (
+       <div className="flex h-screen w-full items-center justify-center bg-background">
+         <div className="flex flex-col items-center gap-4">
+           <Skeleton className="h-12 w-12 rounded-full" />
+           <div className="space-y-2">
+             <Skeleton className="h-4 w-[250px]" />
+             <Skeleton className="h-4 w-[200px]" />
+           </div>
+         </div>
+       </div>
+    )
+  }
+
   return (
     <SidebarProvider>
         <AppSidebar />
