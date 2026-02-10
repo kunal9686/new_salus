@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useRef, useMemo } from "react";
@@ -10,7 +11,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { chatbotPersonalizedGuidance } from "@/ai/flows/chatbot-personalized-guidance";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useUser } from "@/firebase/auth/use-user";
+import { useUser } from "@/firebase/provider";
 import { useFirestore } from "@/firebase/provider";
 import { useCollection } from "@/firebase/firestore/use-collection";
 import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
