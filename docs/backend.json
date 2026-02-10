@@ -1,0 +1,347 @@
+{
+  "entities": {
+    "UserProfile": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserProfile",
+      "type": "object",
+      "description": "Represents a user's profile information.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the UserProfile entity."
+        },
+        "email": {
+          "type": "string",
+          "description": "User's email address.",
+          "format": "email"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "User's first name."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "User's last name."
+        },
+        "dateOfBirth": {
+          "type": "string",
+          "description": "User's date of birth.",
+          "format": "date-time"
+        },
+        "preferences": {
+          "type": "string",
+          "description": "User's preferences as a json string."
+        }
+      },
+      "required": [
+        "id",
+        "email",
+        "firstName",
+        "lastName"
+      ]
+    },
+    "JournalEntry": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "JournalEntry",
+      "type": "object",
+      "description": "Represents a journal entry for a user.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the JournalEntry entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to UserProfile. (Relationship: UserProfile 1:N JournalEntry)"
+        },
+        "entryDate": {
+          "type": "string",
+          "description": "Date of the journal entry.",
+          "format": "date-time"
+        },
+        "content": {
+          "type": "string",
+          "description": "Content of the journal entry."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "entryDate",
+        "content"
+      ]
+    },
+    "CommunityPost": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "CommunityPost",
+      "type": "object",
+      "description": "Represents a post in the community forum.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the CommunityPost entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to UserProfile. (Relationship: UserProfile 1:N CommunityPost)"
+        },
+        "postDate": {
+          "type": "string",
+          "description": "Date of the community post.",
+          "format": "date-time"
+        },
+        "content": {
+          "type": "string",
+          "description": "Content of the community post."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "postDate",
+        "content"
+      ]
+    },
+    "WellnessGoal": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "WellnessGoal",
+      "type": "object",
+      "description": "Represents a wellness goal set by a user.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the WellnessGoal entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to UserProfile. (Relationship: UserProfile 1:N WellnessGoal)"
+        },
+        "goalName": {
+          "type": "string",
+          "description": "Name of the wellness goal."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the wellness goal."
+        },
+        "startDate": {
+          "type": "string",
+          "description": "Start date of the wellness goal.",
+          "format": "date-time"
+        },
+        "endDate": {
+          "type": "string",
+          "description": "End date of the wellness goal.",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the wellness goal (e.g., active, completed, failed)."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "goalName",
+        "description",
+        "startDate",
+        "endDate",
+        "status"
+      ]
+    },
+    "ChatbotSession": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ChatbotSession",
+      "type": "object",
+      "description": "Represents a chat session between a user and the chatbot.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the ChatbotSession entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to UserProfile. (Relationship: UserProfile 1:N ChatbotSession)"
+        },
+        "startTime": {
+          "type": "string",
+          "description": "Start time of the chat session.",
+          "format": "date-time"
+        },
+        "endTime": {
+          "type": "string",
+          "description": "End time of the chat session.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "startTime"
+      ]
+    },
+    "ChatMessage": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ChatMessage",
+      "type": "object",
+      "description": "Represents a single message within a chat session.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the ChatMessage entity."
+        },
+        "sessionId": {
+          "type": "string",
+          "description": "Reference to ChatbotSession. (Relationship: ChatbotSession 1:N ChatMessage)"
+        },
+        "sender": {
+          "type": "string",
+          "description": "The message's sender (e.g., 'user', 'chatbot')."
+        },
+        "messageTime": {
+          "type": "string",
+          "description": "Time the message was sent.",
+          "format": "date-time"
+        },
+        "content": {
+          "type": "string",
+          "description": "Content of the chat message."
+        }
+      },
+      "required": [
+        "id",
+        "sessionId",
+        "sender",
+        "messageTime",
+        "content"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "UserProfile",
+          "schema": {
+            "$ref": "#/backend/entities/UserProfile"
+          },
+          "description": "Stores user profile information. Parent document for user-owned subcollections.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/journalEntries/{journalEntryId}",
+        "definition": {
+          "entityName": "JournalEntry",
+          "schema": {
+            "$ref": "#/backend/entities/JournalEntry"
+          },
+          "description": "Stores journal entries for a specific user.  Uses path-based ownership for security.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            },
+            {
+              "name": "journalEntryId",
+              "description": "The unique identifier for the journal entry."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/wellnessGoals/{wellnessGoalId}",
+        "definition": {
+          "entityName": "WellnessGoal",
+          "schema": {
+            "$ref": "#/backend/entities/WellnessGoal"
+          },
+          "description": "Stores wellness goals for a specific user. Uses path-based ownership for security.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            },
+            {
+              "name": "wellnessGoalId",
+              "description": "The unique identifier for the wellness goal."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/chatbotSessions/{chatbotSessionId}",
+        "definition": {
+          "entityName": "ChatbotSession",
+          "schema": {
+            "$ref": "#/backend/entities/ChatbotSession"
+          },
+          "description": "Stores chatbot sessions for a specific user. Uses path-based ownership for security.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            },
+            {
+              "name": "chatbotSessionId",
+              "description": "The unique identifier for the chatbot session."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/chatbotSessions/{chatbotSessionId}/chatMessages/{chatMessageId}",
+        "definition": {
+          "entityName": "ChatMessage",
+          "schema": {
+            "$ref": "#/backend/entities/ChatMessage"
+          },
+          "description": "Stores chat messages within a chatbot session for a specific user.  Uses path-based ownership for security.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            },
+            {
+              "name": "chatbotSessionId",
+              "description": "The unique identifier for the chatbot session."
+            },
+            {
+              "name": "chatMessageId",
+              "description": "The unique identifier for the chat message."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/communityPosts/{communityPostId}",
+        "definition": {
+          "entityName": "CommunityPost",
+          "schema": {
+            "$ref": "#/backend/entities/CommunityPost"
+          },
+          "description": "Stores community posts. All users can read posts. Only the owner can update or delete. The `userId` field indicates the owner.",
+          "params": [
+            {
+              "name": "communityPostId",
+              "description": "The unique identifier for the community post."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore data structure is designed to ensure security, scalability, and ease of debugging, while adhering to the principles of Authorization Independence, Clarity of Intent, DBAC (Database-Based Access Control), and QAPs (Rules are not Filters). \n\nTo achieve Authorization Independence, user-specific data such as Journal Entries, Wellness Goals, and Chatbot Sessions are stored as subcollections under the `/users/{userId}` path. This denormalizes the user ID, enabling security rules to directly verify ownership without needing to perform `get()` operations on parent documents.  Community Posts are stored in a separate collection, allowing for more flexible access control and QAPs related to public content.\n\nThe structure facilitates secure `list` operations by segregating data with different access requirements into distinct collections (e.g., user-specific data vs. community posts).  Path-based ownership (`/users/{userId}/...`) is used for private data, ensuring that only the authenticated user can access their own data. This approach simplifies security rules and enhances maintainability.\n\nExplicit state modeling is encouraged through the `status` field in the `WellnessGoal` entity. Predictable schema and semantic naming conventions (e.g., `userId`, `postDate`) are used throughout the structure to enhance clarity and consistency.\n\nOverall, this design promotes a clear separation of concerns, simplifies security rule implementation, and supports scalable data management."
+  }
+}
