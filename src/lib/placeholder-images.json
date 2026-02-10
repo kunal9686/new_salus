@@ -1,3 +1,22 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "inspire1",
+      "description": "A calming beach scene at sunset.",
+      "imageUrl": "https://images.unsplash.com/photo-1561571994-3c61c554181a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxiZWFjaCUyMHN1bnNldHxlbnwwfHx8fDE3NzA3MTAxMTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "beach sunset"
+    },
+    {
+      "id": "inspire2",
+      "description": "A misty mountain range.",
+      "imageUrl": "https://images.unsplash.com/photo-1599049883453-1cba4647a47e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bWlzdHklMjBtb3VudGFpbnN8ZW58MHx8fHwxNzcwNjk4NTY1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "misty mountains"
+    },
+    {
+      "id": "inspire3",
+      "description": "A lush green forest path with sunlight filtering through.",
+      "imageUrl": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxmb3Jlc3QlMjBwYXRofGVufDB8fHx8MTc3MDY5NzIzOXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "forest path"
+    }
+  ]
 }
