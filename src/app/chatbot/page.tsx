@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { CornerDownLeft } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { chatbotPersonalizedGuidance } from "@/ai/flows/chatbot-personalized-guidance";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useUser, useFirestore, useMemoFirebase } from "@/firebase/provider";
+import { useUser } from "@/firebase/auth/use-user";
+import { useFirestore } from "@/firebase/provider";
 import { useCollection } from "@/firebase/firestore/use-collection";
 import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { collection, doc, serverTimestamp, query, orderBy, getDocs, getDoc } from "firebase/firestore";
@@ -44,12 +45,12 @@ export default function ChatbotPage() {
     }
   }, [user, firestore, sessionId]);
 
-  const messagesRef = useMemoFirebase(() => {
+  const messagesRef = useMemo(() => {
     if (!user || !firestore || !sessionId) return null;
     return collection(firestore, "users", user.uid, "chatbotSessions", sessionId, "chatMessages");
   }, [user, firestore, sessionId]);
 
-  const messagesQuery = useMemoFirebase(() => {
+  const messagesQuery = useMemo(() => {
     if (!messagesRef) return null;
     return query(messagesRef, orderBy("messageTime"));
   }, [messagesRef]);
@@ -129,7 +130,7 @@ export default function ChatbotPage() {
 
   return (
     <DashboardLayout pageTitle="Wellness Chatbot">
-      <div className="flex flex-col h-[calc(100vh-3.5rem)] bg-gradient-to-br from-black to-sky-800">
+      <div className="flex flex-col h-[calc(100vh-3.5rem)] bg-gradient-to-br from-black to-purple-900">
         <ScrollArea className="flex-1 p-4 md:p-6" ref={scrollAreaRef}>
           <div className="space-y-6 max-w-3xl mx-auto">
             {!isLoadingMessages && !messages?.length && (

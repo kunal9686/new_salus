@@ -11,11 +11,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { useUser, useFirestore, useMemoFirebase } from "@/firebase/provider";
+import { useUser } from "@/firebase/auth/use-user";
 import { useCollection } from "@/firebase/firestore/use-collection";
+import { useFirestore } from "@/firebase/provider";
 import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { collection, orderBy, query, serverTimestamp } from "firebase/firestore";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { format } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
@@ -26,12 +27,12 @@ export default function JournalPage() {
   const { toast } = useToast();
   const [newEntry, setNewEntry] = useState("");
 
-  const entriesRef = useMemoFirebase(() => {
+  const entriesRef = useMemo(() => {
     if (!user || !firestore) return null;
     return collection(firestore, "users", user.uid, "journalEntries");
   }, [user, firestore]);
 
-  const entriesQuery = useMemoFirebase(() => {
+  const entriesQuery = useMemo(() => {
     if (!entriesRef) return null;
     return query(entriesRef, orderBy("entryDate", "desc"));
   }, [entriesRef]);
@@ -54,7 +55,7 @@ export default function JournalPage() {
 
   return (
     <DashboardLayout pageTitle="Journal">
-      <div className="flex-1 space-y-8 p-4 md:p-8 pt-6 bg-gradient-to-br from-black to-green-800 min-h-full">
+      <div className="flex-1 space-y-8 p-4 md:p-8 pt-6 bg-gradient-to-br from-black to-indigo-900 min-h-full">
         <Card>
           <CardHeader>
             <CardTitle className="font-headline">New Entry</CardTitle>

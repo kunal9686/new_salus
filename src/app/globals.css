@@ -8,73 +8,73 @@ body {
 
 @layer base {
   :root {
-    --background: 220 40% 96%;
-    --foreground: 240 6% 10%;
-    --card: 220 40% 96%;
-    --card-foreground: 240 6% 10%;
-    --popover: 220 40% 96%;
-    --popover-foreground: 240 6% 10%;
-    --primary: 160 80% 40%;
-    --primary-foreground: 160 80% 95%;
-    --secondary: 220 20% 92%;
-    --secondary-foreground: 240 6% 10%;
-    --muted: 220 20% 92%;
-    --muted-foreground: 240 5% 45%;
-    --accent: 160 80% 30%;
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 288 70% 50%; /* Heliotrope */
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 340 70% 50%; /* Amaranth */
     --accent-foreground: 0 0% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 220 10% 88%;
-    --input: 220 10% 88%;
-    --ring: 160 80% 45%;
-    --chart-1: 160 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 160 80% 55%;
-    --chart-4: 160 65% 60%;
-    --chart-5: 160 75% 55%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 288 70% 55%; /* Heliotrope */
+    --chart-1: 288 70% 50%; /* Heliotrope */
+    --chart-2: 340 70% 50%; /* Amaranth */
+    --chart-3: 75 80% 45%; /* Cyber Lime */
+    --chart-4: 255 80% 70%; /* Digital Lavender */
+    --chart-5: 288 60% 45%; /* Heliotrope variation */
     --radius: 1rem;
-    --sidebar-background: 220 30% 94%;
-    --sidebar-foreground: 240 6% 10%;
-    --sidebar-primary: 160 80% 40%;
-    --sidebar-primary-foreground: 160 80% 95%;
-    --sidebar-accent: 220 20% 90%;
-    --sidebar-accent-foreground: 240 6% 10%;
-    --sidebar-border: 220 10% 85%;
-    --sidebar-ring: 160 80% 45%;
+    --sidebar-background: 240 4.8% 95.9%;
+    --sidebar-foreground: 240 5.9% 10%;
+    --sidebar-primary: 288 70% 50%; /* Heliotrope */
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 240 5.9% 90%;
+    --sidebar-ring: 288 70% 55%; /* Heliotrope */
   }
   .dark {
-    --background: 240 10% 3%;
+    --background: 240 10% 2%;
     --foreground: 0 0% 98%;
-    --card: 240 8% 7%;
+    --card: 240 8% 6%;
     --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3%;
+    --popover: 240 10% 2%;
     --popover-foreground: 0 0% 98%;
-    --primary: 158 90% 48%;
-    --primary-foreground: 158 30% 98%;
+    --primary: 288 80% 65%; /* Heliotrope */
+    --primary-foreground: 288 80% 10%;
     --secondary: 240 5% 14%;
     --secondary-foreground: 0 0% 98%;
     --muted: 240 5% 14%;
     --muted-foreground: 240 5% 65%;
-    --accent: 158 90% 38%;
+    --accent: 340 82% 61%; /* Amaranth */
     --accent-foreground: 0 0% 98%;
     --destructive: 0 63% 31%;
     --destructive-foreground: 0 0% 98%;
     --border: 240 5% 14%;
     --input: 240 5% 14%;
-    --ring: 158 90% 50%;
-    --chart-1: 158 70% 50%;
-    --chart-2: 158 60% 45%;
-    --chart-3: 158 80% 55%;
-    --chart-4: 158 65% 60%;
-    --chart-5: 158 75% 55%;
+    --ring: 288 80% 70%; /* Heliotrope */
+    --chart-1: 288 80% 65%; /* Heliotrope */
+    --chart-2: 340 82% 61%; /* Amaranth */
+    --chart-3: 75 96% 58%; /* Cyber Lime */
+    --chart-4: 255 92% 84%; /* Digital Lavender */
+    --chart-5: 288 70% 55%; /* Heliotrope variation */
     --sidebar-background: 240 10% 2%;
     --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 158 90% 48%;
-    --sidebar-primary-foreground: 158 30% 98%;
+    --sidebar-primary: 288 80% 65%; /* Heliotrope */
+    --sidebar-primary-foreground: 288 80% 10%;
     --sidebar-accent: 240 5% 10%;
     --sidebar-accent-foreground: 0 0% 98%;
     --sidebar-border: 240 5% 10%;
-    --sidebar-ring: 158 90% 50%;
+    --sidebar-ring: 288 80% 70%; /* Heliotrope */
   }
 }
 

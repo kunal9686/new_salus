@@ -12,8 +12,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MessageSquare, ThumbsUp } from "lucide-react";
-import { useUser, useFirestore, useMemoFirebase } from "@/firebase/provider";
+import { useUser } from "@/firebase/auth/use-user";
 import { useCollection } from "@/firebase/firestore/use-collection";
+import { useFirestore } from "@/firebase/provider";
 import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { collection, orderBy, query, serverTimestamp } from "firebase/firestore";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -29,7 +30,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function CommunityPage() {
@@ -42,12 +43,12 @@ export default function CommunityPage() {
   const [newThreadContent, setNewThreadContent] = useState("");
   const [newThreadCategory, setNewThreadCategory] = useState("");
 
-  const postsRef = useMemoFirebase(() => {
+  const postsRef = useMemo(() => {
     if (!firestore) return null;
     return collection(firestore, "communityPosts");
   }, [firestore]);
 
-  const postsQuery = useMemoFirebase(() => {
+  const postsQuery = useMemo(() => {
     if (!postsRef) return null;
     return query(postsRef, orderBy("postDate", "desc"));
   }, [postsRef]);
@@ -80,7 +81,7 @@ export default function CommunityPage() {
 
   return (
     <DashboardLayout pageTitle="Community Forum">
-      <div className="flex-1 space-y-6 p-4 md:p-8 pt-6 bg-gradient-to-br from-black to-teal-800 min-h-full">
+      <div className="flex-1 space-y-6 p-4 md:p-8 pt-6 bg-gradient-to-br from-black to-pink-900 min-h-full">
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-bold tracking-tight font-headline">Discussions</h2>
            <Dialog open={open} onOpenChange={setOpen}>
