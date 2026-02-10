@@ -11,7 +11,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { useUser, useFirestore, useCollection, addDocumentNonBlocking, useMemoFirebase } from "@/firebase";
+import { useUser, useFirestore, useMemoFirebase } from "@/firebase/provider";
+import { useCollection } from "@/firebase/firestore/use-collection";
+import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { collection, orderBy, query, serverTimestamp } from "firebase/firestore";
 import { useState } from "react";
 import { format } from "date-fns";
@@ -37,9 +39,9 @@ export default function JournalPage() {
   const { data: journalEntries, isLoading } = useCollection(entriesQuery);
 
   const handleSaveEntry = () => {
-    if (!entriesRef || !newEntry.trim()) return;
+    if (!entriesRef || !newEntry.trim() || !user) return;
     addDocumentNonBlocking(entriesRef, {
-      userId: user?.uid,
+      userId: user.uid,
       content: newEntry,
       entryDate: serverTimestamp(),
     });

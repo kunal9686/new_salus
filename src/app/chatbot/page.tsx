@@ -10,8 +10,10 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { chatbotPersonalizedGuidance } from "@/ai/flows/chatbot-personalized-guidance";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useUser, useFirestore, useCollection, useDoc, addDocumentNonBlocking, useMemoFirebase } from "@/firebase";
-import { collection, doc, serverTimestamp, query, orderBy, getDocs } from "firebase/firestore";
+import { useUser, useFirestore, useMemoFirebase } from "@/firebase/provider";
+import { useCollection } from "@/firebase/firestore/use-collection";
+import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
+import { collection, doc, serverTimestamp, query, orderBy, getDocs, getDoc } from "firebase/firestore";
 
 interface Message {
   id: string;
@@ -89,12 +91,12 @@ export default function ChatbotPage() {
       const userRef = doc(firestore, "users", user.uid);
       const journalRef = collection(firestore, "users", user.uid, "journalEntries");
       
-      const [userDoc, journalSnapshot] = await Promise.all([
-        useDoc(userRef),
+      const [userDocSnap, journalSnapshot] = await Promise.all([
+        getDoc(userRef),
         getDocs(query(journalRef, orderBy("entryDate", "desc"))),
       ]);
       
-      const profileData = (userDoc.data as any) ?? {};
+      const profileData = userDocSnap.data() ?? {};
       const journalEntries = journalSnapshot.docs.map(d => d.data().content).join("\n---\n");
 
       const profile = `Display Name: ${profileData.displayName}\nWellness Goals: ${profileData.wellnessGoals}`;
