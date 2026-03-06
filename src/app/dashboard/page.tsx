@@ -1,4 +1,3 @@
-
 "use client";
 
 import { DashboardLayout } from "@/components/dashboard-layout";
@@ -11,8 +10,8 @@ import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { collection, query, orderBy, limit, serverTimestamp, doc } from "firebase/firestore";
 import { useState } from "react";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
-import { Smile, Meh, Frown, Laugh, Flame, BookOpen, Target, Calendar } from "lucide-react";
-import { format, startOfWeek, endOfWeek, eachDayOfInterval } from "date-fns";
+import { Laugh, Flame, BookOpen, Calendar } from "lucide-react";
+import { format } from "date-fns";
 
 const moods = [
   { id: 'bad', label: '😞 Bad', color: 'text-red-400', val: 1 },
@@ -67,7 +66,7 @@ export default function HomeDashboard() {
 
   return (
     <DashboardLayout pageTitle="Welcome Back">
-      <div className="p-6 lg:p-10 space-y-8 bg-gradient-to-br from-black via-black to-amaranth/10 min-h-full">
+      <div className="p-6 lg:p-10 space-y-8 min-h-full">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {/* Daily Check-In */}
           <Card className="col-span-1 md:col-span-2 bg-card/40 border-border/50 backdrop-blur-sm">

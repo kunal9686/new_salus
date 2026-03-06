@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,46 +10,46 @@
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 288 80% 65%; /* Heliotrope */
+    --primary: 288 90% 70%; /* Brighter Heliotrope */
     --primary-foreground: 0 0% 98%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
-    --accent: 340 82% 61%; /* Amaranth */
+    --accent: 340 90% 65%; /* Brighter Amaranth */
     --accent-foreground: 0 0% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 288 70% 55%;
+    --ring: 288 80% 60%;
     --radius: 1.5rem;
     
-    --amaranth: 340 82% 61%;
-    --heliotrope: 288 80% 65%;
-    --cyber-lime: 75 96% 58%;
-    --digital-lavender: 255 92% 84%;
+    --amaranth: 340 90% 65%;
+    --heliotrope: 288 90% 70%;
+    --cyber-lime: 75 100% 65%;
+    --digital-lavender: 255 100% 88%;
   }
   .dark {
-    --background: 0 0% 0%; /* Pure Sleek Black */
+    --background: 0 0% 2%; /* Slightly warmer black for depth */
     --foreground: 0 0% 100%;
-    --card: 240 10% 3%;
+    --card: 240 10% 4%;
     --card-foreground: 0 0% 100%;
-    --popover: 0 0% 2%;
+    --popover: 0 0% 3%;
     --popover-foreground: 0 0% 100%;
-    --primary: 288 80% 65%; /* Heliotrope */
+    --primary: 288 90% 70%;
     --primary-foreground: 0 0% 0%;
-    --secondary: 240 5% 10%;
+    --secondary: 240 5% 12%;
     --secondary-foreground: 0 0% 100%;
-    --muted: 240 5% 10%;
-    --muted-foreground: 240 5% 60%;
-    --accent: 340 82% 61%; /* Amaranth */
+    --muted: 240 5% 12%;
+    --muted-foreground: 240 5% 65%;
+    --accent: 340 90% 65%;
     --accent-foreground: 0 0% 100%;
-    --destructive: 0 63% 40%;
+    --destructive: 0 70% 50%;
     --destructive-foreground: 0 0% 100%;
-    --border: 240 5% 12%;
-    --input: 240 5% 12%;
-    --ring: 288 80% 65%;
+    --border: 240 5% 15%;
+    --input: 240 5% 15%;
+    --ring: 288 90% 70%;
   }
 }
 
@@ -70,34 +69,25 @@
   font-family: 'Belleza', sans-serif;
 }
 
+/* Doodle Background Pattern */
+.doodle-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03' fill-rule='evenodd'%3E%3Cpath d='M30 30c2 0 4 2 4 4s-2 4-4 4-4-2-4-4 2-4 4-4zm140 140c2 0 4 2 4 4s-2 4-4 4-4-2-4-4 2-4 4-4zM30 170c2 0 4 2 4 4s-2 4-4 4-4-2-4-4 2-4 4-4zm140-140c2 0 4 2 4 4s-2 4-4 4-4-2-4-4 2-4 4-4zM100 100c5 0 10 5 10 10s-5 10-10 10-10-5-10-10 5-10 10-10zm-50 0c2 0 4 2 4 4s-2 4-4 4-4-2-4-4 2-4 4-4zm100 0c2 0 4 2 4 4s-2 4-4 4-4-2-4-4 2-4 4-4zm-50-50c2 0 4 2 4 4s-2 4-4 4-4-2-4-4 2-4 4-4zm0 100c2 0 4 2 4 4s-2 4-4 4-4-2-4-4 2-4 4-4z'/%3E%3Cpath d='M150 50l5 5-5 5-5-5zM50 150l5 5-5 5-5-5zM50 50l5 5-5 5-5-5zM150 150l5 5-5 5-5-5z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
 .bg-amaranth { background-color: hsl(var(--amaranth)); }
 .text-amaranth { color: hsl(var(--amaranth)); }
-.bg-amaranth\/10 { background-color: hsla(var(--amaranth), 0.1); }
-
 .bg-heliotrope { background-color: hsl(var(--heliotrope)); }
 .text-heliotrope { color: hsl(var(--heliotrope)); }
-.bg-heliotrope\/10 { background-color: hsla(var(--heliotrope), 0.1); }
-
 .bg-cyber-lime { background-color: hsl(var(--cyber-lime)); }
 .text-cyber-lime { color: hsl(var(--cyber-lime)); }
-.bg-cyber-lime\/10 { background-color: hsla(var(--cyber-lime), 0.1); }
-
 .bg-digital-lavender { background-color: hsl(var(--digital-lavender)); }
 .text-digital-lavender { color: hsl(var(--digital-lavender)); }
-.bg-digital-lavender\/10 { background-color: hsla(var(--digital-lavender), 0.1); }
 
 /* Custom Glassmorphism */
 .glass {
   @apply bg-white/5 backdrop-blur-md border border-white/10;
 }
 
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  @apply bg-transparent;
-}
-::-webkit-scrollbar-thumb {
-  @apply bg-white/10 rounded-full hover:bg-white/20 transition-colors;
-}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { @apply bg-transparent; }
+::-webkit-scrollbar-thumb { @apply bg-white/10 rounded-full hover:bg-white/20 transition-colors; }

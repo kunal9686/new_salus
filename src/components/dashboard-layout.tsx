@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -35,9 +34,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useAuth, useUser } from "@/firebase/provider";
+import { useUser, useAuth } from "@/firebase/provider";
 import { Skeleton } from "./ui/skeleton";
 
 const navItems = [
@@ -174,7 +173,7 @@ export function DashboardLayout({
   return (
     <SidebarProvider>
         <AppSidebar />
-        <SidebarInset className="bg-black">
+        <SidebarInset className="bg-black doodle-pattern">
             <AppHeader pageTitle={pageTitle} />
             <main className="flex-1 overflow-y-auto">
               {children}

@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -14,7 +13,7 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    // Show the "Salus" title for 3 seconds before starting the exit transition
+    // Start exit transition after 3 seconds
     const timer = setTimeout(() => {
       setIsExiting(true);
     }, 3000);
@@ -23,11 +22,11 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    // Once exiting starts, wait for the transition (1s) then redirect to the dashboard
     if (isExiting) {
+      // Redirect to dashboard after the exit animation completes
       const redirectTimer = setTimeout(() => {
         router.push("/dashboard");
-      }, 1100); // 1.1s to ensure transition finishes
+      }, 1000);
       return () => clearTimeout(redirectTimer);
     }
   }, [isExiting, router]);
