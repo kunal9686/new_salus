@@ -1,10 +1,7 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-body {
-  font-family: 'Alegreya', serif;
-}
 
 @layer base {
   :root {
@@ -14,67 +11,46 @@ body {
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 288 70% 50%; /* Heliotrope */
+    --primary: 288 80% 65%; /* Heliotrope */
     --primary-foreground: 0 0% 98%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
-    --accent: 340 70% 50%; /* Amaranth */
+    --accent: 340 82% 61%; /* Amaranth */
     --accent-foreground: 0 0% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 288 70% 55%; /* Heliotrope */
-    --chart-1: 288 70% 50%; /* Heliotrope */
-    --chart-2: 340 70% 50%; /* Amaranth */
-    --chart-3: 75 80% 45%; /* Cyber Lime */
-    --chart-4: 255 80% 70%; /* Digital Lavender */
-    --chart-5: 288 60% 45%; /* Heliotrope variation */
-    --radius: 1rem;
-    --sidebar-background: 240 4.8% 95.9%;
-    --sidebar-foreground: 240 5.9% 10%;
-    --sidebar-primary: 288 70% 50%; /* Heliotrope */
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 240 5.9% 90%;
-    --sidebar-ring: 288 70% 55%; /* Heliotrope */
+    --ring: 288 70% 55%;
+    --radius: 1.5rem;
+    
+    --amaranth: 340 82% 61%;
+    --heliotrope: 288 80% 65%;
+    --cyber-lime: 75 96% 58%;
+    --digital-lavender: 255 92% 84%;
   }
   .dark {
-    --background: 240 10% 2%;
-    --foreground: 0 0% 98%;
-    --card: 240 8% 6%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 2%;
-    --popover-foreground: 0 0% 98%;
+    --background: 0 0% 0%; /* Pure Sleek Black */
+    --foreground: 0 0% 100%;
+    --card: 240 10% 3%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 2%;
+    --popover-foreground: 0 0% 100%;
     --primary: 288 80% 65%; /* Heliotrope */
-    --primary-foreground: 288 80% 10%;
-    --secondary: 240 5% 14%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 5% 14%;
-    --muted-foreground: 240 5% 65%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 240 5% 10%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 240 5% 10%;
+    --muted-foreground: 240 5% 60%;
     --accent: 340 82% 61%; /* Amaranth */
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5% 14%;
-    --input: 240 5% 14%;
-    --ring: 288 80% 70%; /* Heliotrope */
-    --chart-1: 288 80% 65%; /* Heliotrope */
-    --chart-2: 340 82% 61%; /* Amaranth */
-    --chart-3: 75 96% 58%; /* Cyber Lime */
-    --chart-4: 255 92% 84%; /* Digital Lavender */
-    --chart-5: 288 70% 55%; /* Heliotrope variation */
-    --sidebar-background: 240 10% 2%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 288 80% 65%; /* Heliotrope */
-    --sidebar-primary-foreground: 288 80% 10%;
-    --sidebar-accent: 240 5% 10%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 240 5% 10%;
-    --sidebar-ring: 288 80% 70%; /* Heliotrope */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 63% 40%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 5% 12%;
+    --input: 240 5% 12%;
+    --ring: 288 80% 65%;
   }
 }
 
@@ -83,6 +59,45 @@ body {
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-body antialiased selection:bg-primary/30;
   }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-headline tracking-tight;
+  }
+}
+
+.font-headline {
+  font-family: 'Belleza', sans-serif;
+}
+
+.bg-amaranth { background-color: hsl(var(--amaranth)); }
+.text-amaranth { color: hsl(var(--amaranth)); }
+.bg-amaranth\/10 { background-color: hsla(var(--amaranth), 0.1); }
+
+.bg-heliotrope { background-color: hsl(var(--heliotrope)); }
+.text-heliotrope { color: hsl(var(--heliotrope)); }
+.bg-heliotrope\/10 { background-color: hsla(var(--heliotrope), 0.1); }
+
+.bg-cyber-lime { background-color: hsl(var(--cyber-lime)); }
+.text-cyber-lime { color: hsl(var(--cyber-lime)); }
+.bg-cyber-lime\/10 { background-color: hsla(var(--cyber-lime), 0.1); }
+
+.bg-digital-lavender { background-color: hsl(var(--digital-lavender)); }
+.text-digital-lavender { color: hsl(var(--digital-lavender)); }
+.bg-digital-lavender\/10 { background-color: hsla(var(--digital-lavender), 0.1); }
+
+/* Custom Glassmorphism */
+.glass {
+  @apply bg-white/5 backdrop-blur-md border border-white/10;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-white/10 rounded-full hover:bg-white/20 transition-colors;
 }
