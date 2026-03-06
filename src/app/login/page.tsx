@@ -62,9 +62,9 @@ export default function LoginPage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 blur-[150px] rounded-full" />
       </div>
 
-      <Card className="mx-auto max-w-sm w-full shadow-2xl bg-card/40 backdrop-blur-xl border-border/50 rounded-3xl relative z-10">
+      <Card className="mx-auto max-w-sm w-full shadow-2xl bg-card/40 backdrop-blur-xl border-white/25 rounded-3xl relative z-10 border-2">
         <CardHeader className="text-center pt-8">
-          <div className="size-12 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4 border border-primary/20">
+          <div className="size-12 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4 border-2 border-primary/20 shadow-[0_0_20px_rgba(var(--primary),0.2)]">
              <BookHeart className="text-primary size-6" />
           </div>
           <CardTitle className="text-3xl font-headline font-bold">Salus</CardTitle>
@@ -81,7 +81,7 @@ export default function LoginPage() {
                 type="email"
                 placeholder="m@example.com"
                 required
-                className="bg-black/40 border-border/50 rounded-xl h-12"
+                className="bg-black/40 border-white/20 rounded-xl h-12 focus-visible:ring-primary/50"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -97,12 +97,12 @@ export default function LoginPage() {
                 id="password" 
                 type="password" 
                 required 
-                className="bg-black/40 border-border/50 rounded-xl h-12"
+                className="bg-black/40 border-white/20 rounded-xl h-12 focus-visible:ring-primary/50"
                 value={password} 
                 onChange={(e) => setPassword(e.target.value)} 
               />
             </div>
-            <Button type="submit" className="w-full h-12 rounded-xl text-lg font-headline transition-all hover:scale-[1.02]">
+            <Button type="submit" className="w-full h-12 rounded-xl text-lg font-headline transition-all hover:scale-[1.02] shadow-lg shadow-primary/20">
               Log In
             </Button>
           </form>

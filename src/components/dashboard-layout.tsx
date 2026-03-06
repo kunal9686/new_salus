@@ -62,10 +62,10 @@ const AppSidebar = () => {
   };
 
   return (
-    <Sidebar className="border-r border-border/50 bg-black">
+    <Sidebar className="border-r border-white/20 bg-black">
       <SidebarHeader className="bg-black">
         <div className="flex items-center gap-3 p-4">
-          <div className="size-8 rounded-lg bg-primary flex items-center justify-center">
+          <div className="size-8 rounded-lg bg-primary flex items-center justify-center shadow-[0_0_15px_rgba(var(--primary),0.3)]">
              <BookHeart className="text-primary-foreground size-5" />
           </div>
           <h2 className="text-2xl font-headline font-bold text-foreground tracking-tight">Salus</h2>
@@ -79,7 +79,7 @@ const AppSidebar = () => {
                 asChild
                 isActive={pathname.startsWith(item.href)}
                 tooltip={item.label}
-                className="hover:bg-primary/10 data-[active=true]:bg-primary/20 transition-all rounded-xl"
+                className="hover:bg-primary/10 data-[active=true]:bg-primary/20 transition-all rounded-xl border border-transparent data-[active=true]:border-white/10"
               >
                 <Link href={item.href}>
                   <item.icon className={pathname.startsWith(item.href) ? "text-primary" : "text-muted-foreground"} />
@@ -90,11 +90,11 @@ const AppSidebar = () => {
           ))}
         </SidebarMenu>
       </SidebarContent>
-      <SidebarFooter className="bg-black border-t border-border/50">
+      <SidebarFooter className="bg-black border-t border-white/20">
          <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <div className="flex items-center gap-3 cursor-pointer p-3 rounded-xl hover:bg-primary/10 transition-colors w-full">
-                    <Avatar className="h-9 w-9 border-2 border-primary/20">
+                <div className="flex items-center gap-3 cursor-pointer p-3 rounded-xl hover:bg-primary/10 border border-transparent hover:border-white/10 transition-all w-full">
+                    <Avatar className="h-9 w-9 border-2 border-primary/40">
                         <AvatarImage src={user?.photoURL ?? `https://picsum.photos/seed/${user?.uid}/40/40`} alt={user?.displayName ?? "user"} />
                         <AvatarFallback className="bg-primary/10 text-primary">{user?.displayName?.[0].toUpperCase() ?? 'U'}</AvatarFallback>
                     </Avatar>
@@ -104,16 +104,16 @@ const AppSidebar = () => {
                     </div>
                 </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent side="right" align="end" className="w-56 rounded-xl">
+            <DropdownMenuContent side="right" align="end" className="w-56 rounded-xl border-white/20">
               <DropdownMenuLabel>Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
+              <DropdownMenuSeparator className="bg-white/10" />
               <DropdownMenuItem asChild>
                  <Link href="/profile" className="cursor-pointer">
                   <Settings className="mr-2 h-4 w-4" />
                   <span>Settings</span>
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuSeparator />
+              <DropdownMenuSeparator className="bg-white/10" />
               <DropdownMenuItem onClick={handleLogout} className="text-destructive cursor-pointer">
                 <LogOut className="mr-2 h-4 w-4" />
                 <span>Log out</span>
@@ -128,7 +128,7 @@ const AppSidebar = () => {
 const AppHeader = ({ pageTitle }: { pageTitle: string }) => {
     const { isMobile } = useSidebar();
     return (
-        <header className="flex h-16 items-center gap-4 border-b border-border/50 bg-black/60 backdrop-blur-md px-6 sticky top-0 z-30">
+        <header className="flex h-16 items-center gap-4 border-b border-white/20 bg-black/60 backdrop-blur-md px-6 sticky top-0 z-30">
             {isMobile && <SidebarTrigger><PanelLeft /></SidebarTrigger>}
             <h1 className="text-2xl font-bold font-headline tracking-tight text-foreground">{pageTitle}</h1>
         </header>
@@ -158,12 +158,12 @@ export function DashboardLayout({
     return (
        <div className="flex h-screen w-full items-center justify-center bg-black">
          <div className="flex flex-col items-center gap-6">
-           <div className="animate-pulse bg-primary/20 p-4 rounded-full">
+           <div className="animate-pulse bg-primary/20 p-4 rounded-full border border-primary/40">
              <BookHeart className="h-12 w-12 text-primary" />
            </div>
            <div className="space-y-3 flex flex-col items-center">
-             <Skeleton className="h-4 w-[200px] bg-muted/20" />
-             <Skeleton className="h-3 w-[150px] bg-muted/10" />
+             <Skeleton className="h-4 w-[200px] bg-white/5" />
+             <Skeleton className="h-3 w-[150px] bg-white/5" />
            </div>
          </div>
        </div>

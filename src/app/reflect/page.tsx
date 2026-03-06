@@ -85,12 +85,12 @@ export default function ReflectHub() {
           <div className="grid gap-6 md:grid-cols-2">
             {modules.map((m, idx) => (
               <Link key={m.id} href={m.href} className="group animate-in fade-in slide-in-from-bottom-4 duration-500" style={{ animationDelay: `${idx * 100}ms` }}>
-                <Card className="h-full border-border/50 bg-card/40 backdrop-blur-sm transition-all duration-300 group-hover:scale-[1.03] group-hover:bg-card/60 cursor-pointer rounded-2xl overflow-hidden relative">
+                <Card className="h-full border-white/20 bg-card/40 backdrop-blur-sm transition-all duration-300 group-hover:scale-[1.03] group-hover:bg-card/60 group-hover:border-white/30 cursor-pointer rounded-2xl overflow-hidden relative border-2">
                   <div className={`absolute top-0 right-0 p-4 ${m.color} opacity-10 group-hover:opacity-20 transition-opacity`}>
                     <m.icon className="h-16 w-16" />
                   </div>
                   <CardHeader className="flex flex-row items-center gap-4">
-                    <div className={`p-3 rounded-xl ${m.bg}`}>
+                    <div className={`p-3 rounded-xl ${m.bg} border border-white/10`}>
                       <m.icon className={`h-6 w-6 ${m.color}`} />
                     </div>
                     <div className="space-y-1">
@@ -101,7 +101,7 @@ export default function ReflectHub() {
                     <p className="text-muted-foreground text-sm max-w-[200px] leading-relaxed">
                       {m.desc}
                     </p>
-                    <div className={`p-2 rounded-full border border-border group-hover:border-primary/50 group-hover:bg-primary/10 transition-colors`}>
+                    <div className={`p-2 rounded-full border border-white/10 group-hover:border-primary/50 group-hover:bg-primary/10 transition-all`}>
                       <ChevronRight className={`h-4 w-4 ${m.color}`} />
                     </div>
                   </CardContent>

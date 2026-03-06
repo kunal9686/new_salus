@@ -69,7 +69,7 @@ export default function HomeDashboard() {
       <div className="p-6 lg:p-10 space-y-8 min-h-full animate-in fade-in duration-700">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {/* Daily Check-In */}
-          <Card className="col-span-1 md:col-span-2 bg-card/40 border-border/50 backdrop-blur-sm animate-in slide-in-from-bottom-4 duration-500 delay-100">
+          <Card className="col-span-1 md:col-span-2 bg-card/40 border-white/20 backdrop-blur-sm animate-in slide-in-from-bottom-4 duration-500 delay-100">
             <CardHeader>
               <CardTitle className="font-headline text-2xl">How are you feeling today?</CardTitle>
               <CardDescription>Your emotional state guides your personal growth journey.</CardDescription>
@@ -81,7 +81,7 @@ export default function HomeDashboard() {
                     <Button
                       key={m.id}
                       variant="outline"
-                      className="h-20 flex flex-col gap-2 rounded-2xl border-2 hover:border-primary hover:bg-primary/5 transition-all"
+                      className="h-20 flex flex-col gap-2 rounded-2xl border-2 border-white/10 hover:border-primary hover:bg-primary/5 transition-all"
                       onClick={() => handleMoodCheckIn(m.id)}
                     >
                       <span className="text-lg">{m.label.split(' ')[0]}</span>
@@ -100,7 +100,7 @@ export default function HomeDashboard() {
           </Card>
 
           {/* Quick Stats */}
-          <Card className="bg-card/40 border-border/50 backdrop-blur-sm overflow-hidden group animate-in slide-in-from-bottom-4 duration-500 delay-200">
+          <Card className="bg-card/40 border-white/20 backdrop-blur-sm overflow-hidden group animate-in slide-in-from-bottom-4 duration-500 delay-200">
             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
               <Flame className="h-20 w-20 text-amaranth" />
             </div>
@@ -108,14 +108,14 @@ export default function HomeDashboard() {
               <CardTitle className="font-headline text-xl">Progress</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex justify-between items-center p-3 rounded-xl bg-primary/5">
+              <div className="flex justify-between items-center p-3 rounded-xl bg-primary/5 border border-white/5 group-hover:border-white/10 transition-all">
                 <div className="flex items-center gap-3">
                   <Flame className="h-5 w-5 text-amaranth" />
                   <span className="text-sm font-semibold">Streak</span>
                 </div>
                 <span className="text-2xl font-bold font-headline">{userProfile?.streakCount || 0}</span>
               </div>
-              <div className="flex justify-between items-center p-3 rounded-xl bg-heliotrope/5">
+              <div className="flex justify-between items-center p-3 rounded-xl bg-heliotrope/5 border border-white/5 group-hover:border-white/10 transition-all">
                 <div className="flex items-center gap-3">
                   <BookOpen className="h-5 w-5 text-heliotrope" />
                   <span className="text-sm font-semibold">Reflections</span>
@@ -126,7 +126,7 @@ export default function HomeDashboard() {
           </Card>
 
           {/* Mood Trend Chart */}
-          <Card className="col-span-1 md:col-span-3 lg:col-span-2 bg-card/40 border-border/50 backdrop-blur-sm animate-in slide-in-from-bottom-4 duration-500 delay-300">
+          <Card className="col-span-1 md:col-span-3 lg:col-span-2 bg-card/40 border-white/20 backdrop-blur-sm animate-in slide-in-from-bottom-4 duration-500 delay-300">
             <CardHeader>
               <CardTitle className="font-headline text-xl flex items-center gap-2">
                 <Calendar className="h-5 w-5 text-primary" />
@@ -141,7 +141,7 @@ export default function HomeDashboard() {
                   <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{fill: '#666', fontSize: 12}} dy={10} />
                   <YAxis hide domain={[0, 4]} />
                   <Tooltip 
-                    contentStyle={{ backgroundColor: '#111', border: '1px solid #333', borderRadius: '12px' }}
+                    contentStyle={{ backgroundColor: '#111', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '12px' }}
                     itemStyle={{ color: 'hsl(var(--primary))' }}
                   />
                   <Line 
@@ -158,13 +158,13 @@ export default function HomeDashboard() {
           </Card>
 
           {/* Recent Reflections */}
-          <Card className="col-span-1 md:col-span-3 lg:col-span-1 bg-card/40 border-border/50 backdrop-blur-sm animate-in slide-in-from-bottom-4 duration-500 delay-400">
+          <Card className="col-span-1 md:col-span-3 lg:col-span-1 bg-card/40 border-white/20 backdrop-blur-sm animate-in slide-in-from-bottom-4 duration-500 delay-400">
             <CardHeader>
               <CardTitle className="font-headline text-xl">Recent Insights</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {recentEntries && recentEntries.length > 0 ? recentEntries.map((entry, idx) => (
-                <div key={entry.id} className="p-3 rounded-xl bg-muted/20 border border-white/5 hover:bg-muted/30 transition-colors cursor-pointer group animate-in fade-in slide-in-from-right-4 duration-500" style={{ animationDelay: `${500 + (idx * 100)}ms` }}>
+                <div key={entry.id} className="p-3 rounded-xl bg-muted/20 border border-white/10 hover:border-white/20 hover:bg-muted/30 transition-all cursor-pointer group animate-in fade-in slide-in-from-right-4 duration-500" style={{ animationDelay: `${500 + (idx * 100)}ms` }}>
                   <div className="flex items-center gap-2 mb-1">
                     <div className="size-2 rounded-full bg-primary" />
                     <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
