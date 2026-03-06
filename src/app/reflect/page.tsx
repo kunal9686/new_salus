@@ -1,9 +1,7 @@
-
 "use client";
 
 import { DashboardLayout } from "@/components/dashboard-layout";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
   PenLine, 
   Search, 
@@ -23,7 +21,7 @@ const modules = [
     icon: PenLine,
     color: 'text-primary',
     bg: 'bg-primary/10',
-    href: '/journal' // Existing journal page handles this
+    href: '/journal'
   },
   {
     id: 'ikigai',
@@ -75,9 +73,9 @@ const modules = [
 export default function ReflectHub() {
   return (
     <DashboardLayout pageTitle="Reflect">
-      <div className="p-6 lg:p-10 space-y-10 bg-gradient-to-br from-black via-black to-heliotrope/10 min-h-full">
+      <div className="p-6 lg:p-10 space-y-10 bg-gradient-to-br from-black via-black to-heliotrope/10 min-h-full animate-in fade-in duration-700">
         <div className="max-w-4xl mx-auto space-y-8">
-          <div className="text-center space-y-3">
+          <div className="text-center space-y-3 animate-in slide-in-from-top-4 duration-700">
             <h2 className="text-4xl font-headline font-bold tracking-tight">How will you look within?</h2>
             <p className="text-muted-foreground text-lg max-w-xl mx-auto">
               Choose a framework to guide your introspection or express yourself freely.
@@ -85,8 +83,8 @@ export default function ReflectHub() {
           </div>
 
           <div className="grid gap-6 md:grid-cols-2">
-            {modules.map((m) => (
-              <Link key={m.id} href={m.href} className="group">
+            {modules.map((m, idx) => (
+              <Link key={m.id} href={m.href} className="group animate-in fade-in slide-in-from-bottom-4 duration-500" style={{ animationDelay: `${idx * 100}ms` }}>
                 <Card className="h-full border-border/50 bg-card/40 backdrop-blur-sm transition-all duration-300 group-hover:scale-[1.03] group-hover:bg-card/60 cursor-pointer rounded-2xl overflow-hidden relative">
                   <div className={`absolute top-0 right-0 p-4 ${m.color} opacity-10 group-hover:opacity-20 transition-opacity`}>
                     <m.icon className="h-16 w-16" />

@@ -1,11 +1,10 @@
-
 "use client";
 
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ChevronRight, PenLine, Sparkles, Quote, BookOpen, History, Target } from "lucide-react";
+import { ChevronRight, PenLine, Sparkles, BookOpen, History, Target } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 
@@ -28,7 +27,7 @@ const stories = [
     category: 'Courage & Advocacy',
     background: 'Growing up in the Swat Valley of Pakistan, Malala was encouraged by her father to value education. When the Taliban began to seize control of the region, they issued an edict banning girls from attending school and destroyed hundreds of educational buildings.',
     struggle: 'Malala began writing an anonymous blog for the BBC about life under the Taliban. Her identity was eventually revealed, and she became a target of threats. On October 9, 2012, a masked gunman boarded her school bus and asked, "Who is Malala?" He then shot her at point-blank range in the head, nearly ending her life at just 15 years old.',
-    breakingPoint: 'The moment the bullet struck. The world went dark, and many believed the voice ofSwat had been permanently silenced.',
+    breakingPoint: 'The moment the bullet struck. The world went dark, and many believed the voice of Swat had been permanently silenced.',
     turningPoint: 'She was flown to the UK for intensive surgery and spent months in recovery. Instead of retreating into silence out of fear, she decided that the Taliban had failed to kill her ideas. On her 16th birthday, she stood before the United Nations and declared that "the terrorists thought they would change my aim and stop my ambitions, but nothing changed in my life except this: weakness, fear, and hopelessness died."',
     lessons: 'One child, one teacher, one book, and one pen can change the world. Courage is not the absence of fear, but the triumph over it. Your voice is a weapon against injustice that even bullets cannot stop.',
     reflectionPrompt: 'What is one injustice in the world that makes you feel a sense of duty to speak up, even if it feels risky?',
@@ -53,7 +52,7 @@ export default function InspirePage() {
 
   return (
     <DashboardLayout pageTitle="Inspire">
-      <div className="p-6 lg:p-10 space-y-8 bg-black min-h-full">
+      <div className="p-6 lg:p-10 space-y-8 bg-black min-h-full animate-in fade-in duration-700">
         {selectedStory ? (
           <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
             <Button 
@@ -64,7 +63,7 @@ export default function InspirePage() {
               <ChevronRight className="rotate-180 mr-2 h-4 w-4" /> Back to Stories
             </Button>
             
-            <div className="space-y-8">
+            <div className="space-y-8 animate-in slide-in-from-bottom-4 duration-700">
               <div className="space-y-4">
                 <Badge variant="outline" className="px-3 py-1 border-yellow-500 text-yellow-500 font-bold uppercase tracking-widest text-[10px]">
                   {selectedStory.category}
@@ -75,13 +74,13 @@ export default function InspirePage() {
               </div>
               
               <div className="grid gap-8 md:grid-cols-2">
-                <div className="space-y-4 p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-yellow-500/30 transition-colors">
+                <div className="space-y-4 p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-yellow-500/30 transition-colors animate-in fade-in duration-1000 delay-100">
                   <h3 className="text-xs font-bold uppercase tracking-widest text-yellow-500 flex items-center gap-2">
                     <History className="size-4" /> The Background
                   </h3>
                   <p className="text-muted-foreground leading-relaxed text-lg">{selectedStory.background}</p>
                 </div>
-                <div className="space-y-4 p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-yellow-500/30 transition-colors">
+                <div className="space-y-4 p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-yellow-500/30 transition-colors animate-in fade-in duration-1000 delay-200">
                   <h3 className="text-xs font-bold uppercase tracking-widest text-destructive flex items-center gap-2">
                     <Target className="size-4" /> The Struggle
                   </h3>
@@ -89,10 +88,10 @@ export default function InspirePage() {
                 </div>
               </div>
 
-              <Card className="bg-yellow-500/5 border-yellow-500/20 border-l-4 rounded-2xl overflow-hidden">
+              <Card className="bg-yellow-500/5 border-yellow-500/20 border-l-4 rounded-2xl overflow-hidden animate-in zoom-in-95 duration-700 delay-300">
                 <CardHeader>
                   <CardTitle className="font-headline text-2xl flex items-center gap-2 text-yellow-500">
-                    <Sparkles className="h-6 w-6" /> The Turning Point
+                    <Sparkles className="h-5 w-5" /> The Turning Point
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -102,7 +101,7 @@ export default function InspirePage() {
                 </CardContent>
               </Card>
 
-              <div className="space-y-6 pt-6">
+              <div className="space-y-6 pt-6 animate-in slide-in-from-left-4 duration-700 delay-400">
                 <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
                    <BookOpen className="size-4" /> The Lesson
                 </h3>
@@ -111,7 +110,7 @@ export default function InspirePage() {
                 </blockquote>
               </div>
 
-              <Card className="bg-black border border-yellow-500/30 mt-12 rounded-3xl shadow-[0_0_50px_-12px_rgba(234,179,8,0.2)]">
+              <Card className="bg-black border border-yellow-500/30 mt-12 rounded-3xl shadow-[0_0_50px_-12px_rgba(234,179,8,0.2)] animate-in slide-in-from-bottom-8 duration-700 delay-500">
                 <CardHeader className="p-8 text-center space-y-4">
                   <div className="size-16 rounded-2xl bg-yellow-500/10 flex items-center justify-center mx-auto border border-yellow-500/20">
                     <PenLine className="h-8 w-8 text-yellow-500" />
@@ -130,17 +129,18 @@ export default function InspirePage() {
             </div>
           </div>
         ) : (
-          <div className="max-w-6xl mx-auto space-y-12 py-10">
-            <div className="space-y-4 text-center">
+          <div className="max-w-6xl mx-auto space-y-12 py-10 animate-in fade-in duration-1000">
+            <div className="space-y-4 text-center animate-in slide-in-from-top-8 duration-1000">
               <h2 className="text-5xl md:text-6xl font-headline font-bold text-white tracking-tighter">Perspective</h2>
               <p className="text-yellow-500/80 text-xl font-headline italic">"Suffering ceases to be suffering the moment it finds a meaning."</p>
             </div>
 
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {stories.map((story) => (
+              {stories.map((story, idx) => (
                 <Card 
                   key={story.id} 
-                  className={`group relative overflow-hidden cursor-pointer bg-white/5 border-white/10 hover:border-yellow-500/50 transition-all duration-500 hover:scale-[1.03] rounded-3xl`}
+                  className={`group relative overflow-hidden cursor-pointer bg-white/5 border-white/10 hover:border-yellow-500/50 transition-all duration-500 hover:scale-[1.03] rounded-3xl animate-in slide-in-from-bottom-8 duration-700`}
+                  style={{ animationDelay: `${idx * 150}ms` }}
                   onClick={() => setSelectedStory(story)}
                 >
                   <div className={`absolute inset-0 bg-gradient-to-t ${story.color} to-transparent opacity-20 group-hover:opacity-40 transition-opacity`} />

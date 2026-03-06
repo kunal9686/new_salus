@@ -1,4 +1,3 @@
-
 "use client";
 
 import { DashboardLayout } from "@/components/dashboard-layout";
@@ -7,7 +6,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -21,7 +19,7 @@ import { doc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
-import { User, LogOut, Settings } from "lucide-react";
+import { User, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export default function ProfilePage() {
@@ -48,7 +46,6 @@ export default function ProfilePage() {
       setEmail(userProfile.email || user?.email || "");
       setWellnessGoals(userProfile.wellnessGoals || "");
     } else if (user) {
-      // pre-fill from auth user if no profile yet
       setDisplayName(user.displayName || "");
       setEmail(user.email || "");
     }
@@ -58,7 +55,7 @@ export default function ProfilePage() {
     if (!userRef || !user) return;
     const dataToSave = {
       id: user.uid,
-      email: user.email, // email cannot be changed here
+      email: user.email,
       displayName: displayName,
       wellnessGoals: wellnessGoals,
     };
@@ -94,10 +91,6 @@ export default function ProfilePage() {
                         <Skeleton className="h-4 w-1/4 bg-muted/10" />
                         <Skeleton className="h-12 w-full rounded-xl bg-muted/20" />
                     </div>
-                    <div className="space-y-2">
-                        <Skeleton className="h-4 w-1/4 bg-muted/10" />
-                        <Skeleton className="h-12 w-full rounded-xl bg-muted/20" />
-                    </div>
                 </div>
             </Card>
         </div>
@@ -107,10 +100,10 @@ export default function ProfilePage() {
 
   return (
     <DashboardLayout pageTitle="Profile">
-      <div className="flex min-h-[calc(100vh-4rem)] w-full items-center justify-center p-4">
-        <Card className="mx-auto max-w-sm w-full shadow-2xl bg-card/40 backdrop-blur-xl border-border/50 rounded-3xl relative z-10 overflow-hidden">
+      <div className="flex min-h-[calc(100vh-4rem)] w-full items-center justify-center p-4 animate-in fade-in duration-1000">
+        <Card className="mx-auto max-w-sm w-full shadow-2xl bg-card/40 backdrop-blur-xl border-border/50 rounded-3xl relative z-10 overflow-hidden animate-in zoom-in-95 duration-500">
           <CardHeader className="text-center pt-8">
-            <div className="size-12 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4 border border-primary/20">
+            <div className="size-12 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4 border border-primary/20 animate-in slide-in-from-top-4 duration-700 delay-200">
                <User className="text-primary size-6" />
             </div>
             <CardTitle className="text-3xl font-headline font-bold">Account</CardTitle>
@@ -120,7 +113,7 @@ export default function ProfilePage() {
           </CardHeader>
           <CardContent className="pb-8 space-y-6">
             <div className="grid gap-4">
-              <div className="grid gap-2">
+              <div className="grid gap-2 animate-in slide-in-from-left-4 duration-500 delay-300">
                 <Label htmlFor="name" className="text-xs uppercase tracking-widest font-bold ml-1">Full Name</Label>
                 <Input 
                     id="name" 
@@ -129,7 +122,7 @@ export default function ProfilePage() {
                     className="bg-black/40 border-border/50 rounded-xl h-12 focus-visible:ring-primary/50"
                 />
               </div>
-              <div className="grid gap-2">
+              <div className="grid gap-2 animate-in slide-in-from-left-4 duration-500 delay-400">
                 <Label htmlFor="email" className="text-xs uppercase tracking-widest font-bold ml-1">Email Address</Label>
                 <Input 
                     id="email" 
@@ -139,7 +132,7 @@ export default function ProfilePage() {
                     className="bg-black/40 border-border/50 rounded-xl h-12 opacity-50 cursor-not-allowed"
                 />
               </div>
-              <div className="grid gap-2">
+              <div className="grid gap-2 animate-in slide-in-from-left-4 duration-500 delay-500">
                 <Label htmlFor="goals" className="text-xs uppercase tracking-widest font-bold ml-1">Wellness Goals</Label>
                 <Textarea
                     id="goals"
@@ -151,7 +144,7 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-3 pt-2">
+            <div className="flex flex-col gap-3 pt-2 animate-in slide-in-from-bottom-4 duration-500 delay-600">
                 <Button 
                     onClick={handleSaveChanges} 
                     className="w-full h-12 rounded-xl text-lg font-headline transition-all hover:scale-[1.02] shadow-lg shadow-primary/20"

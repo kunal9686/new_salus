@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -15,7 +14,7 @@ import { useUser, useFirestore, useMemoFirebase } from "@/firebase/provider";
 import { collection, query, orderBy, getDocs, getDoc, doc, serverTimestamp } from "firebase/firestore";
 import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { Card, CardContent } from "@/components/ui/card";
-import Link from "next/link";
+import { useCollection } from "@/firebase/firestore/use-collection";
 
 export default function GrowPage() {
   const { user } = useUser();
@@ -115,13 +114,13 @@ export default function GrowPage() {
 
   return (
     <DashboardLayout pageTitle="Grow">
-      <div className="flex flex-col h-[calc(100vh-4rem)] bg-gradient-to-br from-black via-black to-digital-lavender/10">
+      <div className="flex flex-col h-[calc(100vh-4rem)] bg-gradient-to-br from-black via-black to-digital-lavender/10 animate-in fade-in duration-700">
         <ScrollArea className="flex-1 p-6" ref={scrollAreaRef}>
           <div className="space-y-8 max-w-3xl mx-auto pb-10">
             {/* Intro UI */}
             {!isLoadingMessages && (!messages || messages.length === 0) && (
               <div className="space-y-6 pt-10 text-center animate-in fade-in slide-in-from-bottom-4 duration-700">
-                <div className="size-16 rounded-3xl bg-primary/20 flex items-center justify-center mx-auto mb-4 border border-primary/30 shadow-[0_0_30px_-5px_hsl(var(--primary))]">
+                <div className="size-16 rounded-3xl bg-primary/20 flex items-center justify-center mx-auto mb-4 border border-primary/30 shadow-[0_0_30px_-5px_hsl(var(--primary))] animate-bounce">
                   <BrainCircuit className="text-primary size-8" />
                 </div>
                 <h2 className="text-4xl font-headline font-bold">Salus Reflection Assistant</h2>
@@ -129,13 +128,13 @@ export default function GrowPage() {
                   I'm here to help you reframe challenges, explore patterns, and find perspective through introspection.
                 </p>
                 <div className="grid gap-4 md:grid-cols-2 mt-10">
-                  <Card className="bg-card/40 border-border/50 hover:bg-primary/5 transition-colors cursor-pointer group" onClick={() => setInput("I want to reframe a difficult situation.")}>
+                  <Card className="bg-card/40 border-border/50 hover:bg-primary/5 transition-colors cursor-pointer group animate-in slide-in-from-left-4 duration-500 delay-300" onClick={() => setInput("I want to reframe a difficult situation.")}>
                     <CardContent className="p-4 flex items-center gap-4">
                       <Wind className="h-6 w-6 text-heliotrope" />
                       <span className="text-sm font-semibold group-hover:text-primary transition-colors">Reframe Thought</span>
                     </CardContent>
                   </Card>
-                  <Card className="bg-card/40 border-border/50 hover:bg-primary/5 transition-colors cursor-pointer group" onClick={() => setInput("Can you give me a reflection prompt for today?")}>
+                  <Card className="bg-card/40 border-border/50 hover:bg-primary/5 transition-colors cursor-pointer group animate-in slide-in-from-right-4 duration-500 delay-400" onClick={() => setInput("Can you give me a reflection prompt for today?")}>
                     <CardContent className="p-4 flex items-center gap-4">
                       <PenLine className="h-6 w-6 text-cyber-lime" />
                       <span className="text-sm font-semibold group-hover:text-primary transition-colors">Daily Prompt</span>
@@ -145,10 +144,11 @@ export default function GrowPage() {
               </div>
             )}
 
-            {messages?.map((message) => (
+            {messages?.map((message, idx) => (
               <div
                 key={message.id}
-                className={`flex items-start gap-4 ${message.role === "user" ? "justify-end" : ""}`}
+                className={`flex items-start gap-4 animate-in fade-in slide-in-from-bottom-2 duration-300 ${message.role === "user" ? "justify-end" : ""}`}
+                style={{ animationDelay: `${idx * 50}ms` }}
               >
                 {message.role === "assistant" && (
                   <div className="size-9 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20">
@@ -177,7 +177,7 @@ export default function GrowPage() {
               </div>
             ))}
              {isLoading && (
-              <div className="flex items-start gap-4">
+              <div className="flex items-start gap-4 animate-in fade-in duration-300">
                 <div className="size-9 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20 animate-pulse">
                   <Sparkles className="h-5 w-5 text-primary" />
                 </div>
@@ -191,7 +191,7 @@ export default function GrowPage() {
           </div>
         </ScrollArea>
         
-        <div className="p-6 bg-black/40 backdrop-blur-xl border-t border-border/50">
+        <div className="p-6 bg-black/40 backdrop-blur-xl border-t border-border/50 animate-in slide-in-from-bottom-8 duration-700">
           <form
             onSubmit={handleSendMessage}
             className="relative overflow-hidden rounded-2xl border border-border/50 max-w-3xl mx-auto shadow-2xl bg-black/60"
@@ -200,7 +200,7 @@ export default function GrowPage() {
             <Textarea
               id="message"
               placeholder="Reflect with Salus..."
-              className="min-h-14 resize-none border-0 p-4 shadow-none focus-visible:ring-0 text-base"
+              className="min-h-14 resize-none border-0 p-4 shadow-none focus-visible:ring-0 text-base bg-transparent"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
@@ -225,29 +225,4 @@ export default function GrowPage() {
       </div>
     </DashboardLayout>
   );
-}
-
-// Internal implementation helper
-import { onSnapshot, DocumentData, FirestoreError, QuerySnapshot } from 'firebase/firestore';
-import { errorEmitter } from '@/firebase/error-emitter';
-import { FirestorePermissionError } from '@/firebase/errors';
-
-function useCollection<T = any>(query: any): { data: T[] | null; isLoading: boolean } {
-  const [data, setData] = useState<any[] | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    if (!query) return;
-    setIsLoading(true);
-    const unsub = onSnapshot(query, (snap: QuerySnapshot) => {
-      setData(snap.docs.map(d => ({ ...d.data(), id: d.id })));
-      setIsLoading(false);
-    }, (err: FirestoreError) => {
-      errorEmitter.emit('permission-error', new FirestorePermissionError({ path: query.path || 'grow', operation: 'list' }));
-      setIsLoading(false);
-    });
-    return () => unsub();
-  }, [query]);
-
-  return { data, isLoading };
 }

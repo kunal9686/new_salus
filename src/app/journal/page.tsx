@@ -1,4 +1,3 @@
-
 "use client";
 
 import { DashboardLayout } from "@/components/dashboard-layout";
@@ -52,8 +51,8 @@ export default function JournalPage() {
 
   return (
     <DashboardLayout pageTitle="Journal">
-      <div className="flex-1 space-y-8 p-4 md:p-8 pt-6 bg-gradient-to-br from-black to-indigo-900 min-h-full">
-        <Card>
+      <div className="flex-1 space-y-8 p-4 md:p-8 pt-6 bg-gradient-to-br from-black to-indigo-900 min-h-full animate-in fade-in duration-700">
+        <Card className="animate-in slide-in-from-top-4 duration-500">
           <CardHeader>
             <CardTitle className="font-headline">New Entry</CardTitle>
             <CardDescription>
@@ -63,7 +62,7 @@ export default function JournalPage() {
           <CardContent>
             <Textarea
               placeholder="Reflect on your day, your feelings, and your experiences..."
-              className="min-h-[150px]"
+              className="min-h-[150px] bg-black/20"
               value={newEntry}
               onChange={(e) => setNewEntry(e.target.value)}
             />
@@ -74,10 +73,10 @@ export default function JournalPage() {
         </Card>
 
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold tracking-tight font-headline">Past Entries</h2>
+          <h2 className="text-2xl font-bold tracking-tight font-headline animate-in fade-in duration-700 delay-200">Past Entries</h2>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {isLoading && Array.from({ length: 3 }).map((_, index) => (
-              <Card key={index}>
+              <Card key={index} className="animate-pulse">
                 <CardHeader>
                   <Skeleton className="h-6 w-3/4" />
                 </CardHeader>
@@ -88,15 +87,15 @@ export default function JournalPage() {
                 </CardContent>
               </Card>
             ))}
-            {journalEntries?.map((entry) => (
-              <Card key={entry.id} className="transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1 hover:scale-[1.02]">
+            {journalEntries?.map((entry, idx) => (
+              <Card key={entry.id} className="transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1 hover:scale-[1.02] animate-in slide-in-from-bottom-4 duration-500" style={{ animationDelay: `${300 + (idx * 100)}ms` }}>
                 <CardHeader>
                   <CardTitle className="text-lg">
                      {entry.entryDate ? format((entry.entryDate as any).toDate(), 'MMMM dd, yyyy') : "Just now"}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground">{entry.content}</p>
+                  <p className="text-muted-foreground line-clamp-4">{entry.content}</p>
                 </CardContent>
               </Card>
             ))}

@@ -66,10 +66,10 @@ export default function HomeDashboard() {
 
   return (
     <DashboardLayout pageTitle="Welcome Back">
-      <div className="p-6 lg:p-10 space-y-8 min-h-full">
+      <div className="p-6 lg:p-10 space-y-8 min-h-full animate-in fade-in duration-700">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {/* Daily Check-In */}
-          <Card className="col-span-1 md:col-span-2 bg-card/40 border-border/50 backdrop-blur-sm">
+          <Card className="col-span-1 md:col-span-2 bg-card/40 border-border/50 backdrop-blur-sm animate-in slide-in-from-bottom-4 duration-500 delay-100">
             <CardHeader>
               <CardTitle className="font-headline text-2xl">How are you feeling today?</CardTitle>
               <CardDescription>Your emotional state guides your personal growth journey.</CardDescription>
@@ -90,7 +90,7 @@ export default function HomeDashboard() {
                   ))}
                 </div>
               ) : (
-                <div className="py-6 text-center animate-in fade-in slide-in-from-bottom-2">
+                <div className="py-6 text-center animate-in fade-in slide-in-from-bottom-2 duration-700">
                   <Laugh className="h-12 w-12 text-primary mx-auto mb-4" />
                   <h3 className="text-xl font-headline font-bold">Thank you for checking in.</h3>
                   <p className="text-muted-foreground mt-1">Consistency is key to understanding your patterns.</p>
@@ -100,7 +100,7 @@ export default function HomeDashboard() {
           </Card>
 
           {/* Quick Stats */}
-          <Card className="bg-card/40 border-border/50 backdrop-blur-sm overflow-hidden group">
+          <Card className="bg-card/40 border-border/50 backdrop-blur-sm overflow-hidden group animate-in slide-in-from-bottom-4 duration-500 delay-200">
             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
               <Flame className="h-20 w-20 text-amaranth" />
             </div>
@@ -126,7 +126,7 @@ export default function HomeDashboard() {
           </Card>
 
           {/* Mood Trend Chart */}
-          <Card className="col-span-1 md:col-span-3 lg:col-span-2 bg-card/40 border-border/50 backdrop-blur-sm">
+          <Card className="col-span-1 md:col-span-3 lg:col-span-2 bg-card/40 border-border/50 backdrop-blur-sm animate-in slide-in-from-bottom-4 duration-500 delay-300">
             <CardHeader>
               <CardTitle className="font-headline text-xl flex items-center gap-2">
                 <Calendar className="h-5 w-5 text-primary" />
@@ -158,13 +158,13 @@ export default function HomeDashboard() {
           </Card>
 
           {/* Recent Reflections */}
-          <Card className="col-span-1 md:col-span-3 lg:col-span-1 bg-card/40 border-border/50 backdrop-blur-sm">
+          <Card className="col-span-1 md:col-span-3 lg:col-span-1 bg-card/40 border-border/50 backdrop-blur-sm animate-in slide-in-from-bottom-4 duration-500 delay-400">
             <CardHeader>
               <CardTitle className="font-headline text-xl">Recent Insights</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {recentEntries && recentEntries.length > 0 ? recentEntries.map((entry) => (
-                <div key={entry.id} className="p-3 rounded-xl bg-muted/20 border border-white/5 hover:bg-muted/30 transition-colors cursor-pointer group">
+              {recentEntries && recentEntries.length > 0 ? recentEntries.map((entry, idx) => (
+                <div key={entry.id} className="p-3 rounded-xl bg-muted/20 border border-white/5 hover:bg-muted/30 transition-colors cursor-pointer group animate-in fade-in slide-in-from-right-4 duration-500" style={{ animationDelay: `${500 + (idx * 100)}ms` }}>
                   <div className="flex items-center gap-2 mb-1">
                     <div className="size-2 rounded-full bg-primary" />
                     <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
@@ -174,7 +174,7 @@ export default function HomeDashboard() {
                   <p className="text-sm line-clamp-2 group-hover:text-foreground transition-colors">{entry.content}</p>
                 </div>
               )) : (
-                <div className="py-10 text-center text-muted-foreground italic">
+                <div className="py-10 text-center text-muted-foreground italic animate-in fade-in duration-1000">
                   No reflections yet. Start your journey today.
                 </div>
               )}
