@@ -69,9 +69,9 @@
   font-family: 'Belleza', sans-serif;
 }
 
-/* Doodle Background Pattern */
+/* High-Density Doodle Background Pattern */
 .doodle-pattern {
-  background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03' fill-rule='evenodd'%3E%3Cpath d='M30 30c2 0 4 2 4 4s-2 4-4 4-4-2-4-4 2-4 4-4zm140 140c2 0 4 2 4 4s-2 4-4 4-4-2-4-4 2-4 4-4zM30 170c2 0 4 2 4 4s-2 4-4 4-4-2-4-4 2-4 4-4zm140-140c2 0 4 2 4 4s-2 4-4 4-4-2-4-4 2-4 4-4zM100 100c5 0 10 5 10 10s-5 10-10 10-10-5-10-10 5-10 10-10zm-50 0c2 0 4 2 4 4s-2 4-4 4-4-2-4-4 2-4 4-4zm100 0c2 0 4 2 4 4s-2 4-4 4-4-2-4-4 2-4 4-4zm-50-50c2 0 4 2 4 4s-2 4-4 4-4-2-4-4 2-4 4-4zm0 100c2 0 4 2 4 4s-2 4-4 4-4-2-4-4 2-4 4-4z'/%3E%3Cpath d='M150 50l5 5-5 5-5-5zM50 150l5 5-5 5-5-5zM50 50l5 5-5 5-5-5zM150 150l5 5-5 5-5-5z'/%3E%3C/g%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='400' height='400' viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.04' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M50 50c5-5 10 5 15 0s5-15 15-5M150 30c5 10 15 5 20 15M250 60c-10 10-5 20 0 30M350 40c0 10-10 20-20 20M80 150c20 0 20 20 40 20M200 120c10-10 20 0 30 10M300 180c5 5 5 15 0 20s-15 5-20 0M50 250c10 0 10-10 20-10s10 10 20 10M150 350c0-20 20-20 20-40M250 300c10 10 0 20 10 30M350 350c-10-10-20-10-30 0M100 300c-10-10-10-20 0-30M300 100c10-10 20 0 30 10M100 100c0 10 10 10 10 20M200 200c10 10 10 20 20 20M350 150c-10 0-10 10-20 10M50 350c10 0 10 10 20 10M380 50c-5 5-15 5-20 0'/%3E%3Ccircle cx='40' cy='40' r='3'/%3E%3Ccircle cx='340' cy='340' r='3'/%3E%3Ccircle cx='140' cy='240' r='3'/%3E%3Ccircle cx='240' cy='140' r='3'/%3E%3Cpath d='M200 50l7 7-7 7-7-7zM100 150l7 7-7 7-7-7zM300 250l7 7-7 7-7-7z'/%3E%3Cpath d='M20 20h10v10H20zM370 370h10v10H370zM370 20h10v10H370zM20 370h10v10H20z'/%3E%3Cpath d='M100 50c0 0 10 0 10 10s-10 10-10 10-10 0-10-10 10-10 10-10z'/%3E%3Cpath d='M300 350c0 0 10 0 10 10s-10 10-10 10-10 0-10-10 10-10 10-10z'/%3E%3Cpath d='M50 150l10 10M60 150l-10 10M340 150l10 10M350 150l-10 10M150 50l10 10M160 50l-10 10'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 .bg-amaranth { background-color: hsl(var(--amaranth)); }

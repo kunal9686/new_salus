@@ -64,12 +64,16 @@ export default function SignupPage() {
   };
 
   if (isUserLoading || user) {
-    return <div className="flex min-h-screen w-full items-center justify-center bg-background p-4">Loading...</div>;
+    return <div className="flex min-h-screen w-full items-center justify-center bg-black p-4 doodle-pattern">Loading...</div>;
   }
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-background p-4">
-      <Card className="mx-auto max-w-sm w-full shadow-2xl">
+    <div className="flex min-h-screen w-full items-center justify-center bg-black p-4 relative doodle-pattern">
+       <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 blur-[150px] rounded-full" />
+      </div>
+
+      <Card className="mx-auto max-w-sm w-full shadow-2xl bg-card/40 backdrop-blur-xl border-border/50 rounded-3xl relative z-10">
         <CardHeader>
           <CardTitle className="text-2xl font-headline">Create an Account</CardTitle>
           <CardDescription>
@@ -80,7 +84,7 @@ export default function SignupPage() {
           <form onSubmit={handleSignup} className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="full-name">Full name</Label>
-              <Input id="full-name" placeholder="John Doe" required value={fullName} onChange={(e) => setFullName(e.target.value)} />
+              <Input id="full-name" placeholder="John Doe" required value={fullName} onChange={(e) => setFullName(e.target.value)} className="bg-black/40 border-border/50 rounded-xl h-12" />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
@@ -91,19 +95,20 @@ export default function SignupPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                className="bg-black/40 border-border/50 rounded-xl h-12"
               />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
+              <Input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} className="bg-black/40 border-border/50 rounded-xl h-12" />
             </div>
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full h-12 rounded-xl text-lg font-headline transition-all hover:scale-[1.02]">
               Create account
             </Button>
           </form>
-          <div className="mt-4 text-center text-sm">
+          <div className="mt-4 text-center text-sm text-muted-foreground">
             Already have an account?{" "}
-            <Link href="/login" className="underline">
+            <Link href="/login" className="underline text-primary font-semibold">
               Log in
             </Link>
           </div>
