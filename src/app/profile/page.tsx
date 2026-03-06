@@ -14,17 +14,21 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useUser, useFirestore, useMemoFirebase } from "@/firebase/provider";
+import { useUser, useFirestore, useMemoFirebase, useAuth } from "@/firebase/provider";
 import { useDoc } from "@/firebase/firestore/use-doc";
 import { setDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { doc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
+import { User, LogOut, Settings } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function ProfilePage() {
   const { user, isUserLoading } = useUser();
   const firestore = useFirestore();
+  const auth = useAuth();
+  const router = useRouter();
   const { toast } = useToast();
 
   const userRef = useMemoFirebase(() => {
@@ -64,46 +68,38 @@ export default function ProfilePage() {
       description: "Your changes have been saved successfully.",
     });
   };
+
+  const handleLogout = () => {
+    if (auth) {
+      auth.signOut().then(() => {
+        router.push('/login');
+      });
+    }
+  };
   
   const isLoading = isUserLoading || isProfileLoading;
 
   if (isLoading) {
     return (
       <DashboardLayout pageTitle="Profile">
-        <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            <Card>
-              <CardHeader>
-                <Skeleton className="h-6 w-1/2" />
-                <Skeleton className="h-4 w-3/4" />
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-1/4" />
-                  <Skeleton className="h-10 w-full" />
+        <div className="flex min-h-[calc(100vh-4rem)] w-full items-center justify-center p-4">
+            <Card className="mx-auto max-w-sm w-full shadow-2xl bg-card/40 backdrop-blur-xl border-border/50 rounded-3xl p-6">
+                <div className="flex flex-col items-center gap-4">
+                    <Skeleton className="h-12 w-12 rounded-2xl bg-muted/20" />
+                    <Skeleton className="h-8 w-3/4 bg-muted/20" />
+                    <Skeleton className="h-4 w-1/2 bg-muted/10" />
                 </div>
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-1/4" />
-                  <Skeleton className="h-10 w-full" />
+                <div className="space-y-4 mt-8">
+                    <div className="space-y-2">
+                        <Skeleton className="h-4 w-1/4 bg-muted/10" />
+                        <Skeleton className="h-12 w-full rounded-xl bg-muted/20" />
+                    </div>
+                    <div className="space-y-2">
+                        <Skeleton className="h-4 w-1/4 bg-muted/10" />
+                        <Skeleton className="h-12 w-full rounded-xl bg-muted/20" />
+                    </div>
                 </div>
-              </CardContent>
-              <CardFooter>
-                <Skeleton className="h-10 w-28" />
-              </CardFooter>
             </Card>
-            <Card className="lg:col-span-2">
-               <CardHeader>
-                <Skeleton className="h-6 w-1/2" />
-                <Skeleton className="h-4 w-3/4" />
-              </CardHeader>
-              <CardContent>
-                <Skeleton className="h-[200px] w-full" />
-              </CardContent>
-              <CardFooter>
-                 <Skeleton className="h-10 w-28" />
-              </CardFooter>
-            </Card>
-          </div>
         </div>
       </DashboardLayout>
     );
@@ -111,50 +107,68 @@ export default function ProfilePage() {
 
   return (
     <DashboardLayout pageTitle="Profile">
-      <div className="flex-1 space-y-4 p-4 md:p-8 pt-6 bg-gradient-to-br from-black via-purple-900 to-pink-900">
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          <Card>
-            <CardHeader>
-              <CardTitle className="font-headline">Personal Information</CardTitle>
-              <CardDescription>
-                Update your personal details here.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="name">Full Name</Label>
-                <Input id="name" value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
+      <div className="flex min-h-[calc(100vh-4rem)] w-full items-center justify-center p-4">
+        <Card className="mx-auto max-w-sm w-full shadow-2xl bg-card/40 backdrop-blur-xl border-border/50 rounded-3xl relative z-10 overflow-hidden">
+          <CardHeader className="text-center pt-8">
+            <div className="size-12 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4 border border-primary/20">
+               <User className="text-primary size-6" />
+            </div>
+            <CardTitle className="text-3xl font-headline font-bold">Account</CardTitle>
+            <CardDescription className="text-muted-foreground/80 italic mt-1">
+              Your personal sanctuary settings.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="pb-8 space-y-6">
+            <div className="grid gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="name" className="text-xs uppercase tracking-widest font-bold ml-1">Full Name</Label>
+                <Input 
+                    id="name" 
+                    value={displayName} 
+                    onChange={(e) => setDisplayName(e.target.value)} 
+                    className="bg-black/40 border-border/50 rounded-xl h-12 focus-visible:ring-primary/50"
+                />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" value={email} disabled />
+              <div className="grid gap-2">
+                <Label htmlFor="email" className="text-xs uppercase tracking-widest font-bold ml-1">Email Address</Label>
+                <Input 
+                    id="email" 
+                    type="email" 
+                    value={email} 
+                    disabled 
+                    className="bg-black/40 border-border/50 rounded-xl h-12 opacity-50 cursor-not-allowed"
+                />
               </div>
-            </CardContent>
-            <CardFooter>
-              <Button onClick={handleSaveChanges}>Save Changes</Button>
-            </CardFooter>
-          </Card>
+              <div className="grid gap-2">
+                <Label htmlFor="goals" className="text-xs uppercase tracking-widest font-bold ml-1">Wellness Goals</Label>
+                <Textarea
+                    id="goals"
+                    placeholder="e.g., Meditate daily, find balance..."
+                    className="bg-black/40 border-border/50 rounded-xl min-h-[100px] resize-none focus-visible:ring-primary/50"
+                    value={wellnessGoals}
+                    onChange={(e) => setWellnessGoals(e.target.value)}
+                />
+              </div>
+            </div>
 
-          <Card className="lg:col-span-2">
-            <CardHeader>
-              <CardTitle className="font-headline">Wellness Goals</CardTitle>
-              <CardDescription>
-                Define and track your wellness objectives. This will help the AI guide you.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Textarea
-                placeholder="e.g., Meditate 10 minutes daily, exercise 3 times a week, practice gratitude..."
-                className="min-h-[200px]"
-                value={wellnessGoals}
-                onChange={(e) => setWellnessGoals(e.target.value)}
-              />
-            </CardContent>
-            <CardFooter>
-              <Button onClick={handleSaveChanges}>Save Goals</Button>
-            </CardFooter>
-          </Card>
-        </div>
+            <div className="flex flex-col gap-3 pt-2">
+                <Button 
+                    onClick={handleSaveChanges} 
+                    className="w-full h-12 rounded-xl text-lg font-headline transition-all hover:scale-[1.02] shadow-lg shadow-primary/20"
+                >
+                    Save Changes
+                </Button>
+                <Button 
+                    variant="ghost" 
+                    onClick={handleLogout} 
+                    className="w-full h-12 rounded-xl text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
+                >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Sign Out
+                </Button>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </DashboardLayout>
   );
