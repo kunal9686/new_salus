@@ -25,35 +25,37 @@ export function AmbientPlayer({ url }: { url: string }) {
     audio.loop = true;
     audio.volume = 0.2; // Soft background volume
     audio.preload = "auto";
+    audio.crossOrigin = "anonymous"; // Helps with CORS on some CDNs
     audioRef.current = audio;
 
-    const handleCanPlay = () => {
+    const handleCanPlayThrough = () => {
       setIsLoading(false);
       // Browsers often block auto-play without user interaction.
+      // We try to play, but don't force it if it fails initially.
       audio.play()
         .then(() => setIsPlaying(true))
         .catch(() => {
-          // This is expected if the user hasn't interacted with the page yet
           setIsPlaying(false);
         });
     };
 
-    const handleError = () => {
-      const error = audioRef.current?.error;
-      console.error("AmbientPlayer: Audio error detected:", {
-        code: error?.code,
-        message: error?.message,
+    const handleError = (e: any) => {
+      const errorDetail = audioRef.current?.error;
+      console.warn("AmbientPlayer: Audio source error handled:", {
+        code: errorDetail?.code,
+        message: errorDetail?.message,
         url
       });
       setHasError(true);
       setIsLoading(false);
+      setIsPlaying(false);
     };
 
-    audio.addEventListener("canplaythrough", handleCanPlay);
+    audio.addEventListener("canplaythrough", handleCanPlayThrough);
     audio.addEventListener("error", handleError);
 
     return () => {
-      audio.removeEventListener("canplaythrough", handleCanPlay);
+      audio.removeEventListener("canplaythrough", handleCanPlayThrough);
       audio.removeEventListener("error", handleError);
       audio.pause();
       audio.src = "";

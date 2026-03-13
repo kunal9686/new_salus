@@ -53,35 +53,35 @@ export default function JournalPage() {
 
   return (
     <DashboardLayout pageTitle="Journal">
-      <AmbientPlayer url="https://cdn.pixabay.com/audio/2024/09/06/audio_92e4726a57.mp3" />
+      <AmbientPlayer url="https://cdn.pixabay.com/audio/2022/05/17/audio_824ca1170f.mp3" />
       <div className="flex-1 space-y-10 p-6 md:p-10 animate-in fade-in duration-700">
         <Card className="clay-card max-w-4xl mx-auto animate-in slide-in-from-top-6 duration-700">
           <CardHeader className="p-8 pb-4">
-            <CardTitle className="font-headline text-3xl flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-primary/20 border-2 border-white"><PenLine className="size-6" /></div>
+            <CardTitle className="font-headline text-2xl flex items-center gap-3">
+              <div className="p-2 rounded-xl bg-primary/20 border-2 border-white"><PenLine className="size-5" /></div>
               New Entry
             </CardTitle>
-            <CardDescription className="text-base font-medium italic">
+            <CardDescription className="text-sm font-medium italic">
               What&apos;s on your mind today?
             </CardDescription>
           </CardHeader>
           <CardContent className="p-8 pt-0">
             <Textarea
               placeholder="Reflect on your day, your feelings, and your experiences..."
-              className="min-h-[200px] bg-white/40 border-2 border-white rounded-[2.5rem] p-6 text-base focus-visible:ring-primary/30"
+              className="min-h-[200px] bg-white/40 border-2 border-white rounded-[2rem] p-6 text-base focus-visible:ring-primary/30"
               value={newEntry}
               onChange={(e) => setNewEntry(e.target.value)}
             />
           </CardContent>
           <CardFooter className="p-8 pt-0">
-            <Button onClick={handleSaveEntry} size="lg" className="w-full h-14 text-xl font-headline clay-btn" disabled={!newEntry.trim() || !user}>Save Entry</Button>
+            <Button onClick={handleSaveEntry} size="lg" className="w-full h-14 text-lg font-headline clay-btn" disabled={!newEntry.trim() || !user}>Save Entry</Button>
           </CardFooter>
         </Card>
 
         <div className="space-y-6 max-w-6xl mx-auto">
           <div className="flex items-center gap-3 animate-in fade-in duration-700 delay-300">
-            <div className="p-2 rounded-xl bg-accent/20 border-2 border-white"><History className="size-5 text-accent-foreground" /></div>
-            <h2 className="text-xl font-bold tracking-tight font-headline">Past Entries</h2>
+            <div className="p-2 rounded-xl bg-accent/20 border-2 border-white"><History className="size-4 text-accent-foreground" /></div>
+            <h2 className="text-lg font-bold tracking-tight font-headline">Past Entries</h2>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {isLoading && Array.from({ length: 3 }).map((_, index) => (
@@ -95,12 +95,12 @@ export default function JournalPage() {
             {journalEntries?.map((entry, idx) => (
               <Card key={entry.id} className="clay-card group animate-in slide-in-from-bottom-6 duration-500" style={{ animationDelay: `${400 + (idx * 100)}ms` }}>
                 <CardHeader className="p-6 pb-2">
-                  <CardTitle className="text-base font-headline text-primary">
+                  <CardTitle className="text-sm font-headline text-primary">
                      {entry.timestamp ? format((entry.timestamp as any).toDate(), 'MMMM dd, yyyy') : "Just now"}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
-                  <p className="text-muted-foreground text-sm font-medium line-clamp-6 leading-relaxed">"{entry.content}"</p>
+                  <p className="text-muted-foreground text-xs font-medium line-clamp-6 leading-relaxed">"{entry.content}"</p>
                 </CardContent>
               </Card>
             ))}

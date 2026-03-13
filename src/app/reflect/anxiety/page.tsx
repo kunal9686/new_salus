@@ -50,20 +50,20 @@ export default function AnxietyPage() {
   if (finished) {
     return (
       <DashboardLayout pageTitle="Perspective Found">
-        <AmbientPlayer url="https://cdn.pixabay.com/audio/2024/02/07/audio_c83d63428d.mp3" />
+        <AmbientPlayer url="https://cdn.pixabay.com/audio/2022/01/21/audio_31743c589f.mp3" />
         <div className="p-6 lg:p-10 flex flex-col items-center justify-center min-h-[calc(100vh-10rem)]">
           <Card className="clay-card max-w-2xl w-full p-10 text-center space-y-8">
-            <h2 className="text-3xl font-headline font-bold italic text-foreground">"We suffer more often in imagination than in reality."</h2>
-            <p className="text-muted-foreground text-lg font-medium">— Seneca</p>
+            <h2 className="text-2xl font-headline font-bold italic text-foreground">"We suffer more often in imagination than in reality."</h2>
+            <p className="text-muted-foreground text-base font-medium">— Seneca</p>
             <div className="space-y-6 text-left mt-8">
                {stoicSteps.map(s => (
                  <div key={s.id} className="p-6 rounded-[2rem] bg-white/40 border-2 border-white shadow-sm">
                    <span className="text-[10px] font-bold uppercase tracking-widest text-primary">{s.title}</span>
-                   <p className="mt-2 text-base text-foreground font-medium">{responses[s.id]}</p>
+                   <p className="mt-2 text-sm text-foreground font-medium">{responses[s.id]}</p>
                  </div>
                ))}
             </div>
-            <Button onClick={() => router.push('/reflect')} className="w-full mt-6 h-14 text-xl font-headline clay-btn">Return to Sanctuary</Button>
+            <Button onClick={() => router.push('/reflect')} className="w-full mt-6 h-14 text-lg font-headline clay-btn">Return to Sanctuary</Button>
           </Card>
         </div>
       </DashboardLayout>
@@ -74,25 +74,25 @@ export default function AnxietyPage() {
 
   return (
     <DashboardLayout pageTitle="Stoic Perspective">
-      <AmbientPlayer url="https://cdn.pixabay.com/audio/2024/02/07/audio_c83d63428d.mp3" />
+      <AmbientPlayer url="https://cdn.pixabay.com/audio/2022/01/21/audio_31743c589f.mp3" />
       <div className="p-6 lg:p-10 space-y-8 min-h-full animate-in fade-in duration-700">
         <div className="max-w-2xl mx-auto space-y-10">
           <div className="text-center space-y-3">
-            <h2 className="text-3xl font-headline font-bold text-foreground">Dichotomy of Control</h2>
-            <p className="text-muted-foreground text-base font-medium">Focus on what you can change, accept what you cannot.</p>
+            <h2 className="text-2xl font-headline font-bold text-foreground">Dichotomy of Control</h2>
+            <p className="text-muted-foreground text-sm font-medium">Focus on what you can change, accept what you cannot.</p>
           </div>
 
           <Card className="clay-card animate-in zoom-in duration-500">
             <CardHeader className="flex flex-row items-center gap-5 p-10">
               <div className={`p-5 rounded-[1.5rem] ${step.bg} border-2 border-white shadow-sm ${step.color}`}>
-                <step.icon className="size-10" />
+                <step.icon className="size-8" />
               </div>
               <div>
-                <CardTitle className="font-headline text-2xl">{step.title}</CardTitle>
+                <CardTitle className="font-headline text-xl">{step.title}</CardTitle>
               </div>
             </CardHeader>
             <CardContent className="space-y-6 px-10">
-              <label className="text-lg text-foreground/90 leading-relaxed font-medium">{step.label}</label>
+              <label className="text-base text-foreground/90 leading-relaxed font-medium">{step.label}</label>
               <Textarea 
                 placeholder="Write your honest thought..." 
                 className="min-h-[200px] text-base bg-white/40 border-2 border-white rounded-[2rem] p-6 focus-visible:ring-primary/30"
@@ -101,8 +101,8 @@ export default function AnxietyPage() {
               />
             </CardContent>
             <CardFooter className="flex justify-between p-10 pt-0">
-              <Button variant="ghost" className="rounded-full px-8" onClick={() => setCurrentStep(Math.max(0, currentStep - 1))} disabled={currentStep === 0}>Back</Button>
-              <Button onClick={handleNext} className="px-12 h-14 text-base font-headline clay-btn">
+              <Button variant="ghost" className="rounded-full px-8 text-sm" onClick={() => setCurrentStep(Math.max(0, currentStep - 1))} disabled={currentStep === 0}>Back</Button>
+              <Button onClick={handleNext} className="px-12 h-14 text-sm font-headline clay-btn">
                 {currentStep === stoicSteps.length - 1 ? "Anchor Thoughts" : "Next Principle"}
               </Button>
             </CardFooter>

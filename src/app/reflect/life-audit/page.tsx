@@ -64,15 +64,15 @@ export default function LifeAuditPage() {
   if (submitted) {
     return (
       <DashboardLayout pageTitle="Audit Complete">
-        <AmbientPlayer url="https://cdn.pixabay.com/audio/2021/11/25/audio_91b32e02f9.mp3" />
+        <AmbientPlayer url="https://cdn.pixabay.com/audio/2023/06/11/audio_92e4726a57.mp3" />
         <div className="p-6 lg:p-10 flex flex-col items-center justify-center min-h-[calc(100vh-10rem)]">
           <Card className="clay-card max-w-2xl w-full p-10 text-center space-y-10">
-            <h2 className="text-3xl font-headline font-bold text-foreground">Your Life Balance</h2>
-            <div className="h-[400px] w-full bg-white/40 rounded-[3rem] p-6 border-2 border-white shadow-inner">
+            <h2 className="text-2xl font-headline font-bold text-foreground">Your Life Balance</h2>
+            <div className="h-[350px] w-full bg-white/40 rounded-[3rem] p-6 border-2 border-white shadow-inner">
               <ResponsiveContainer width="100%" height="100%">
                 <RadarChart cx="50%" cy="50%" outerRadius="80%" data={chartData}>
                   <PolarGrid stroke="rgba(0,0,0,0.1)" />
-                  <PolarAngleAxis dataKey="subject" tick={{ fill: '#666', fontSize: 12, fontWeight: 'bold' }} />
+                  <PolarAngleAxis dataKey="subject" tick={{ fill: '#666', fontSize: 10, fontWeight: 'bold' }} />
                   <Radar
                     name="Life Areas"
                     dataKey="A"
@@ -84,10 +84,10 @@ export default function LifeAuditPage() {
                 </RadarChart>
               </ResponsiveContainer>
             </div>
-            <p className="text-lg text-muted-foreground italic font-medium">
+            <p className="text-base text-muted-foreground italic font-medium">
               "Balance is not something you find, it's something you create."
             </p>
-            <Button onClick={() => router.push('/reflect')} className="w-full h-14 text-xl font-headline clay-btn">Return to Reflect Hub</Button>
+            <Button onClick={() => router.push('/reflect')} className="w-full h-14 text-lg font-headline clay-btn">Return to Reflect Hub</Button>
           </Card>
         </div>
       </DashboardLayout>
@@ -96,12 +96,12 @@ export default function LifeAuditPage() {
 
   return (
     <DashboardLayout pageTitle="Life Audit">
-      <AmbientPlayer url="https://cdn.pixabay.com/audio/2021/11/25/audio_91b32e02f9.mp3" />
+      <AmbientPlayer url="https://cdn.pixabay.com/audio/2023/06/11/audio_92e4726a57.mp3" />
       <div className="p-6 lg:p-10 space-y-10 min-h-full animate-in fade-in duration-700">
         <div className="max-w-2xl mx-auto space-y-8">
           <div className="space-y-3 text-center">
-            <h2 className="text-3xl font-headline font-bold text-foreground">Assess your current state.</h2>
-            <p className="text-muted-foreground text-base font-medium">Rate each area from 1 to 10 based on your current satisfaction.</p>
+            <h2 className="text-2xl font-headline font-bold text-foreground">Assess your current state.</h2>
+            <p className="text-muted-foreground text-sm font-medium">Rate each area from 1 to 10 based on your current satisfaction.</p>
           </div>
 
           <Card className="clay-card">
@@ -110,7 +110,7 @@ export default function LifeAuditPage() {
                 <div key={cat.id} className="space-y-5">
                   <div className="flex justify-between items-center">
                     <label className="text-[10px] font-bold tracking-widest uppercase text-muted-foreground">{cat.label}</label>
-                    <span className="text-2xl font-headline font-bold text-primary">{ratings[cat.id]}</span>
+                    <span className="text-xl font-headline font-bold text-primary">{ratings[cat.id]}</span>
                   </div>
                   <Slider 
                     value={[ratings[cat.id]]} 
@@ -124,7 +124,7 @@ export default function LifeAuditPage() {
               ))}
             </CardContent>
             <CardFooter className="p-10 pt-0">
-              <Button onClick={handleSubmit} className="w-full h-16 text-xl font-headline clay-btn">Generate Visualization</Button>
+              <Button onClick={handleSubmit} className="w-full h-16 text-lg font-headline clay-btn">Generate Visualization</Button>
             </CardFooter>
           </Card>
         </div>

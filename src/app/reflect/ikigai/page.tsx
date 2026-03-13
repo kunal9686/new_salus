@@ -103,29 +103,29 @@ export default function IkigaiPage() {
   if (isFinished) {
     return (
       <DashboardLayout pageTitle="Ikigai Summary">
-        <AmbientPlayer url="https://cdn.pixabay.com/audio/2023/10/24/audio_354e60155b.mp3" />
+        <AmbientPlayer url="https://cdn.pixabay.com/audio/2024/05/01/audio_0e54d68e2f.mp3" />
         <div className="p-6 lg:p-10 flex flex-col items-center justify-center min-h-[calc(100vh-10rem)]">
           <Card className="clay-card max-w-4xl w-full p-10 space-y-10">
             <div className="text-center space-y-3">
-              <h2 className="text-3xl font-headline font-bold text-foreground">Your Ikigai Discovery</h2>
-              <p className="text-muted-foreground text-base font-medium">The intersection of purpose and passion.</p>
+              <h2 className="text-2xl font-headline font-bold text-foreground">Your Ikigai Discovery</h2>
+              <p className="text-muted-foreground text-sm font-medium">The intersection of purpose and passion.</p>
             </div>
             
-            <div className="relative h-[450px] flex items-center justify-center overflow-hidden">
-               <div className="absolute w-72 h-72 rounded-full bg-amaranth/10 border-2 border-amaranth/30 -translate-x-20 -translate-y-20 flex items-center justify-center backdrop-blur-sm">
+            <div className="relative h-[400px] flex items-center justify-center overflow-hidden">
+               <div className="absolute w-64 h-64 rounded-full bg-amaranth/10 border-2 border-amaranth/30 -translate-x-16 -translate-y-16 flex items-center justify-center backdrop-blur-sm">
                  <span className="text-[10px] font-bold uppercase tracking-widest text-amaranth opacity-60">Passion</span>
                </div>
-               <div className="absolute w-72 h-72 rounded-full bg-secondary/10 border-2 border-secondary/30 translate-x-20 -translate-y-20 flex items-center justify-center backdrop-blur-sm">
+               <div className="absolute w-64 h-64 rounded-full bg-secondary/10 border-2 border-secondary/30 translate-x-16 -translate-y-16 flex items-center justify-center backdrop-blur-sm">
                  <span className="text-[10px] font-bold uppercase tracking-widest text-secondary-foreground opacity-60">Mission</span>
                </div>
-               <div className="absolute w-72 h-72 rounded-full bg-heliotrope/10 border-2 border-heliotrope/30 -translate-x-20 translate-y-20 flex items-center justify-center backdrop-blur-sm">
+               <div className="absolute w-64 h-64 rounded-full bg-heliotrope/10 border-2 border-heliotrope/30 -translate-x-16 translate-y-16 flex items-center justify-center backdrop-blur-sm">
                  <span className="text-[10px] font-bold uppercase tracking-widest text-heliotrope opacity-60">Profession</span>
                </div>
-               <div className="absolute w-72 h-72 rounded-full bg-accent/10 border-2 border-accent/30 translate-x-20 translate-y-20 flex items-center justify-center backdrop-blur-sm">
+               <div className="absolute w-64 h-64 rounded-full bg-accent/10 border-2 border-accent/30 translate-x-16 translate-y-16 flex items-center justify-center backdrop-blur-sm">
                  <span className="text-[10px] font-bold uppercase tracking-widest text-accent-foreground opacity-60">Vocation</span>
                </div>
-               <div className="z-10 bg-white p-8 rounded-[2.5rem] border-4 border-primary shadow-2xl">
-                 <span className="font-headline font-bold text-3xl text-primary tracking-tighter">IKIGAI</span>
+               <div className="z-10 bg-white p-6 rounded-[2.5rem] border-4 border-primary shadow-2xl">
+                 <span className="font-headline font-bold text-2xl text-primary tracking-tighter">IKIGAI</span>
                </div>
             </div>
 
@@ -133,15 +133,15 @@ export default function IkigaiPage() {
               {steps.map(step => (
                 <div key={step.id} className="p-6 rounded-[2rem] bg-white/40 border-2 border-white shadow-sm">
                   <div className="flex items-center gap-3 mb-3">
-                    <step.icon className={`size-5 ${step.color}`} />
+                    <step.icon className={`size-4 ${step.color}`} />
                     <h4 className="font-bold text-[10px] uppercase tracking-widest text-foreground">{step.title}</h4>
                   </div>
-                  <p className="text-sm text-muted-foreground line-clamp-3 italic font-medium">"{responses[step.id] || "No response provided."}"</p>
+                  <p className="text-xs text-muted-foreground line-clamp-3 italic font-medium">"{responses[step.id] || "No response provided."}"</p>
                 </div>
               ))}
             </div>
 
-            <Button onClick={() => router.push('/reflect')} className="w-full h-14 text-xl font-headline clay-btn">Return to Reflect Hub</Button>
+            <Button onClick={() => router.push('/reflect')} className="w-full h-14 text-lg font-headline clay-btn">Return to Reflect Hub</Button>
           </Card>
         </div>
       </DashboardLayout>
@@ -152,14 +152,14 @@ export default function IkigaiPage() {
 
   return (
     <DashboardLayout pageTitle="Ikigai Discovery">
-      <AmbientPlayer url="https://cdn.pixabay.com/audio/2023/10/24/audio_354e60155b.mp3" />
+      <AmbientPlayer url="https://cdn.pixabay.com/audio/2024/05/01/audio_0e54d68e2f.mp3" />
       <div className="p-6 lg:p-10 space-y-10 min-h-full animate-in fade-in duration-700">
         <div className="max-w-2xl mx-auto space-y-10">
           <div className="flex justify-between items-end">
             <div className="space-y-3">
               <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">Step {currentStep + 1} of 4</span>
-              <h2 className={`text-4xl font-headline font-bold flex items-center gap-5 ${step.color}`}>
-                <div className={`p-4 rounded-[1.5rem] ${step.bg} border-2 border-white`}><step.icon className="size-10" /></div>
+              <h2 className={`text-3xl font-headline font-bold flex items-center gap-5 ${step.color}`}>
+                <div className={`p-4 rounded-[1.5rem] ${step.bg} border-2 border-white`}><step.icon className="size-8" /></div>
                 {step.title}
               </h2>
             </div>
@@ -167,7 +167,7 @@ export default function IkigaiPage() {
 
           <Card className="clay-card animate-in fade-in slide-in-from-bottom-4 duration-500">
             <CardHeader className="p-10 pb-4">
-              <CardDescription className="text-xl font-medium text-foreground/80">{step.description}</CardDescription>
+              <CardDescription className="text-lg font-medium text-foreground/80">{step.description}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-8 p-10 pt-0">
               {step.questions.map((q, i) => (
@@ -175,7 +175,7 @@ export default function IkigaiPage() {
                   <label className="font-bold text-foreground/70 uppercase tracking-widest text-[10px]">{q}</label>
                   <Textarea 
                     placeholder="Type your reflection here..." 
-                    className="min-h-[120px] bg-white/40 border-2 border-white rounded-[2rem] p-5 text-base"
+                    className="min-h-[120px] bg-white/40 border-2 border-white rounded-[2rem] p-5 text-sm"
                     value={responses[`${step.id}_${i}`] || ""}
                     onChange={(e) => setResponses({...responses, [step.id]: (responses[step.id] || "") + "\n" + e.target.value, [`${step.id}_${i}`]: e.target.value})}
                   />
@@ -185,15 +185,15 @@ export default function IkigaiPage() {
             <CardFooter className="flex justify-between p-10 pt-0">
               <Button 
                 variant="ghost" 
-                className="rounded-full px-8"
+                className="rounded-full px-8 text-sm"
                 onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
                 disabled={currentStep === 0}
               >
                 Previous
               </Button>
-              <Button onClick={handleNext} className="gap-3 px-12 h-14 text-lg font-headline clay-btn">
+              <Button onClick={handleNext} className="gap-3 px-12 h-14 text-sm font-headline clay-btn">
                 {currentStep === steps.length - 1 ? "Complete Discovery" : "Next Section"}
-                <CheckCircle2 className="size-5" />
+                <CheckCircle2 className="size-4" />
               </Button>
             </CardFooter>
           </Card>
