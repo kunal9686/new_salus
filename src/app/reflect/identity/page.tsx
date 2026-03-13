@@ -9,7 +9,7 @@ import { useUser, useFirestore } from "@/firebase/provider";
 import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { collection, serverTimestamp } from "firebase/firestore";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "navigation";
 import { useToast } from "@/hooks/use-toast";
 import { UserCircle2, ArrowRight } from "lucide-react";
 import { AmbientPlayer } from "@/components/ambient-player";
