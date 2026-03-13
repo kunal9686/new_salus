@@ -62,7 +62,7 @@ const AppSidebar = () => {
   };
 
   return (
-    <Sidebar className="border-r border-white/20 bg-black">
+    <Sidebar className="border-r border-white/25 bg-black">
       <SidebarHeader className="bg-black">
         <div className="flex items-center gap-3 p-4">
           <div className="size-8 rounded-lg bg-primary flex items-center justify-center shadow-[0_0_15px_rgba(var(--primary),0.3)]">
@@ -79,7 +79,7 @@ const AppSidebar = () => {
                 asChild
                 isActive={pathname.startsWith(item.href)}
                 tooltip={item.label}
-                className="hover:bg-primary/10 data-[active=true]:bg-primary/20 transition-all rounded-xl border border-transparent data-[active=true]:border-white/10"
+                className="hover:bg-primary/10 data-[active=true]:bg-primary/20 transition-all rounded-xl border border-transparent data-[active=true]:border-white/15"
               >
                 <Link href={item.href}>
                   <item.icon className={pathname.startsWith(item.href) ? "text-primary" : "text-muted-foreground"} />
@@ -90,10 +90,10 @@ const AppSidebar = () => {
           ))}
         </SidebarMenu>
       </SidebarContent>
-      <SidebarFooter className="bg-black border-t border-white/20">
+      <SidebarFooter className="bg-black border-t border-white/25">
          <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <div className="flex items-center gap-3 cursor-pointer p-3 rounded-xl hover:bg-primary/10 border border-transparent hover:border-white/10 transition-all w-full">
+                <div className="flex items-center gap-3 cursor-pointer p-3 rounded-xl hover:bg-primary/10 border border-transparent hover:border-white/15 transition-all w-full">
                     <Avatar className="h-9 w-9 border-2 border-primary/40">
                         <AvatarImage src={user?.photoURL ?? `https://picsum.photos/seed/${user?.uid}/40/40`} alt={user?.displayName ?? "user"} />
                         <AvatarFallback className="bg-primary/10 text-primary">{user?.displayName?.[0].toUpperCase() ?? 'U'}</AvatarFallback>
@@ -104,16 +104,16 @@ const AppSidebar = () => {
                     </div>
                 </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent side="right" align="end" className="w-56 rounded-xl border-white/20">
+            <DropdownMenuContent side="right" align="end" className="w-56 rounded-xl border-white/25 bg-black/90 backdrop-blur-xl">
               <DropdownMenuLabel>Account</DropdownMenuLabel>
-              <DropdownMenuSeparator className="bg-white/10" />
+              <DropdownMenuSeparator className="bg-white/15" />
               <DropdownMenuItem asChild>
                  <Link href="/profile" className="cursor-pointer">
                   <Settings className="mr-2 h-4 w-4" />
                   <span>Settings</span>
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuSeparator className="bg-white/10" />
+              <DropdownMenuSeparator className="bg-white/15" />
               <DropdownMenuItem onClick={handleLogout} className="text-destructive cursor-pointer">
                 <LogOut className="mr-2 h-4 w-4" />
                 <span>Log out</span>
@@ -128,7 +128,7 @@ const AppSidebar = () => {
 const AppHeader = ({ pageTitle }: { pageTitle: string }) => {
     const { isMobile } = useSidebar();
     return (
-        <header className="flex h-16 items-center gap-4 border-b border-white/20 bg-black/60 backdrop-blur-md px-6 sticky top-0 z-30">
+        <header className="flex h-16 items-center gap-4 border-b border-white/25 bg-black/60 backdrop-blur-md px-6 sticky top-0 z-30">
             {isMobile && <SidebarTrigger><PanelLeft /></SidebarTrigger>}
             <h1 className="text-2xl font-bold font-headline tracking-tight text-foreground">{pageTitle}</h1>
         </header>
