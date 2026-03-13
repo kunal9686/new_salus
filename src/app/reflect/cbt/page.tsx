@@ -49,7 +49,7 @@ export default function CBTPage() {
 
   return (
     <DashboardLayout pageTitle="CBT Reframing">
-      <AmbientPlayer url="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3" />
+      <AmbientPlayer url="https://cdn.pixabay.com/audio/2022/01/21/audio_31b583e2e5.mp3" />
       <div className="p-6 lg:p-10 space-y-10 min-h-full animate-in fade-in duration-700">
         <div className="max-w-4xl mx-auto space-y-10">
           <div className="text-center space-y-3">
