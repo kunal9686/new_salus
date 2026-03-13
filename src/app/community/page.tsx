@@ -77,93 +77,83 @@ export default function CommunityPage() {
 
   return (
     <DashboardLayout pageTitle="Community Forum">
-      <div className="flex-1 space-y-6 p-4 md:p-8 pt-6 bg-gradient-to-br from-black to-pink-900 min-h-full">
-        <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-bold tracking-tight font-headline">Discussions</h2>
+      <div className="flex-1 space-y-10 p-6 md:p-10 animate-in fade-in duration-700">
+        <div className="flex justify-between items-center max-w-6xl mx-auto">
+          <h2 className="text-4xl font-bold tracking-tight font-headline text-foreground">Discussions</h2>
            <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-              <Button disabled={!user}>Start New Thread</Button>
+              <Button disabled={!user} className="h-12 px-8 rounded-full clay-btn text-lg">Start New Thread</Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[500px] rounded-[3rem] border-4 border-white bg-white/90 backdrop-blur-xl">
               <DialogHeader>
-                <DialogTitle>Start a New Discussion</DialogTitle>
-                <DialogDescription>
-                  Share your thoughts with the community. Fill in the details below.
+                <DialogTitle className="font-headline text-3xl">Start a New Discussion</DialogTitle>
+                <DialogDescription className="text-lg">
+                  Share your thoughts with the community.
                 </DialogDescription>
               </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="title" className="text-right">
-                    Title
-                  </Label>
-                  <Input id="title" value={newThreadTitle} onChange={(e) => setNewThreadTitle(e.target.value)} className="col-span-3" />
+              <div className="grid gap-6 py-6">
+                <div className="grid gap-3">
+                  <Label htmlFor="title" className="text-xs uppercase tracking-widest font-bold ml-2">Title</Label>
+                  <Input id="title" value={newThreadTitle} onChange={(e) => setNewThreadTitle(e.target.value)} className="rounded-2xl h-12 border-2 border-white bg-white/40" />
                 </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="category" className="text-right">
-                    Category
-                  </Label>
-                  <Input id="category" value={newThreadCategory} onChange={(e) => setNewThreadCategory(e.target.value)} className="col-span-3" />
+                <div className="grid gap-3">
+                  <Label htmlFor="category" className="text-xs uppercase tracking-widest font-bold ml-2">Category</Label>
+                  <Input id="category" value={newThreadCategory} onChange={(e) => setNewThreadCategory(e.target.value)} className="rounded-2xl h-12 border-2 border-white bg-white/40" />
                 </div>
-                 <div className="grid grid-cols-4 items-start gap-4">
-                  <Label htmlFor="content" className="text-right mt-2">
-                    Content
-                  </Label>
-                  <Textarea id="content" value={newThreadContent} onChange={(e) => setNewThreadContent(e.target.value)} className="col-span-3 min-h-[100px]" />
+                 <div className="grid gap-3">
+                  <Label htmlFor="content" className="text-xs uppercase tracking-widest font-bold ml-2">Content</Label>
+                  <Textarea id="content" value={newThreadContent} onChange={(e) => setNewThreadContent(e.target.value)} className="rounded-[2rem] min-h-[150px] border-2 border-white bg-white/40 p-5" />
                 </div>
               </div>
               <DialogFooter>
-                <Button type="submit" onClick={handleStartNewThread}>Post Thread</Button>
+                <Button type="submit" onClick={handleStartNewThread} className="w-full h-14 rounded-2xl clay-btn text-xl font-headline">Post Thread</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
         </div>
-        <div className="space-y-4">
+        <div className="space-y-6 max-w-6xl mx-auto">
           {isLoading && Array.from({ length: 4 }).map((_, index) => (
-             <Card key={index}>
-              <CardHeader>
-                 <Skeleton className="h-5 w-1/4 mb-2" />
-                 <Skeleton className="h-7 w-3/4" />
-                 <Skeleton className="h-4 w-1/2 mt-1" />
-              </CardHeader>
-              <CardContent>
+             <Card key={index} className="clay-card p-10 space-y-6">
+              <div className="space-y-3">
+                 <Skeleton className="h-6 w-1/4" />
+                 <Skeleton className="h-10 w-3/4" />
+              </div>
+              <div className="space-y-3">
                 <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-5/6 mt-2" />
-              </CardContent>
-              <CardFooter className="flex justify-between">
-                <div className="flex gap-4">
-                  <Skeleton className="h-5 w-20" />
-                  <Skeleton className="h-5 w-20" />
-                </div>
-                <Skeleton className="h-10 w-32" />
-              </CardFooter>
+                <Skeleton className="h-4 w-5/6" />
+              </div>
+              <div className="flex justify-between pt-6">
+                <Skeleton className="h-8 w-32" />
+                <Skeleton className="h-12 w-40" />
+              </div>
             </Card>
           ))}
-          {threads?.map((thread) => (
-            <Card key={thread.id} className="transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1 hover:scale-[1.02]">
-              <CardHeader>
+          {threads?.map((thread, idx) => (
+            <Card key={thread.id} className="clay-card group animate-in slide-in-from-bottom-6 duration-500" style={{ animationDelay: `${idx * 100}ms` }}>
+              <CardHeader className="p-10 pb-4">
                 <div className="flex justify-between items-start">
                   <div>
-                    {thread.category && <Badge variant="secondary" className="mb-2">{thread.category}</Badge>}
-                    <CardTitle className="font-headline text-xl">{thread.title}</CardTitle>
-                    <CardDescription>by {thread.authorName}</CardDescription>
+                    {thread.category && <Badge variant="secondary" className="mb-4 bg-accent/20 text-accent-foreground border-2 border-white px-4 py-1.5 rounded-full">{thread.category}</Badge>}
+                    <CardTitle className="font-headline text-3xl group-hover:text-primary transition-colors">{thread.title}</CardTitle>
+                    <CardDescription className="text-lg italic mt-1 font-medium">by {thread.authorName}</CardDescription>
                   </div>
                 </div>
               </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">{thread.content}</p>
+              <CardContent className="p-10 pt-0">
+                <p className="text-muted-foreground text-lg font-medium leading-relaxed">{thread.content}</p>
               </CardContent>
-              <CardFooter className="flex justify-between">
-                <div className="flex gap-4 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-1">
-                    <MessageSquare className="h-4 w-4" />
+              <CardFooter className="p-10 pt-0 flex justify-between items-center mt-6 border-t border-white/60 pt-8">
+                <div className="flex gap-6 text-sm font-bold uppercase tracking-widest text-muted-foreground">
+                  <div className="flex items-center gap-2">
+                    <MessageSquare className="h-5 w-5 text-primary" />
                     <span>{thread.replies || 0} Replies</span>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <ThumbsUp className="h-4 w-4" />
+                  <div className="flex items-center gap-2">
+                    <ThumbsUp className="h-5 w-5 text-secondary-foreground" />
                     <span>{thread.likes || 0} Likes</span>
                   </div>
                 </div>
-                <Button variant="outline">Join Discussion</Button>
+                <Button className="h-12 px-8 rounded-full clay-btn">Join Discussion</Button>
               </CardFooter>
             </Card>
           ))}

@@ -116,7 +116,6 @@ export default function ChatbotPage() {
       });
 
     } catch (error) {
-      console.error("Error fetching guidance:", error);
       addDocumentNonBlocking(messagesRef, {
         role: 'assistant',
         content: "I'm sorry, I'm having trouble connecting right now. Please try again later.",
@@ -130,34 +129,35 @@ export default function ChatbotPage() {
 
   return (
     <DashboardLayout pageTitle="Wellness Chatbot">
-      <div className="flex flex-col h-[calc(100vh-3.5rem)] bg-gradient-to-br from-black to-purple-900">
-        <ScrollArea className="flex-1 p-4 md:p-6" ref={scrollAreaRef}>
-          <div className="space-y-6 max-w-3xl mx-auto">
+      <div className="flex flex-col h-[calc(100vh-5rem)] bg-transparent">
+        <ScrollArea className="flex-1 p-6" ref={scrollAreaRef}>
+          <div className="space-y-8 max-w-3xl mx-auto">
             {!isLoadingMessages && !messages?.length && (
-               <div className="flex items-start gap-4">
-                  <Avatar className="h-9 w-9"><AvatarFallback>A</AvatarFallback></Avatar>
-                  <div className="rounded-lg p-3 text-sm bg-muted">
+               <div className="flex items-start gap-4 animate-in fade-in duration-700">
+                  <Avatar className="h-10 w-10 border-2 border-white"><AvatarFallback className="bg-primary/20 text-primary">A</AvatarFallback></Avatar>
+                  <div className="rounded-[2rem] p-5 text-base bg-white/60 border-2 border-white shadow-sm font-medium">
                     <p>Hello! I&apos;m your personal wellness assistant. How can I help you on your journey today?</p>
                   </div>
               </div>
             )}
-            {messages?.map((message) => (
+            {messages?.map((message, idx) => (
               <div
                 key={message.id}
-                className={`flex items-start gap-4 ${
+                className={`flex items-start gap-4 animate-in fade-in slide-in-from-bottom-2 duration-300 ${
                   message.role === "user" ? "justify-end" : ""
                 }`}
+                style={{ animationDelay: `${idx * 50}ms` }}
               >
                 {message.role === "assistant" && (
-                  <Avatar className="h-9 w-9">
-                    <AvatarFallback>A</AvatarFallback>
+                  <Avatar className="h-10 w-10 border-2 border-white">
+                    <AvatarFallback className="bg-primary/20 text-primary">A</AvatarFallback>
                   </Avatar>
                 )}
                 <div
-                  className={`rounded-lg p-3 text-sm max-w-[80%] ${
+                  className={`rounded-[2rem] p-5 text-base max-w-[80%] border-2 border-white shadow-sm leading-relaxed ${
                     message.role === "user"
                       ? "bg-primary text-primary-foreground"
-                      : "bg-muted"
+                      : "bg-white/60 backdrop-blur-md"
                   }`}
                 >
                   {message.content.split('\n').map((line, index) => (
@@ -165,31 +165,31 @@ export default function ChatbotPage() {
                   ))}
                 </div>
                 {message.role === "user" && (
-                  <Avatar className="h-9 w-9">
-                     <AvatarImage src={user?.photoURL ?? "https://picsum.photos/seed/user/40/40"} alt={user?.displayName ?? "user"} />
-                    <AvatarFallback>{user?.displayName?.[0].toUpperCase() ?? 'U'}</AvatarFallback>
+                  <Avatar className="h-10 w-10 border-2 border-white shadow-md">
+                     <AvatarImage src={user?.photoURL ?? `https://picsum.photos/seed/${user?.uid}/40/40`} alt={user?.displayName ?? "user"} />
+                    <AvatarFallback className="bg-primary/20 text-primary">{user?.displayName?.[0].toUpperCase() ?? 'U'}</AvatarFallback>
                   </Avatar>
                 )}
               </div>
             ))}
              {isLoading && (
-              <div className="flex items-start gap-4">
-                <Avatar className="h-9 w-9">
-                  <AvatarFallback>A</AvatarFallback>
+              <div className="flex items-start gap-4 animate-in fade-in duration-300">
+                <Avatar className="h-10 w-10 border-2 border-white">
+                  <AvatarFallback className="bg-primary/20 text-primary">A</AvatarFallback>
                 </Avatar>
-                <div className="rounded-lg p-3 text-sm bg-muted w-full max-w-[80%]">
-                  <Skeleton className="h-4 w-1/4 mb-2" />
+                <div className="rounded-[2rem] p-6 bg-white/60 border-2 border-white w-full max-w-[80%] space-y-3">
+                  <Skeleton className="h-4 w-1/4" />
                   <Skeleton className="h-4 w-full" />
-                  <Skeleton className="h-4 w-3/4 mt-2" />
+                  <Skeleton className="h-4 w-3/4" />
                 </div>
               </div>
             )}
           </div>
         </ScrollArea>
-        <div className="border-t bg-background/80 backdrop-blur-sm p-4">
+        <div className="p-6 bg-white/40 backdrop-blur-xl border-t border-white/60">
           <form
             onSubmit={handleSendMessage}
-            className="relative overflow-hidden rounded-lg border max-w-3xl mx-auto"
+            className="relative overflow-hidden rounded-[2.5rem] border-4 border-white max-w-3xl mx-auto shadow-2xl bg-white/60"
           >
             <Label htmlFor="message" className="sr-only">
               Message
@@ -197,7 +197,7 @@ export default function ChatbotPage() {
             <Textarea
               id="message"
               placeholder="Type your message here..."
-              className="min-h-12 resize-none border-0 p-3 shadow-none focus-visible:ring-0"
+              className="min-h-14 resize-none border-0 p-5 shadow-none focus-visible:ring-0 text-lg bg-transparent"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
@@ -208,10 +208,10 @@ export default function ChatbotPage() {
               }}
               disabled={isLoading || !user}
             />
-            <div className="flex items-center p-3 pt-0">
-              <Button type="submit" size="sm" className="ml-auto gap-1.5" disabled={isLoading || !user || !input.trim()}>
+            <div className="flex items-center p-4 pt-0">
+              <Button type="submit" size="lg" className="ml-auto gap-2 rounded-[1.5rem] clay-btn" disabled={isLoading || !user || !input.trim()}>
                 Send
-                <CornerDownLeft className="size-3.5" />
+                <CornerDownLeft className="size-4" />
               </Button>
             </div>
           </form>

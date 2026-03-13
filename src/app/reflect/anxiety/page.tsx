@@ -14,10 +14,10 @@ import { useToast } from "@/hooks/use-toast";
 import { Wind, ShieldCheck, Scale, History } from "lucide-react";
 
 const stoicSteps = [
-  { id: "worry", title: "The Worry", label: "What are you currently worrying about?", icon: Wind, color: "text-amaranth" },
-  { id: "control", title: "Circle of Control", label: "Is this within your absolute control?", icon: ShieldCheck, color: "text-cyber-lime" },
-  { id: "worstCase", title: "Negative Visualization", label: "What is the worst realistic outcome?", icon: History, color: "text-heliotrope" },
-  { id: "action", title: "Virtuous Action", label: "What small step could reduce this worry?", icon: Scale, color: "text-digital-lavender" }
+  { id: "worry", title: "The Worry", label: "What are you currently worrying about?", icon: Wind, color: "text-amaranth", bg: "bg-amaranth/20" },
+  { id: "control", title: "Circle of Control", label: "Is this within your absolute control?", icon: ShieldCheck, color: "text-cyber-lime", bg: "bg-cyber-lime/20" },
+  { id: "worstCase", title: "Negative Visualization", label: "What is the worst realistic outcome?", icon: History, color: "text-heliotrope", bg: "bg-heliotrope/20" },
+  { id: "action", title: "Virtuous Action", label: "What small step could reduce this worry?", icon: Scale, color: "text-digital-lavender", bg: "bg-digital-lavender/20" }
 ];
 
 export default function AnxietyPage() {
@@ -50,19 +50,19 @@ export default function AnxietyPage() {
   if (finished) {
     return (
       <DashboardLayout pageTitle="Perspective Found">
-        <div className="p-6 lg:p-10 flex flex-col items-center justify-center min-h-[calc(100vh-10rem)] bg-black">
-          <Card className="max-w-2xl w-full border-border/50 bg-card/40 backdrop-blur-md p-8 text-center space-y-6">
-            <h2 className="text-3xl font-headline font-bold italic">"We suffer more often in imagination than in reality."</h2>
-            <p className="text-muted-foreground">— Seneca</p>
-            <div className="space-y-4 text-left mt-8">
+        <div className="p-6 lg:p-10 flex flex-col items-center justify-center min-h-[calc(100vh-10rem)]">
+          <Card className="clay-card max-w-2xl w-full p-10 text-center space-y-8">
+            <h2 className="text-4xl font-headline font-bold italic text-foreground">"We suffer more often in imagination than in reality."</h2>
+            <p className="text-muted-foreground text-xl font-medium">— Seneca</p>
+            <div className="space-y-6 text-left mt-8">
                {stoicSteps.map(s => (
-                 <div key={s.id} className="p-4 rounded-xl bg-white/5 border border-white/10">
-                   <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{s.title}</span>
-                   <p className="mt-1">{responses[s.id]}</p>
+                 <div key={s.id} className="p-6 rounded-[2rem] bg-white/40 border-2 border-white shadow-sm">
+                   <span className="text-xs font-bold uppercase tracking-widest text-primary">{s.title}</span>
+                   <p className="mt-2 text-lg text-foreground font-medium">{responses[s.id]}</p>
                  </div>
                ))}
             </div>
-            <Button onClick={() => router.push('/reflect')} className="w-full mt-4">Return to Sanctuary</Button>
+            <Button onClick={() => router.push('/reflect')} className="w-full mt-6 h-14 text-xl font-headline clay-btn">Return to Sanctuary</Button>
           </Card>
         </div>
       </DashboardLayout>
@@ -73,34 +73,34 @@ export default function AnxietyPage() {
 
   return (
     <DashboardLayout pageTitle="Stoic Perspective">
-      <div className="p-6 lg:p-10 space-y-8 bg-gradient-to-br from-black via-black to-amaranth/10 min-h-full">
-        <div className="max-w-2xl mx-auto space-y-8">
-          <div className="text-center space-y-2">
-            <h2 className="text-3xl font-headline font-bold">Dichotomy of Control</h2>
-            <p className="text-muted-foreground">Focus on what you can change, accept what you cannot.</p>
+      <div className="p-6 lg:p-10 space-y-8 min-h-full animate-in fade-in duration-700">
+        <div className="max-w-2xl mx-auto space-y-10">
+          <div className="text-center space-y-3">
+            <h2 className="text-4xl font-headline font-bold text-foreground">Dichotomy of Control</h2>
+            <p className="text-muted-foreground text-lg font-medium">Focus on what you can change, accept what you cannot.</p>
           </div>
 
-          <Card className="border-border/50 bg-card/40 backdrop-blur-sm animate-in zoom-in duration-300">
-            <CardHeader className="flex flex-row items-center gap-4">
-              <div className={`p-3 rounded-2xl bg-white/5 ${step.color}`}>
-                <step.icon className="size-8" />
+          <Card className="clay-card animate-in zoom-in duration-500">
+            <CardHeader className="flex flex-row items-center gap-5 p-10">
+              <div className={`p-5 rounded-[1.5rem] ${step.bg} border-2 border-white shadow-sm ${step.color}`}>
+                <step.icon className="size-10" />
               </div>
               <div>
-                <CardTitle className="font-headline">{step.title}</CardTitle>
+                <CardTitle className="font-headline text-3xl">{step.title}</CardTitle>
               </div>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <label className="text-lg text-foreground/90 leading-relaxed">{step.label}</label>
+            <CardContent className="space-y-6 px-10">
+              <label className="text-xl text-foreground/90 leading-relaxed font-medium">{step.label}</label>
               <Textarea 
                 placeholder="Write your honest thought..." 
-                className="min-h-[150px] text-lg bg-black/20"
+                className="min-h-[200px] text-lg bg-white/40 border-2 border-white rounded-[2rem] p-6 focus-visible:ring-primary/30"
                 value={responses[step.id] || ""}
                 onChange={(e) => setResponses({...responses, [step.id]: e.target.value})}
               />
             </CardContent>
-            <CardFooter className="flex justify-between">
-              <Button variant="ghost" onClick={() => setCurrentStep(Math.max(0, currentStep - 1))} disabled={currentStep === 0}>Back</Button>
-              <Button onClick={handleNext} className="px-10">
+            <CardFooter className="flex justify-between p-10 pt-0">
+              <Button variant="ghost" className="rounded-full px-8" onClick={() => setCurrentStep(Math.max(0, currentStep - 1))} disabled={currentStep === 0}>Back</Button>
+              <Button onClick={handleNext} className="px-12 h-14 text-lg font-headline clay-btn">
                 {currentStep === stoicSteps.length - 1 ? "Anchor Thoughts" : "Next Principle"}
               </Button>
             </CardFooter>

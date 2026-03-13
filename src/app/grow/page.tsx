@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -114,30 +115,30 @@ export default function GrowPage() {
 
   return (
     <DashboardLayout pageTitle="Grow">
-      <div className="flex flex-col h-[calc(100vh-4rem)] bg-gradient-to-br from-black via-black to-digital-lavender/10 animate-in fade-in duration-700">
+      <div className="flex flex-col h-[calc(100vh-5rem)] bg-transparent animate-in fade-in duration-700">
         <ScrollArea className="flex-1 p-6" ref={scrollAreaRef}>
           <div className="space-y-8 max-w-3xl mx-auto pb-10">
             {/* Intro UI */}
             {!isLoadingMessages && (!messages || messages.length === 0) && (
               <div className="space-y-6 pt-10 text-center animate-in fade-in slide-in-from-bottom-4 duration-700">
-                <div className="size-16 rounded-3xl bg-primary/20 flex items-center justify-center mx-auto mb-4 border border-primary/30 shadow-[0_0_30px_-5px_hsl(var(--primary))] animate-bounce">
-                  <BrainCircuit className="text-primary size-8" />
+                <div className="size-20 rounded-[2.5rem] bg-primary/20 flex items-center justify-center mx-auto mb-6 border-4 border-white shadow-xl animate-bounce">
+                  <BrainCircuit className="text-primary size-10" />
                 </div>
-                <h2 className="text-4xl font-headline font-bold">Salus Reflection Assistant</h2>
-                <p className="text-muted-foreground text-lg max-w-md mx-auto">
+                <h2 className="text-4xl font-headline font-bold text-foreground">Salus Reflection Assistant</h2>
+                <p className="text-muted-foreground text-lg max-w-md mx-auto font-medium">
                   I'm here to help you reframe challenges, explore patterns, and find perspective through introspection.
                 </p>
-                <div className="grid gap-4 md:grid-cols-2 mt-10">
-                  <Card className="bg-card/40 border-border/50 hover:bg-primary/5 transition-colors cursor-pointer group animate-in slide-in-from-left-4 duration-500 delay-300" onClick={() => setInput("I want to reframe a difficult situation.")}>
-                    <CardContent className="p-4 flex items-center gap-4">
-                      <Wind className="h-6 w-6 text-heliotrope" />
-                      <span className="text-sm font-semibold group-hover:text-primary transition-colors">Reframe Thought</span>
+                <div className="grid gap-6 md:grid-cols-2 mt-12">
+                  <Card className="clay-card hover:bg-primary/5 transition-colors cursor-pointer group animate-in slide-in-from-left-4 duration-500 delay-300" onClick={() => setInput("I want to reframe a difficult situation.")}>
+                    <CardContent className="p-6 flex items-center gap-4">
+                      <div className="p-3 rounded-2xl bg-accent/20 border-2 border-white"><Wind className="h-6 w-6 text-accent-foreground" /></div>
+                      <span className="text-base font-bold group-hover:text-primary transition-colors">Reframe Thought</span>
                     </CardContent>
                   </Card>
-                  <Card className="bg-card/40 border-border/50 hover:bg-primary/5 transition-colors cursor-pointer group animate-in slide-in-from-right-4 duration-500 delay-400" onClick={() => setInput("Can you give me a reflection prompt for today?")}>
-                    <CardContent className="p-4 flex items-center gap-4">
-                      <PenLine className="h-6 w-6 text-cyber-lime" />
-                      <span className="text-sm font-semibold group-hover:text-primary transition-colors">Daily Prompt</span>
+                  <Card className="clay-card hover:bg-primary/5 transition-colors cursor-pointer group animate-in slide-in-from-right-4 duration-500 delay-400" onClick={() => setInput("Can you give me a reflection prompt for today?")}>
+                    <CardContent className="p-6 flex items-center gap-4">
+                      <div className="p-3 rounded-2xl bg-secondary/20 border-2 border-white"><PenLine className="h-6 w-6 text-secondary-foreground" /></div>
+                      <span className="text-base font-bold group-hover:text-primary transition-colors">Daily Prompt</span>
                     </CardContent>
                   </Card>
                 </div>
@@ -151,15 +152,15 @@ export default function GrowPage() {
                 style={{ animationDelay: `${idx * 50}ms` }}
               >
                 {message.role === "assistant" && (
-                  <div className="size-9 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20">
-                    <Sparkles className="h-5 w-5 text-primary" />
+                  <div className="size-10 rounded-2xl bg-primary/20 flex items-center justify-center border-2 border-white shadow-md">
+                    <Sparkles className="h-6 w-6 text-primary" />
                   </div>
                 )}
                 <div
-                  className={`rounded-2xl p-4 text-sm max-w-[85%] leading-relaxed ${
+                  className={`rounded-[2rem] p-5 text-base max-w-[85%] leading-relaxed shadow-sm border-2 border-white ${
                     message.role === "user"
-                      ? "bg-primary text-primary-foreground shadow-lg"
-                      : "bg-card/60 backdrop-blur-sm border border-border/50"
+                      ? "bg-primary/80 text-primary-foreground"
+                      : "bg-white/60 backdrop-blur-md"
                   }`}
                 >
                   {message.content.split('\n').map((line: string, index: number) => (
@@ -169,38 +170,38 @@ export default function GrowPage() {
                   ))}
                 </div>
                 {message.role === "user" && (
-                  <Avatar className="h-9 w-9 border border-primary/50">
+                  <Avatar className="h-10 w-10 border-2 border-white shadow-md">
                      <AvatarImage src={user?.photoURL ?? `https://picsum.photos/seed/${user?.uid}/40/40`} />
-                    <AvatarFallback>{user?.displayName?.[0]}</AvatarFallback>
+                    <AvatarFallback className="bg-primary/20 text-primary">{user?.displayName?.[0]}</AvatarFallback>
                   </Avatar>
                 )}
               </div>
             ))}
              {isLoading && (
               <div className="flex items-start gap-4 animate-in fade-in duration-300">
-                <div className="size-9 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20 animate-pulse">
-                  <Sparkles className="h-5 w-5 text-primary" />
+                <div className="size-10 rounded-2xl bg-primary/20 flex items-center justify-center border-2 border-white shadow-md animate-pulse">
+                  <Sparkles className="h-6 w-6 text-primary" />
                 </div>
-                <div className="rounded-2xl p-4 bg-card/60 border border-border/50 w-full max-w-[80%] space-y-2">
-                  <Skeleton className="h-4 w-1/4 bg-white/5" />
-                  <Skeleton className="h-4 w-full bg-white/5" />
-                  <Skeleton className="h-4 w-3/4 bg-white/5" />
+                <div className="rounded-[2rem] p-6 bg-white/60 border-2 border-white w-full max-w-[80%] space-y-3">
+                  <Skeleton className="h-4 w-1/4" />
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-3/4" />
                 </div>
               </div>
             )}
           </div>
         </ScrollArea>
         
-        <div className="p-6 bg-black/40 backdrop-blur-xl border-t border-border/50 animate-in slide-in-from-bottom-8 duration-700">
+        <div className="p-6 bg-white/40 backdrop-blur-xl border-t border-white/60 animate-in slide-in-from-bottom-8 duration-700">
           <form
             onSubmit={handleSendMessage}
-            className="relative overflow-hidden rounded-2xl border border-border/50 max-w-3xl mx-auto shadow-2xl bg-black/60"
+            className="relative overflow-hidden rounded-[2.5rem] border-4 border-white max-w-3xl mx-auto shadow-2xl bg-white/60"
           >
             <Label htmlFor="message" className="sr-only">Message</Label>
             <Textarea
               id="message"
               placeholder="Reflect with Salus..."
-              className="min-h-14 resize-none border-0 p-4 shadow-none focus-visible:ring-0 text-base bg-transparent"
+              className="min-h-16 resize-none border-0 p-5 shadow-none focus-visible:ring-0 text-lg bg-transparent"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
@@ -211,15 +212,15 @@ export default function GrowPage() {
               }}
               disabled={isLoading || !user}
             />
-            <div className="flex items-center p-3 pt-0">
-              <Button type="submit" size="sm" className="ml-auto gap-2 rounded-xl" disabled={isLoading || !user || !input.trim()}>
+            <div className="flex items-center p-4 pt-0">
+              <Button type="submit" size="lg" className="ml-auto gap-2 rounded-[1.5rem] clay-btn" disabled={isLoading || !user || !input.trim()}>
                 Reflect
-                <CornerDownLeft className="size-3.5" />
+                <CornerDownLeft className="size-4" />
               </Button>
             </div>
           </form>
-          <p className="text-[10px] text-center text-muted-foreground mt-3 uppercase tracking-widest font-bold">
-            All reflections are private and stored securely.
+          <p className="text-[10px] text-center text-muted-foreground mt-4 uppercase tracking-[0.2em] font-bold">
+            All reflections are private and stored securely in your sanctuary.
           </p>
         </div>
       </div>
