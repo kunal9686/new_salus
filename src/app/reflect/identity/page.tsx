@@ -1,4 +1,3 @@
-
 "use client";
 
 import { DashboardLayout } from "@/components/dashboard-layout";
@@ -49,7 +48,7 @@ export default function IdentityPage() {
 
   return (
     <DashboardLayout pageTitle="Identity Reflection">
-      <AmbientPlayer url="https://cdn.pixabay.com/audio/2022/01/18/audio_d0a13f69d2.mp3" />
+      <AmbientPlayer url="https://cdn.pixabay.com/audio/2023/10/26/audio_4474726a57.mp3" />
       <div className="p-6 lg:p-10 space-y-10 min-h-full animate-in fade-in duration-700">
         <div className="max-w-3xl mx-auto space-y-12">
           <div className="space-y-4 text-center">
