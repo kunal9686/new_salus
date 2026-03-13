@@ -20,7 +20,7 @@
     --accent-foreground: 0 0% 20%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 0% / 0.15;
+    --border: 0 0% 100% / 0.6; /* Pronounced White Borders */
     --input: 48 20% 95%;
     --ring: 3 100% 80%;
     --radius: 2rem;
@@ -52,7 +52,7 @@
 }
 
 .clay-card {
-  @apply bg-white/60 rounded-[2.5rem] shadow-[10px_10px_20px_rgba(0,0,0,0.05),-5px_-5px_15px_rgba(255,255,255,0.8)] border border-white/40 transition-all duration-300;
+  @apply bg-white/60 rounded-[2.5rem] shadow-[10px_10px_20px_rgba(0,0,0,0.05),-5px_-5px_15px_rgba(255,255,255,0.8)] border border-white/60 transition-all duration-300;
 }
 
 .clay-btn {
