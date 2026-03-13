@@ -1,4 +1,3 @@
-
 "use client";
 
 import { DashboardLayout } from "@/components/dashboard-layout";
@@ -53,53 +52,53 @@ export default function JournalPage() {
 
   return (
     <DashboardLayout pageTitle="Journal">
-      <div className="flex-1 space-y-12 p-6 md:p-10 animate-in fade-in duration-700">
+      <div className="flex-1 space-y-10 p-6 md:p-10 animate-in fade-in duration-700">
         <Card className="clay-card max-w-4xl mx-auto animate-in slide-in-from-top-6 duration-700">
-          <CardHeader className="p-10 pb-4">
-            <CardTitle className="font-headline text-4xl flex items-center gap-4">
-              <div className="p-3 rounded-2xl bg-primary/20 border-2 border-white"><PenLine className="size-8" /></div>
+          <CardHeader className="p-8 pb-4">
+            <CardTitle className="font-headline text-3xl flex items-center gap-3">
+              <div className="p-2 rounded-xl bg-primary/20 border-2 border-white"><PenLine className="size-6" /></div>
               New Entry
             </CardTitle>
-            <CardDescription className="text-xl font-medium italic">
+            <CardDescription className="text-lg font-medium italic">
               What&apos;s on your mind today?
             </CardDescription>
           </CardHeader>
-          <CardContent className="p-10 pt-0">
+          <CardContent className="p-8 pt-0">
             <Textarea
               placeholder="Reflect on your day, your feelings, and your experiences..."
-              className="min-h-[250px] bg-white/40 border-2 border-white rounded-[3rem] p-8 text-xl focus-visible:ring-primary/30"
+              className="min-h-[200px] bg-white/40 border-2 border-white rounded-[2.5rem] p-6 text-lg focus-visible:ring-primary/30"
               value={newEntry}
               onChange={(e) => setNewEntry(e.target.value)}
             />
           </CardContent>
-          <CardFooter className="p-10 pt-0">
-            <Button onClick={handleSaveEntry} size="lg" className="w-full h-16 text-2xl font-headline clay-btn" disabled={!newEntry.trim() || !user}>Save Entry</Button>
+          <CardFooter className="p-8 pt-0">
+            <Button onClick={handleSaveEntry} size="lg" className="w-full h-14 text-xl font-headline clay-btn" disabled={!newEntry.trim() || !user}>Save Entry</Button>
           </CardFooter>
         </Card>
 
-        <div className="space-y-8 max-w-6xl mx-auto">
-          <div className="flex items-center gap-4 animate-in fade-in duration-700 delay-300">
-            <div className="p-2 rounded-xl bg-accent/20 border-2 border-white"><History className="size-6 text-accent-foreground" /></div>
-            <h2 className="text-3xl font-bold tracking-tight font-headline">Past Entries</h2>
+        <div className="space-y-6 max-w-6xl mx-auto">
+          <div className="flex items-center gap-3 animate-in fade-in duration-700 delay-300">
+            <div className="p-2 rounded-xl bg-accent/20 border-2 border-white"><History className="size-5 text-accent-foreground" /></div>
+            <h2 className="text-2xl font-bold tracking-tight font-headline">Past Entries</h2>
           </div>
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {isLoading && Array.from({ length: 3 }).map((_, index) => (
-              <Card key={index} className="clay-card p-10 animate-pulse">
-                <Skeleton className="h-6 w-3/4 mb-6" />
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-2/3" />
+              <Card key={index} className="clay-card p-8 animate-pulse">
+                <Skeleton className="h-5 w-3/4 mb-4" />
+                <Skeleton className="h-3 w-full mb-2" />
+                <Skeleton className="h-3 w-full mb-2" />
+                <Skeleton className="h-3 w-2/3" />
               </Card>
             ))}
             {journalEntries?.map((entry, idx) => (
               <Card key={entry.id} className="clay-card group animate-in slide-in-from-bottom-6 duration-500" style={{ animationDelay: `${400 + (idx * 100)}ms` }}>
-                <CardHeader className="p-8 pb-4">
-                  <CardTitle className="text-xl font-headline text-primary">
+                <CardHeader className="p-6 pb-2">
+                  <CardTitle className="text-lg font-headline text-primary">
                      {entry.timestamp ? format((entry.timestamp as any).toDate(), 'MMMM dd, yyyy') : "Just now"}
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="p-8 pt-0">
-                  <p className="text-muted-foreground text-lg font-medium line-clamp-6 leading-relaxed">"{entry.content}"</p>
+                <CardContent className="p-6 pt-0">
+                  <p className="text-muted-foreground text-base font-medium line-clamp-6 leading-relaxed">"{entry.content}"</p>
                 </CardContent>
               </Card>
             ))}

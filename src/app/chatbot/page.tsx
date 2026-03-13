@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -139,11 +138,11 @@ export default function ChatbotPage() {
     <DashboardLayout pageTitle="Wellness Chatbot">
       <div className="flex flex-col h-[calc(100vh-5rem)] bg-transparent">
         <ScrollArea className="flex-1 p-6" ref={scrollAreaRef}>
-          <div className="space-y-8 max-w-3xl mx-auto">
+          <div className="space-y-6 max-w-3xl mx-auto">
             {!isLoadingMessages && !messages?.length && (
                <div className="flex items-start gap-4 animate-in fade-in duration-700">
-                  <Avatar className="h-10 w-10 border-2 border-white"><AvatarFallback className="bg-primary/20 text-primary">A</AvatarFallback></Avatar>
-                  <div className="rounded-[2rem] p-5 text-base bg-white/60 border-2 border-white shadow-sm font-medium">
+                  <Avatar className="h-9 w-9 border-2 border-white"><AvatarFallback className="bg-primary/20 text-primary">A</AvatarFallback></Avatar>
+                  <div className="rounded-[1.5rem] p-4 text-sm bg-white/60 border-2 border-white shadow-sm font-medium">
                     <p>Hello! I&apos;m your personal wellness assistant. How can I help you on your journey today?</p>
                   </div>
               </div>
@@ -157,35 +156,35 @@ export default function ChatbotPage() {
                 style={{ animationDelay: `${idx * 50}ms` }}
               >
                 {message.role === "assistant" && (
-                  <Avatar className="h-10 w-10 border-2 border-white">
+                  <Avatar className="h-9 w-9 border-2 border-white">
                     <AvatarFallback className="bg-primary/20 text-primary">A</AvatarFallback>
                   </Avatar>
                 )}
                 <div
-                  className={`rounded-[2rem] p-5 text-base max-w-[80%] border-2 border-white shadow-sm leading-relaxed relative group ${
+                  className={`rounded-[1.5rem] p-4 text-sm max-w-[80%] border-2 border-white shadow-sm leading-relaxed relative group ${
                     message.role === "user"
                       ? "bg-primary text-primary-foreground"
                       : "bg-white/60 backdrop-blur-md"
                   }`}
                 >
                   {message.content.split('\n').map((line, index) => (
-                    <p key={index} className={line.startsWith('*') ? 'font-bold mt-2' : ''}>{line}</p>
+                    <p key={index} className={line.startsWith('*') ? 'font-bold mt-1' : ''}>{line}</p>
                   ))}
                   
                   {message.role === "assistant" && (
                     <Button 
                       variant="ghost" 
                       size="icon" 
-                      className="absolute -right-12 top-0 opacity-0 group-hover:opacity-100 transition-opacity rounded-full bg-white/40 border-2 border-white"
+                      className="absolute -right-10 top-0 opacity-0 group-hover:opacity-100 transition-opacity rounded-full bg-white/40 border-2 border-white h-8 w-8"
                       onClick={() => handleReadAloud(message.id, message.content)}
                       disabled={!!playingAudioId}
                     >
-                      {playingAudioId === message.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Volume2 className="h-4 w-4" />}
+                      {playingAudioId === message.id ? <Loader2 className="h-3 w-3 animate-spin" /> : <Volume2 className="h-3 w-3" />}
                     </Button>
                   )}
                 </div>
                 {message.role === "user" && (
-                  <Avatar className="h-10 w-10 border-2 border-white shadow-md">
+                  <Avatar className="h-9 w-9 border-2 border-white shadow-md">
                      <AvatarImage src={user?.photoURL ?? `https://picsum.photos/seed/${user?.uid}/40/40`} alt={user?.displayName ?? "user"} />
                     <AvatarFallback className="bg-primary/20 text-primary">{user?.displayName?.[0].toUpperCase() ?? 'U'}</AvatarFallback>
                   </Avatar>
@@ -194,22 +193,22 @@ export default function ChatbotPage() {
             ))}
              {isLoading && (
               <div className="flex items-start gap-4 animate-in fade-in duration-300">
-                <Avatar className="h-10 w-10 border-2 border-white">
+                <Avatar className="h-9 w-9 border-2 border-white">
                   <AvatarFallback className="bg-primary/20 text-primary">A</AvatarFallback>
                 </Avatar>
-                <div className="rounded-[2rem] p-6 bg-white/60 border-2 border-white w-full max-w-[80%] space-y-3">
-                  <Skeleton className="h-4 w-1/4" />
-                  <Skeleton className="h-4 w-full" />
-                  <Skeleton className="h-4 w-3/4" />
+                <div className="rounded-[1.5rem] p-5 bg-white/60 border-2 border-white w-full max-w-[80%] space-y-2">
+                  <Skeleton className="h-3 w-1/4" />
+                  <Skeleton className="h-3 w-full" />
+                  <Skeleton className="h-3 w-3/4" />
                 </div>
               </div>
             )}
           </div>
         </ScrollArea>
-        <div className="p-6 bg-white/40 backdrop-blur-xl border-t border-white/60">
+        <div className="p-4 bg-white/40 backdrop-blur-xl border-t border-white/60">
           <form
             onSubmit={handleSendMessage}
-            className="relative overflow-hidden rounded-[2.5rem] border-4 border-white max-w-3xl mx-auto shadow-2xl bg-white/60"
+            className="relative overflow-hidden rounded-[2rem] border-4 border-white max-w-3xl mx-auto shadow-xl bg-white/60"
           >
             <Label htmlFor="message" className="sr-only">
               Message
@@ -217,7 +216,7 @@ export default function ChatbotPage() {
             <Textarea
               id="message"
               placeholder="Type your message here..."
-              className="min-h-14 resize-none border-0 p-5 shadow-none focus-visible:ring-0 text-lg bg-transparent"
+              className="min-h-12 resize-none border-0 p-4 shadow-none focus-visible:ring-0 text-base bg-transparent"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
@@ -228,10 +227,10 @@ export default function ChatbotPage() {
               }}
               disabled={isLoading || !user}
             />
-            <div className="flex items-center p-4 pt-0">
-              <Button type="submit" size="lg" className="ml-auto gap-2 rounded-[1.5rem] clay-btn" disabled={isLoading || !user || !input.trim()}>
+            <div className="flex items-center p-3 pt-0">
+              <Button type="submit" size="sm" className="ml-auto gap-2 rounded-[1rem] clay-btn" disabled={isLoading || !user || !input.trim()}>
                 Send
-                <CornerDownLeft className="size-4" />
+                <CornerDownLeft className="size-3" />
               </Button>
             </div>
           </form>

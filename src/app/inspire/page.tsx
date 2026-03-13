@@ -41,76 +41,76 @@ export default function InspirePage() {
 
   return (
     <DashboardLayout pageTitle="Inspire">
-      <div className="p-6 lg:p-10 space-y-8 bg-transparent min-h-full animate-in fade-in duration-700">
+      <div className="p-6 lg:p-10 space-y-6 bg-transparent min-h-full animate-in fade-in duration-700">
         {selectedStory ? (
-          <div className="max-w-4xl mx-auto space-y-12 animate-in fade-in slide-in-from-right-4 duration-500">
+          <div className="max-w-4xl mx-auto space-y-10 animate-in fade-in slide-in-from-right-4 duration-500">
             <Button 
               variant="ghost" 
               onClick={() => setSelectedStory(null)} 
-              className="mb-4 hover:bg-primary/10 hover:text-primary text-muted-foreground transition-all rounded-full px-6"
+              className="mb-2 hover:bg-primary/10 hover:text-primary text-muted-foreground transition-all rounded-full px-5"
             >
               <ChevronRight className="rotate-180 mr-2 h-4 w-4" /> Back to Stories
             </Button>
             
-            <div className="space-y-10 animate-in slide-in-from-bottom-8 duration-700">
-              <div className="space-y-4">
-                <Badge variant="outline" className="px-4 py-1.5 border-primary text-primary font-bold uppercase tracking-widest text-[12px] rounded-full bg-white">
+            <div className="space-y-8 animate-in slide-in-from-bottom-6 duration-700">
+              <div className="space-y-3">
+                <Badge variant="outline" className="px-3 py-1 border-primary text-primary font-bold uppercase tracking-widest text-[10px] rounded-full bg-white">
                   {selectedStory.category}
                 </Badge>
-                <h2 className="text-5xl md:text-6xl font-headline font-bold tracking-tight text-foreground leading-tight">
+                <h2 className="text-4xl md:text-5xl font-headline font-bold tracking-tight text-foreground leading-tight">
                   {selectedStory.title}
                 </h2>
               </div>
               
-              <div className="grid gap-8 md:grid-cols-2">
-                <div className="space-y-4 p-8 clay-card animate-in fade-in duration-1000 delay-100">
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-3">
-                    <History className="size-5 text-primary" /> The Background
+              <div className="grid gap-6 md:grid-cols-2">
+                <div className="space-y-3 p-6 clay-card animate-in fade-in duration-1000 delay-100">
+                  <h3 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                    <History className="size-4 text-primary" /> The Background
                   </h3>
-                  <p className="text-foreground leading-relaxed text-xl font-medium">{selectedStory.background}</p>
+                  <p className="text-foreground leading-relaxed text-lg font-medium">{selectedStory.background}</p>
                 </div>
-                <div className="space-y-4 p-8 clay-card animate-in fade-in duration-1000 delay-200">
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-3">
-                    <Target className="size-5 text-destructive" /> The Struggle
+                <div className="space-y-3 p-6 clay-card animate-in fade-in duration-1000 delay-200">
+                  <h3 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                    <Target className="size-4 text-destructive" /> The Struggle
                   </h3>
-                  <p className="text-foreground leading-relaxed text-xl font-medium">{selectedStory.struggle}</p>
+                  <p className="text-foreground leading-relaxed text-lg font-medium">{selectedStory.struggle}</p>
                 </div>
               </div>
 
               <Card className="clay-card border-l-8 border-l-secondary overflow-hidden animate-in zoom-in-95 duration-700 delay-300">
-                <CardHeader className="p-10 pb-0">
-                  <CardTitle className="font-headline text-3xl flex items-center gap-3 text-secondary-foreground">
-                    <Sparkles className="h-7 w-7" /> The Turning Point
+                <CardHeader className="p-8 pb-0">
+                  <CardTitle className="font-headline text-2xl flex items-center gap-2 text-secondary-foreground">
+                    <Sparkles className="h-6 w-6" /> The Turning Point
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="p-10 pt-6 space-y-6">
-                  <p className="text-2xl leading-relaxed text-foreground italic font-headline">"{selectedStory.breakingPoint}"</p>
+                <CardContent className="p-8 pt-4 space-y-4">
+                  <p className="text-xl leading-relaxed text-foreground italic font-headline">"{selectedStory.breakingPoint}"</p>
                   <div className="h-px bg-white/60 w-full" />
-                  <p className="text-xl leading-relaxed text-muted-foreground">{selectedStory.turningPoint}</p>
+                  <p className="text-lg leading-relaxed text-muted-foreground">{selectedStory.turningPoint}</p>
                 </CardContent>
               </Card>
 
-              <div className="space-y-8 pt-8 animate-in slide-in-from-left-4 duration-700 delay-400">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-3">
-                   <BookOpen className="size-5 text-accent-foreground" /> The Lesson
+              <div className="space-y-6 pt-6 animate-in slide-in-from-left-4 duration-700 delay-400">
+                <h3 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                   <BookOpen className="size-4 text-accent-foreground" /> The Lesson
                 </h3>
-                <blockquote className="text-4xl font-headline font-medium italic border-l-[10px] pl-10 py-6 border-primary text-foreground leading-snug glass rounded-r-[3rem]">
+                <blockquote className="text-3xl font-headline font-medium italic border-l-[8px] pl-8 py-5 border-primary text-foreground leading-snug glass rounded-r-[2.5rem]">
                   "{selectedStory.lessons}"
                 </blockquote>
               </div>
 
-              <Card className="clay-card mt-16 animate-in slide-in-from-bottom-10 duration-700 delay-500 overflow-hidden">
-                <CardHeader className="p-12 text-center space-y-6">
-                  <div className="size-20 rounded-[2.5rem] bg-primary/20 flex items-center justify-center mx-auto border-2 border-white shadow-xl">
-                    <PenLine className="h-10 w-10 text-primary" />
+              <Card className="clay-card mt-12 animate-in slide-in-from-bottom-8 duration-700 delay-500 overflow-hidden">
+                <CardHeader className="p-10 text-center space-y-4">
+                  <div className="size-16 rounded-[2rem] bg-primary/20 flex items-center justify-center mx-auto border-2 border-white shadow-lg">
+                    <PenLine className="h-8 w-8 text-primary" />
                   </div>
-                  <CardTitle className="font-headline text-4xl">Reflect on this Story</CardTitle>
-                  <CardDescription className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                  <CardTitle className="font-headline text-3xl">Reflect on this Story</CardTitle>
+                  <CardDescription className="text-lg text-muted-foreground max-w-xl mx-auto">
                     {selectedStory.reflectionPrompt}
                   </CardDescription>
                 </CardHeader>
-                <CardFooter className="p-12 pt-0">
-                  <Button asChild className="w-full h-20 text-2xl font-headline clay-btn">
+                <CardFooter className="p-10 pt-0">
+                  <Button asChild className="w-full h-16 text-xl font-headline clay-btn">
                     <Link href="/journal">Begin Your Reflection</Link>
                   </Button>
                 </CardFooter>
@@ -118,36 +118,36 @@ export default function InspirePage() {
             </div>
           </div>
         ) : (
-          <div className="max-w-7xl mx-auto space-y-16 py-12 animate-in fade-in duration-1000">
-            <div className="space-y-6 text-center animate-in slide-in-from-top-10 duration-1000">
-              <h2 className="text-6xl md:text-8xl font-headline font-bold text-foreground tracking-tighter">Inspire</h2>
-              <p className="text-primary text-2xl md:text-3xl font-headline italic">"Resilience is the beauty of a soul that has been tested."</p>
+          <div className="max-w-7xl mx-auto space-y-12 py-8 animate-in fade-in duration-1000">
+            <div className="space-y-4 text-center animate-in slide-in-from-top-10 duration-1000">
+              <h2 className="text-5xl md:text-7xl font-headline font-bold text-foreground tracking-tighter">Inspire</h2>
+              <p className="text-primary text-xl md:text-2xl font-headline italic">"Resilience is the beauty of a soul that has been tested."</p>
             </div>
 
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {stories.map((story, idx) => (
                 <Card 
                   key={story.id} 
-                  className={`clay-card group relative overflow-hidden cursor-pointer hover:scale-[1.03] animate-in slide-in-from-bottom-10 duration-700`}
+                  className={`clay-card group relative overflow-hidden cursor-pointer hover:scale-[1.02] animate-in slide-in-from-bottom-10 duration-700`}
                   style={{ animationDelay: `${idx * 40}ms` }}
                   onClick={() => setSelectedStory(story)}
                 >
-                  <CardHeader className="relative z-10 p-10">
-                    <Badge className="w-fit mb-6 bg-accent/30 text-accent-foreground border-white rounded-full px-4 py-1">
+                  <CardHeader className="relative z-10 p-8">
+                    <Badge className="w-fit mb-4 bg-accent/30 text-accent-foreground border-white rounded-full px-3 py-0.5 text-[10px]">
                       {story.category}
                     </Badge>
-                    <CardTitle className="font-headline text-3xl leading-tight group-hover:text-primary transition-colors">
+                    <CardTitle className="font-headline text-2xl leading-tight group-hover:text-primary transition-colors">
                       {story.title}
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="relative z-10 p-10 pt-0">
-                    <p className="text-muted-foreground text-lg line-clamp-3 leading-relaxed font-medium">
+                  <CardContent className="relative z-10 p-8 pt-0">
+                    <p className="text-muted-foreground text-base line-clamp-3 leading-relaxed font-medium">
                       {story.background}
                     </p>
                   </CardContent>
-                  <CardFooter className="relative z-10 p-10 pt-0 flex justify-between items-center mt-auto border-t border-white/60 group-hover:bg-primary/5 transition-colors">
-                    <span className="text-[12px] font-bold uppercase tracking-[0.2em] text-muted-foreground group-hover:text-primary transition-colors">Read Resilience Story</span>
-                    <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-all group-hover:translate-x-3" />
+                  <CardFooter className="relative z-10 p-8 pt-0 flex justify-between items-center mt-auto border-t border-white/60 group-hover:bg-primary/5 transition-colors">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground group-hover:text-primary transition-colors">Read Resilience Story</span>
+                    <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-all group-hover:translate-x-2" />
                   </CardFooter>
                 </Card>
               ))}

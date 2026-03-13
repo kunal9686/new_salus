@@ -1,4 +1,3 @@
-
 "use client";
 
 import { DashboardLayout } from "@/components/dashboard-layout";
@@ -74,36 +73,36 @@ const modules = [
 export default function ReflectHub() {
   return (
     <DashboardLayout pageTitle="Reflect">
-      <div className="p-6 lg:p-10 space-y-10 min-h-full animate-in fade-in duration-700">
-        <div className="max-w-4xl mx-auto space-y-8">
-          <div className="text-center space-y-3 animate-in slide-in-from-top-4 duration-700">
-            <h2 className="text-4xl font-headline font-bold tracking-tight text-foreground">How will you look within?</h2>
-            <p className="text-muted-foreground text-lg max-w-xl mx-auto font-medium">
+      <div className="p-6 lg:p-10 space-y-8 min-h-full animate-in fade-in duration-700">
+        <div className="max-w-4xl mx-auto space-y-6">
+          <div className="text-center space-y-2 animate-in slide-in-from-top-4 duration-700">
+            <h2 className="text-3xl font-headline font-bold tracking-tight text-foreground">How will you look within?</h2>
+            <p className="text-muted-foreground text-base max-w-lg mx-auto font-medium">
               Choose a framework to guide your introspection or express yourself freely.
             </p>
           </div>
 
-          <div className="grid gap-8 md:grid-cols-2">
+          <div className="grid gap-6 md:grid-cols-2">
             {modules.map((m, idx) => (
               <Link key={m.id} href={m.href} className="group animate-in fade-in slide-in-from-bottom-4 duration-500" style={{ animationDelay: `${idx * 100}ms` }}>
-                <Card className="clay-card h-full group-hover:scale-[1.03] cursor-pointer relative overflow-hidden">
-                  <div className={`absolute top-0 right-0 p-8 ${m.color} opacity-5 group-hover:opacity-10 transition-opacity`}>
-                    <m.icon className="h-24 w-24" />
+                <Card className="clay-card h-full group-hover:scale-[1.02] cursor-pointer relative overflow-hidden">
+                  <div className={`absolute top-0 right-0 p-6 ${m.color} opacity-5 group-hover:opacity-10 transition-opacity`}>
+                    <m.icon className="h-20 w-20" />
                   </div>
-                  <CardHeader className="flex flex-row items-center gap-5 p-8 pb-4">
-                    <div className={`p-4 rounded-[1.5rem] ${m.bg} border-2 border-white shadow-sm`}>
-                      <m.icon className={`h-7 w-7 ${m.color}`} />
+                  <CardHeader className="flex flex-row items-center gap-4 p-6 pb-2">
+                    <div className={`p-3 rounded-[1.25rem] ${m.bg} border-2 border-white shadow-sm`}>
+                      <m.icon className={`h-6 w-6 ${m.color}`} />
                     </div>
                     <div className="space-y-1">
-                      <CardTitle className="font-headline text-2xl text-foreground">{m.title}</CardTitle>
+                      <CardTitle className="font-headline text-xl text-foreground">{m.title}</CardTitle>
                     </div>
                   </CardHeader>
-                  <CardContent className="p-8 pt-0 flex justify-between items-end">
-                    <p className="text-muted-foreground text-base max-w-[240px] leading-relaxed font-medium">
+                  <CardContent className="p-6 pt-0 flex justify-between items-end">
+                    <p className="text-muted-foreground text-sm max-w-[200px] leading-relaxed font-medium">
                       {m.desc}
                     </p>
-                    <div className={`p-3 rounded-full border-2 border-white bg-white/40 shadow-sm group-hover:bg-primary/10 transition-all`}>
-                      <ChevronRight className={`h-5 w-5 ${m.color}`} />
+                    <div className={`p-2 rounded-full border-2 border-white bg-white/40 shadow-sm group-hover:bg-primary/10 transition-all`}>
+                      <ChevronRight className={`h-4 w-4 ${m.color}`} />
                     </div>
                   </CardContent>
                 </Card>
