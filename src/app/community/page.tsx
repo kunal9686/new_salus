@@ -16,7 +16,7 @@ import { MessageSquare, ThumbsUp } from "lucide-react";
 import { useUser, useFirestore, useMemoFirebase } from "@/firebase/provider";
 import { useCollection } from "@/firebase/firestore/use-collection";
 import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
-import { collection, orderBy, query, serverTimestamp } from "firebase/firestore";
+import { collection, orderBy, query, serverTimestamp, limit } from "firebase/firestore";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Dialog,
@@ -46,7 +46,7 @@ export default function CommunityPage() {
   const postsQuery = useMemoFirebase(() => {
     if (!firestore) return null;
     const postsRef = collection(firestore, "communityPosts");
-    return query(postsRef, orderBy("postDate", "desc"));
+    return query(postsRef, orderBy("timestamp", "desc"), limit(50));
   }, [firestore]);
 
   const { data: threads, isLoading } = useCollection(postsQuery);
@@ -60,7 +60,7 @@ export default function CommunityPage() {
       category: newThreadCategory,
       authorName: user.displayName,
       userId: user.uid,
-      postDate: serverTimestamp(),
+      timestamp: serverTimestamp(),
       likes: 0,
       replies: 0,
     });

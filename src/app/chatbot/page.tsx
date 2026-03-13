@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { CornerDownLeft } from "lucide-react";
+import { CornerDownLeft, Volume2, Loader2 } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -10,13 +10,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { chatbotPersonalizedGuidance } from "@/ai/flows/chatbot-personalized-guidance";
+import { textToSpeech } from "@/ai/flows/text-to-speech";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useUser } from "@/firebase/provider";
-import { useFirestore } from "@/firebase/provider";
-import { useCollection } from "@/firebase/firestore/use-collection";
+import { useUser, useFirestore, useMemoFirebase } from "@/firebase/provider";
+import { collection, doc, serverTimestamp, query, orderBy, getDocs, getDoc, limit } from "firebase/firestore";
 import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
-import { collection, doc, serverTimestamp, query, orderBy, getDocs, getDoc } from "firebase/firestore";
-import { useMemoFirebase } from "@/firebase/provider";
+import { useCollection } from "@/firebase/firestore/use-collection";
 
 interface Message {
   id: string;
@@ -30,9 +29,9 @@ export default function ChatbotPage() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [sessionId, setSessionId] = useState<string | null>(null);
+  const [playingAudioId, setPlayingAudioId] = useState<string | null>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
-  // Create a new chat session when the user is available
   useEffect(() => {
     if (user && firestore && !sessionId) {
       const sessionsRef = collection(firestore, "users", user.uid, "chatbotSessions");
@@ -50,7 +49,7 @@ export default function ChatbotPage() {
   const messagesQuery = useMemoFirebase(() => {
     if (!user || !firestore || !sessionId) return null;
     const messagesRef = collection(firestore, "users", user.uid, "chatbotSessions", sessionId, "chatMessages");
-    return query(messagesRef, orderBy("messageTime"));
+    return query(messagesRef, orderBy("timestamp"), limit(50));
   }, [user, firestore, sessionId]);
 
   const { data: messages, isLoading: isLoadingMessages } = useCollection<Omit<Message, 'id'>>(messagesQuery);
@@ -77,24 +76,21 @@ export default function ChatbotPage() {
     const userInput = input;
     setInput("");
     
-    // Save user message
     addDocumentNonBlocking(messagesRef, {
       role: 'user',
       content: userInput,
-      messageTime: serverTimestamp(),
+      timestamp: serverTimestamp(),
     });
     
     setIsLoading(true);
-    scrollToBottom();
 
     try {
-      // Fetch profile and journal for context
       const userRef = doc(firestore, "users", user.uid);
       const journalRef = collection(firestore, "users", user.uid, "journalEntries");
       
       const [userDocSnap, journalSnapshot] = await Promise.all([
         getDoc(userRef),
-        getDocs(query(journalRef, orderBy("entryDate", "desc"))),
+        getDocs(query(journalRef, orderBy("timestamp", "desc"), limit(10))),
       ]);
       
       const profileData = userDocSnap.data() ?? {};
@@ -108,22 +104,34 @@ export default function ChatbotPage() {
         query: userInput,
       });
 
-      // Save assistant message
       addDocumentNonBlocking(messagesRef, {
         role: 'assistant',
         content: response.guidance,
-        messageTime: serverTimestamp(),
+        timestamp: serverTimestamp(),
       });
 
     } catch (error) {
       addDocumentNonBlocking(messagesRef, {
         role: 'assistant',
         content: "I'm sorry, I'm having trouble connecting right now. Please try again later.",
-        messageTime: serverTimestamp(),
+        timestamp: serverTimestamp(),
       });
     } finally {
       setIsLoading(false);
-      scrollToBottom();
+    }
+  };
+
+  const handleReadAloud = async (messageId: string, text: string) => {
+    if (playingAudioId) return;
+    setPlayingAudioId(messageId);
+    try {
+      const { audioUri } = await textToSpeech({ text });
+      const audio = new Audio(audioUri);
+      audio.onended = () => setPlayingAudioId(null);
+      audio.play();
+    } catch (error) {
+      console.error("TTS failed:", error);
+      setPlayingAudioId(null);
     }
   };
 
@@ -154,7 +162,7 @@ export default function ChatbotPage() {
                   </Avatar>
                 )}
                 <div
-                  className={`rounded-[2rem] p-5 text-base max-w-[80%] border-2 border-white shadow-sm leading-relaxed ${
+                  className={`rounded-[2rem] p-5 text-base max-w-[80%] border-2 border-white shadow-sm leading-relaxed relative group ${
                     message.role === "user"
                       ? "bg-primary text-primary-foreground"
                       : "bg-white/60 backdrop-blur-md"
@@ -163,6 +171,18 @@ export default function ChatbotPage() {
                   {message.content.split('\n').map((line, index) => (
                     <p key={index} className={line.startsWith('*') ? 'font-bold mt-2' : ''}>{line}</p>
                   ))}
+                  
+                  {message.role === "assistant" && (
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="absolute -right-12 top-0 opacity-0 group-hover:opacity-100 transition-opacity rounded-full bg-white/40 border-2 border-white"
+                      onClick={() => handleReadAloud(message.id, message.content)}
+                      disabled={!!playingAudioId}
+                    >
+                      {playingAudioId === message.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Volume2 className="h-4 w-4" />}
+                    </Button>
+                  )}
                 </div>
                 {message.role === "user" && (
                   <Avatar className="h-10 w-10 border-2 border-white shadow-md">

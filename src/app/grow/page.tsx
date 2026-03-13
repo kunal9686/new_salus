@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { CornerDownLeft, Sparkles, BrainCircuit, Wind, PenLine, Mic, Square, Loader2, Activity } from "lucide-react";
+import { CornerDownLeft, Sparkles, BrainCircuit, Wind, Mic, Square, Loader2, Activity, Volume2 } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -10,12 +10,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { chatbotPersonalizedGuidance } from "@/ai/flows/chatbot-personalized-guidance";
-import { analyzeVoiceEmotion, type AnalyzeVoiceEmotionOutput } from "@/ai/flows/analyze-voice-emotion";
+import { analyzeVoiceEmotion } from "@/ai/flows/analyze-voice-emotion";
+import { textToSpeech } from "@/ai/flows/text-to-speech";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useUser, useFirestore, useMemoFirebase } from "@/firebase/provider";
-import { collection, query, orderBy, getDocs, getDoc, doc, serverTimestamp } from "firebase/firestore";
+import { collection, query, orderBy, getDocs, getDoc, doc, serverTimestamp, limit } from "firebase/firestore";
 import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { useCollection } from "@/firebase/firestore/use-collection";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
@@ -28,6 +29,7 @@ export default function GrowPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [sessionId, setSessionId] = useState<string | null>(null);
+  const [playingAudioId, setPlayingAudioId] = useState<string | null>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
@@ -49,7 +51,7 @@ export default function GrowPage() {
   const messagesQuery = useMemoFirebase(() => {
     if (!user || !firestore || !sessionId) return null;
     const messagesRef = collection(firestore, "users", user.uid, "chatbotSessions", sessionId, "chatMessages");
-    return query(messagesRef, orderBy("messageTime"));
+    return query(messagesRef, orderBy("timestamp"), limit(50));
   }, [user, firestore, sessionId]);
 
   const { data: messages, isLoading: isLoadingMessages } = useCollection(messagesQuery);
@@ -78,7 +80,7 @@ export default function GrowPage() {
     addDocumentNonBlocking(messagesRef, {
       role: 'user',
       content: userInput,
-      messageTime: serverTimestamp(),
+      timestamp: serverTimestamp(),
     });
     
     setIsLoading(true);
@@ -89,7 +91,7 @@ export default function GrowPage() {
       
       const [userDocSnap, journalSnapshot] = await Promise.all([
         getDoc(userRef),
-        getDocs(query(journalRef, orderBy("timestamp", "desc"))),
+        getDocs(query(journalRef, orderBy("timestamp", "desc"), limit(10))),
       ]);
       
       const profileData = userDocSnap.data() ?? {};
@@ -106,14 +108,14 @@ export default function GrowPage() {
       addDocumentNonBlocking(messagesRef, {
         role: 'assistant',
         content: response.guidance,
-        messageTime: serverTimestamp(),
+        timestamp: serverTimestamp(),
       });
 
     } catch (error) {
       addDocumentNonBlocking(messagesRef, {
         role: 'assistant',
         content: "I'm sorry, I'm having trouble connecting to your growth plan right now. Please try again soon.",
-        messageTime: serverTimestamp(),
+        timestamp: serverTimestamp(),
       });
     } finally {
       setIsLoading(false);
@@ -186,7 +188,7 @@ export default function GrowPage() {
       addDocumentNonBlocking(messagesRef, {
         role: 'assistant',
         content: content,
-        messageTime: serverTimestamp(),
+        timestamp: serverTimestamp(),
         isVoiceAnalysis: true,
       });
 
@@ -195,10 +197,24 @@ export default function GrowPage() {
       addDocumentNonBlocking(messagesRef, {
         role: 'assistant',
         content: "I couldn't quite catch the emotional tone of that recording. Could you try again or type your reflection?",
-        messageTime: serverTimestamp(),
+        timestamp: serverTimestamp(),
       });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleReadAloud = async (messageId: string, text: string) => {
+    if (playingAudioId) return;
+    setPlayingAudioId(messageId);
+    try {
+      const { audioUri } = await textToSpeech({ text });
+      const audio = new Audio(audioUri);
+      audio.onended = () => setPlayingAudioId(null);
+      audio.play();
+    } catch (error) {
+      console.error("TTS failed:", error);
+      setPlayingAudioId(null);
     }
   };
 
@@ -246,7 +262,7 @@ export default function GrowPage() {
                   </div>
                 )}
                 <div
-                  className={`rounded-[2.5rem] p-7 text-lg max-w-[85%] leading-relaxed shadow-sm border-4 border-white ${
+                  className={`rounded-[2.5rem] p-7 text-lg max-w-[85%] leading-relaxed shadow-sm border-4 border-white relative group ${
                     message.role === "user"
                       ? "bg-primary text-primary-foreground shadow-xl"
                       : message.isVoiceAnalysis 
@@ -263,6 +279,18 @@ export default function GrowPage() {
                      <div className="mt-6 pt-4 border-t border-secondary/20 flex gap-3">
                         <Badge variant="outline" className="rounded-full bg-white border-secondary text-secondary-foreground font-bold px-4">Voice Insight</Badge>
                      </div>
+                  )}
+
+                  {message.role === "assistant" && (
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="absolute -right-14 top-0 opacity-0 group-hover:opacity-100 transition-opacity rounded-full bg-white/40 border-2 border-white"
+                      onClick={() => handleReadAloud(message.id, message.content)}
+                      disabled={!!playingAudioId}
+                    >
+                      {playingAudioId === message.id ? <Loader2 className="h-5 w-5 animate-spin" /> : <Volume2 className="h-5 w-5" />}
+                    </Button>
                   )}
                 </div>
                 {message.role === "user" && (

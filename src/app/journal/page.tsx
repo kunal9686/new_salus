@@ -15,7 +15,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useUser, useFirestore, useMemoFirebase } from "@/firebase/provider";
 import { useCollection } from "@/firebase/firestore/use-collection";
 import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
-import { collection, orderBy, query, serverTimestamp } from "firebase/firestore";
+import { collection, orderBy, query, serverTimestamp, limit } from "firebase/firestore";
 import { useState } from "react";
 import { format } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -31,7 +31,7 @@ export default function JournalPage() {
   const entriesQuery = useMemoFirebase(() => {
     if (!user || !firestore) return null;
     const entriesRef = collection(firestore, "users", user.uid, "journalEntries");
-    return query(entriesRef, orderBy("entryDate", "desc"));
+    return query(entriesRef, orderBy("timestamp", "desc"), limit(50));
   }, [user, firestore]);
 
   const { data: journalEntries, isLoading } = useCollection(entriesQuery);
@@ -42,7 +42,7 @@ export default function JournalPage() {
     addDocumentNonBlocking(entriesRef, {
       userId: user.uid,
       content: newEntry,
-      entryDate: serverTimestamp(),
+      timestamp: serverTimestamp(),
     });
     setNewEntry("");
     toast({
@@ -95,7 +95,7 @@ export default function JournalPage() {
               <Card key={entry.id} className="clay-card group animate-in slide-in-from-bottom-6 duration-500" style={{ animationDelay: `${400 + (idx * 100)}ms` }}>
                 <CardHeader className="p-8 pb-4">
                   <CardTitle className="text-xl font-headline text-primary">
-                     {entry.entryDate ? format((entry.entryDate as any).toDate(), 'MMMM dd, yyyy') : "Just now"}
+                     {entry.timestamp ? format((entry.timestamp as any).toDate(), 'MMMM dd, yyyy') : "Just now"}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-8 pt-0">
