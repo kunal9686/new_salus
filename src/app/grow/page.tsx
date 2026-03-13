@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -17,10 +18,12 @@ import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useCollection } from "@/firebase/firestore/use-collection";
 import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
 
 export default function GrowPage() {
   const { user } = useUser();
   const firestore = useFirestore();
+  const { toast } = useToast();
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
@@ -142,8 +145,17 @@ export default function GrowPage() {
 
       mediaRecorder.start();
       setIsRecording(true);
+      toast({
+        title: "Microphone Active",
+        description: "Salus is listening to your reflection.",
+      });
     } catch (err) {
       console.error("Failed to start recording:", err);
+      toast({
+        variant: "destructive",
+        title: "Microphone Error",
+        description: "Please check your browser permissions for microphone access.",
+      });
     }
   };
 
@@ -164,13 +176,12 @@ export default function GrowPage() {
     try {
       const response = await analyzeVoiceEmotion({ audioDataUri });
       
-      // Store the voice analysis as a specialized message
       const content = `[Voice Reflection Analysis]
 * Detected Emotion: ${response.detectedEmotion}
 * Intensity: ${response.intensity}/10
 * Insight: ${response.insight}
 * Suggested Action: ${response.suggestedAction}
-* Summary of your words: "${response.summary}"`;
+* Summary: "${response.summary}"`;
 
       addDocumentNonBlocking(messagesRef, {
         role: 'assistant',
@@ -204,7 +215,7 @@ export default function GrowPage() {
                 </div>
                 <h2 className="text-5xl font-headline font-bold text-foreground tracking-tight">Salus Assistant</h2>
                 <p className="text-muted-foreground text-xl max-w-lg mx-auto font-medium leading-relaxed">
-                  I'm here to help you reframe challenges, detect emotional patterns, and find perspective. Speak or type to begin.
+                  I'm here to help you reframe challenges and detect emotional patterns. Speak or type to begin.
                 </p>
                 <div className="grid gap-6 md:grid-cols-2 mt-12">
                   <Card className="clay-card hover:bg-primary/5 transition-colors cursor-pointer group animate-in slide-in-from-left-4 duration-500 delay-300 border-2 border-white" onClick={() => setInput("I want to reframe a difficult situation.")}>
