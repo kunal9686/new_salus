@@ -49,7 +49,7 @@ export default function IdentityPage() {
   return (
     <DashboardLayout pageTitle="Identity Reflection">
       <AmbientPlayer url="https://cdn.pixabay.com/audio/2022/10/25/audio_1f238e8f81.mp3" />
-      <div className="p-6 lg:p-10 space-y-10 min-h-full animate-in fade-in duration-700">
+      <div className="p-6 lg:p-10 space-y-10 min-h-full animate-in fade-in duration-700 tint-blue">
         <div className="max-w-3xl mx-auto space-y-12">
           <div className="space-y-4 text-center">
             <div className="size-16 rounded-[2.5rem] bg-accent/20 flex items-center justify-center mx-auto border-4 border-white shadow-xl animate-in zoom-in duration-700">

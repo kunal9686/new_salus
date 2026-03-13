@@ -65,7 +65,7 @@ export default function LifeAuditPage() {
     return (
       <DashboardLayout pageTitle="Audit Complete">
         <AmbientPlayer url="https://cdn.pixabay.com/audio/2023/06/11/audio_92e4726a57.mp3" />
-        <div className="p-6 lg:p-10 flex flex-col items-center justify-center min-h-[calc(100vh-10rem)]">
+        <div className="p-6 lg:p-10 flex flex-col items-center justify-center min-h-[calc(100vh-10rem)] tint-blue">
           <Card className="clay-card max-w-2xl w-full p-10 text-center space-y-10">
             <h2 className="text-2xl font-headline font-bold text-foreground">Your Life Balance</h2>
             <div className="h-[350px] w-full bg-white/40 rounded-[3rem] p-6 border-2 border-white shadow-inner">
@@ -97,7 +97,7 @@ export default function LifeAuditPage() {
   return (
     <DashboardLayout pageTitle="Life Audit">
       <AmbientPlayer url="https://cdn.pixabay.com/audio/2023/06/11/audio_92e4726a57.mp3" />
-      <div className="p-6 lg:p-10 space-y-10 min-h-full animate-in fade-in duration-700">
+      <div className="p-6 lg:p-10 space-y-10 min-h-full animate-in fade-in duration-700 tint-blue">
         <div className="max-w-2xl mx-auto space-y-8">
           <div className="space-y-3 text-center">
             <h2 className="text-2xl font-headline font-bold text-foreground">Assess your current state.</h2>

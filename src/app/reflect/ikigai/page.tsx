@@ -104,7 +104,7 @@ export default function IkigaiPage() {
     return (
       <DashboardLayout pageTitle="Ikigai Summary">
         <AmbientPlayer url="https://cdn.pixabay.com/audio/2024/05/01/audio_0e54d68e2f.mp3" />
-        <div className="p-6 lg:p-10 flex flex-col items-center justify-center min-h-[calc(100vh-10rem)]">
+        <div className="p-6 lg:p-10 flex flex-col items-center justify-center min-h-[calc(100vh-10rem)] tint-blue">
           <Card className="clay-card max-w-4xl w-full p-10 space-y-10">
             <div className="text-center space-y-3">
               <h2 className="text-2xl font-headline font-bold text-foreground">Your Ikigai Discovery</h2>
@@ -153,7 +153,7 @@ export default function IkigaiPage() {
   return (
     <DashboardLayout pageTitle="Ikigai Discovery">
       <AmbientPlayer url="https://cdn.pixabay.com/audio/2024/05/01/audio_0e54d68e2f.mp3" />
-      <div className="p-6 lg:p-10 space-y-10 min-h-full animate-in fade-in duration-700">
+      <div className="p-6 lg:p-10 space-y-10 min-h-full animate-in fade-in duration-700 tint-blue">
         <div className="max-w-2xl mx-auto space-y-10">
           <div className="flex justify-between items-end">
             <div className="space-y-3">

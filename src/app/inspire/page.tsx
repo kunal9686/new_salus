@@ -1,4 +1,3 @@
-
 "use client";
 
 import { DashboardLayout } from "@/components/dashboard-layout";
@@ -283,7 +282,7 @@ export default function InspirePage() {
   return (
     <DashboardLayout pageTitle="Inspire">
       <AmbientPlayer url="https://cdn.pixabay.com/audio/2022/10/25/audio_1f238e8f81.mp3" />
-      <div className="p-6 lg:p-10 space-y-6 bg-transparent min-h-full animate-in fade-in duration-700">
+      <div className="p-6 lg:p-10 space-y-6 bg-transparent min-h-full animate-in fade-in duration-700 tint-yellow">
         {selectedStory ? (
           <div className="max-w-4xl mx-auto space-y-10 animate-in fade-in slide-in-from-right-4 duration-500">
             <Button 
@@ -351,9 +350,9 @@ export default function InspirePage() {
                     <PenLine className="h-8 w-8 text-primary" />
                   </div>
                   <CardTitle className="font-headline text-3xl">Reflect on this Story</CardTitle>
-                  <CardDescription className="text-lg text-muted-foreground max-w-xl mx-auto">
+                  <CardTitle className="text-lg text-muted-foreground max-w-xl mx-auto">
                     {selectedStory.reflectionPrompt}
-                  </CardDescription>
+                  </CardTitle>
                 </CardHeader>
                 <CardFooter className="p-10 pt-0">
                   <Button asChild className="w-full h-16 text-xl font-headline clay-btn">

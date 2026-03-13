@@ -259,7 +259,7 @@ export default function GrowPage() {
 
   return (
     <DashboardLayout pageTitle="Grow">
-      <div className="flex flex-col h-[calc(100vh-5rem)] bg-transparent animate-in fade-in duration-700">
+      <div className="flex flex-col h-[calc(100vh-5rem)] bg-transparent animate-in fade-in duration-700 tint-green">
         <ScrollArea className="flex-1 p-6" ref={scrollAreaRef}>
           <div className="space-y-6 max-w-3xl mx-auto pb-8">
             {/* Intro UI */}

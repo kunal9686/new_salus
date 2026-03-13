@@ -74,10 +74,19 @@
   @apply bg-primary rounded-full shadow-[5px_5px_15px_rgba(0,0,0,0.05),-2px_-2px_10px_rgba(255,255,255,0.8)] hover:shadow-[inner_3px_3px_10px_rgba(0,0,0,0.05)] active:scale-95 transition-all;
 }
 
+/* Feature Tints */
+.tint-yellow {
+  background-image: radial-gradient(circle at center, hsla(45, 100%, 75%, 0.12), transparent 80%);
+}
+
+.tint-blue {
+  background-image: radial-gradient(circle at center, hsla(200, 100%, 85%, 0.12), transparent 80%);
+}
+
+.tint-green {
+  background-image: radial-gradient(circle at center, hsla(140, 100%, 85%, 0.12), transparent 80%);
+}
+
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { @apply bg-transparent; }
 ::-webkit-scrollbar-thumb { @apply bg-primary/20 rounded-full hover:bg-primary/40 transition-colors; }
-
-.doodle-pattern {
-  /* Pattern removed in favor of the vibrant mesh gradient background */
-}

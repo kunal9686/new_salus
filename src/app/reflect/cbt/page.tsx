@@ -49,7 +49,7 @@ export default function CBTPage() {
   return (
     <DashboardLayout pageTitle="CBT Reframing">
       <AmbientPlayer url="https://cdn.pixabay.com/audio/2022/03/10/audio_c230e71d68.mp3" />
-      <div className="p-6 lg:p-10 space-y-10 min-h-full animate-in fade-in duration-700">
+      <div className="p-6 lg:p-10 space-y-10 min-h-full animate-in fade-in duration-700 tint-blue">
         <div className="max-w-4xl mx-auto space-y-10">
           <div className="text-center space-y-3">
             <h2 className="text-3xl font-headline font-bold text-foreground">Rewire Your Mind</h2>

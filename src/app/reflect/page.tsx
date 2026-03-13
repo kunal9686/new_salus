@@ -73,7 +73,7 @@ const modules = [
 export default function ReflectHub() {
   return (
     <DashboardLayout pageTitle="Reflect">
-      <div className="p-6 lg:p-10 space-y-8 min-h-full animate-in fade-in duration-700">
+      <div className="p-6 lg:p-10 space-y-8 min-h-full animate-in fade-in duration-700 tint-blue">
         <div className="max-w-4xl mx-auto space-y-6">
           <div className="text-center space-y-2 animate-in slide-in-from-top-4 duration-700">
             <h2 className="text-3xl font-headline font-bold tracking-tight text-foreground">How will you look within?</h2>

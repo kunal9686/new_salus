@@ -54,7 +54,7 @@ export default function JournalPage() {
   return (
     <DashboardLayout pageTitle="Journal">
       <AmbientPlayer url="https://cdn.pixabay.com/audio/2022/05/17/audio_824ca1170f.mp3" />
-      <div className="flex-1 space-y-10 p-6 md:p-10 animate-in fade-in duration-700">
+      <div className="flex-1 space-y-10 p-6 md:p-10 animate-in fade-in duration-700 tint-blue">
         <Card className="clay-card max-w-4xl mx-auto animate-in slide-in-from-top-6 duration-700">
           <CardHeader className="p-8 pb-4">
             <CardTitle className="font-headline text-2xl flex items-center gap-3">
