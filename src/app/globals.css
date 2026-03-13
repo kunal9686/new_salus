@@ -4,52 +4,26 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 48 100% 98%; /* Warm Cream #FFFDF5 */
     --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
+    --card: 0 0% 100% / 0.6;
     --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
+    --popover: 0 0% 100% / 0.8;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 288 90% 70%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 340 90% 65%;
-    --accent-foreground: 0 0% 98%;
+    --primary: 3 100% 85%; /* Peach Blossom #FFB7B2 */
+    --primary-foreground: 0 0% 20%;
+    --secondary: 48 100% 62%; /* Sunrise Yellow #FFD93D */
+    --secondary-foreground: 0 0% 20%;
+    --muted: 48 30% 90%;
+    --muted-foreground: 240 5% 35%;
+    --accent: 195 75% 82%; /* Sky Blue #B2E2F2 */
+    --accent-foreground: 0 0% 20%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 80%;
-    --input: 240 5.9% 90%;
-    --ring: 288 80% 60%;
-    --radius: 1.5rem;
-    
-    --amaranth: 340 90% 65%;
-    --heliotrope: 288 90% 70%;
-    --cyber-lime: 75 100% 65%;
-    --digital-lavender: 255 100% 88%;
-  }
-  .dark {
-    --background: 0 0% 2%; 
-    --foreground: 0 0% 100%;
-    --card: 240 10% 4%;
-    --card-foreground: 0 0% 100%;
-    --popover: 0 0% 3%;
-    --popover-foreground: 0 0% 100%;
-    --primary: 288 90% 70%;
-    --primary-foreground: 0 0% 0%;
-    --secondary: 240 5% 12%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 240 5% 12%;
-    --muted-foreground: 240 5% 65%;
-    --accent: 340 90% 65%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 70% 50%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 100% / 0.25; 
-    --input: 240 5% 15%;
-    --ring: 288 90% 70%;
+    --border: 0 0% 0% / 0.15;
+    --input: 48 20% 95%;
+    --ring: 3 100% 80%;
+    --radius: 2rem;
   }
 }
 
@@ -70,22 +44,21 @@
 }
 
 .doodle-pattern {
-  background-image: url("data:image/svg+xml,%3Csvg width='400' height='400' viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.04' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M50 50c5-5 10 5 15 0s5-15 15-5M150 30c5 10 15 5 20 15M250 60c-10 10-5 20 0 30M350 40c0 10-10 20-20 20M80 150c20 0 20 20 40 20M200 120c10-10 20 0 30 10M300 180c5 5 5 15 0 20s-15 5-20 0M50 250c10 0 10-10 20-10s10 10 20 10M150 350c0-20 20-20 20-40M250 300c10 10 0 20 10 30M350 350c-10-10-20-10-30 0M100 300c-10-10-10-20 0-30M300 100c10-10 20 0 30 10M100 100c0 10 10 10 10 20M200 200c10 10 10 20 20 20M350 150c-10 0-10 10-20 10M50 350c10 0 10 10-20 10M380 50c-5 5-15 5-20 0'/%3E%3Ccircle cx='40' cy='40' r='3'/%3E%3Ccircle cx='340' cy='340' r='3'/%3E%3Ccircle cx='140' cy='240' r='3'/%3E%3Ccircle cx='240' cy='140' r='3'/%3E%3Cpath d='M200 50l7 7-7 7-7-7zM100 150l7 7-7 7-7-7zM300 250l7 7-7 7-7-7z'/%3E%3Cpath d='M20 20h10v10H20zM370 370h10v10H370zM370 20h10v10H370zM20 370h10v10H20z'/%3E%3Cpath d='M100 50c0 0 10 0 10 10s-10 10-10 10-10 0-10-10 10-10 10-10z'/%3E%3Cpath d='M300 350c0 0 10 0 10 10s-10 10-10 10-10 0-10-10 10-10 10-10z'/%3E%3Cpath d='M50 150l10 10M60 150l-10 10M340 150l10 10M350 150l-10 10M150 50l10 10M160 50l-10 10'/%3E%3C/g%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23000000' stroke-opacity='0.08' stroke-width='0.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10 10c2-2 4 2 6 0s2-6 6-2M30 15c2 4 6 2 8 6M50 10c-4 4-2 8 0 12M70 15c0 4-4 8-8 8M20 40c8 0 8 8 16 8M40 30c4-4 8 0 12 4M60 45c2 2 2 6 0 8s-6 2-8 0M10 60c4 0 4-4 8-4s4 4 8 4M30 85c0-8 8-8 8-16M50 75c4 4 0 8 4 12M70 85c-4-4-8-4-12 0M25 75c-4-4-4-8 0-12M75 25c4-4 8 0 12 4M25 25c0 4 4 4 4 8M50 50c4 4 4 8 8 8M85 40c-4 0-4 4-8 4M10 85c4 0 4 4-8 4M90 10c-2 2-6 2-8 0'/%3E%3Ccircle cx='15' cy='15' r='1'/%3E%3Ccircle cx='85' cy='85' r='1'/%3E%3Cpath d='M50 15l3 3-3 3-3-3zM25 45l3 3-3 3-3-3zM75 65l3 3-3 3-3-3z'/%3E%3C/g%3E%3C/svg%3E");
 }
-
-.bg-amaranth { background-color: hsl(var(--amaranth)); }
-.text-amaranth { color: hsl(var(--amaranth)); }
-.bg-heliotrope { background-color: hsl(var(--heliotrope)); }
-.text-heliotrope { color: hsl(var(--heliotrope)); }
-.bg-cyber-lime { background-color: hsl(var(--cyber-lime)); }
-.text-cyber-lime { color: hsl(var(--cyber-lime)); }
-.bg-digital-lavender { background-color: hsl(var(--digital-lavender)); }
-.text-digital-lavender { color: hsl(var(--digital-lavender)); }
 
 .glass {
-  @apply bg-white/5 backdrop-blur-md border border-white/20;
+  @apply bg-white/40 backdrop-blur-xl border border-white/60 shadow-lg;
 }
 
-::-webkit-scrollbar { width: 6px; }
+.clay-card {
+  @apply bg-white/60 rounded-[2.5rem] shadow-[10px_10px_20px_rgba(0,0,0,0.05),-5px_-5px_15px_rgba(255,255,255,0.8)] border border-white/40 transition-all duration-300;
+}
+
+.clay-btn {
+  @apply bg-primary rounded-full shadow-[5px_5px_10px_rgba(0,0,0,0.1),-2px_-2px_5px_rgba(255,255,255,0.4)] hover:shadow-[inner_2px_2px_5px_rgba(0,0,0,0.1)] active:scale-95 transition-all;
+}
+
+::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { @apply bg-transparent; }
-::-webkit-scrollbar-thumb { @apply bg-white/10 rounded-full hover:bg-white/20 transition-colors; }
+::-webkit-scrollbar-thumb { @apply bg-primary/20 rounded-full hover:bg-primary/40 transition-colors; }
