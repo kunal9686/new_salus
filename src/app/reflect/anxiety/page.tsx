@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { Wind, ShieldCheck, Scale, History } from "lucide-react";
+import { AmbientPlayer } from "@/components/ambient-player";
 
 const stoicSteps = [
   { id: "worry", title: "The Worry", label: "What are you currently worrying about?", icon: Wind, color: "text-amaranth", bg: "bg-amaranth/20" },
@@ -50,15 +51,16 @@ export default function AnxietyPage() {
   if (finished) {
     return (
       <DashboardLayout pageTitle="Perspective Found">
+        <AmbientPlayer url="https://cdn.pixabay.com/audio/2022/10/25/audio_19c1e0b5f1.mp3" />
         <div className="p-6 lg:p-10 flex flex-col items-center justify-center min-h-[calc(100vh-10rem)]">
           <Card className="clay-card max-w-2xl w-full p-10 text-center space-y-8">
-            <h2 className="text-4xl font-headline font-bold italic text-foreground">"We suffer more often in imagination than in reality."</h2>
-            <p className="text-muted-foreground text-xl font-medium">— Seneca</p>
+            <h2 className="text-3xl font-headline font-bold italic text-foreground">"We suffer more often in imagination than in reality."</h2>
+            <p className="text-muted-foreground text-lg font-medium">— Seneca</p>
             <div className="space-y-6 text-left mt-8">
                {stoicSteps.map(s => (
                  <div key={s.id} className="p-6 rounded-[2rem] bg-white/40 border-2 border-white shadow-sm">
-                   <span className="text-xs font-bold uppercase tracking-widest text-primary">{s.title}</span>
-                   <p className="mt-2 text-lg text-foreground font-medium">{responses[s.id]}</p>
+                   <span className="text-[10px] font-bold uppercase tracking-widest text-primary">{s.title}</span>
+                   <p className="mt-2 text-base text-foreground font-medium">{responses[s.id]}</p>
                  </div>
                ))}
             </div>
@@ -73,11 +75,12 @@ export default function AnxietyPage() {
 
   return (
     <DashboardLayout pageTitle="Stoic Perspective">
+      <AmbientPlayer url="https://cdn.pixabay.com/audio/2022/10/25/audio_19c1e0b5f1.mp3" />
       <div className="p-6 lg:p-10 space-y-8 min-h-full animate-in fade-in duration-700">
         <div className="max-w-2xl mx-auto space-y-10">
           <div className="text-center space-y-3">
-            <h2 className="text-4xl font-headline font-bold text-foreground">Dichotomy of Control</h2>
-            <p className="text-muted-foreground text-lg font-medium">Focus on what you can change, accept what you cannot.</p>
+            <h2 className="text-3xl font-headline font-bold text-foreground">Dichotomy of Control</h2>
+            <p className="text-muted-foreground text-base font-medium">Focus on what you can change, accept what you cannot.</p>
           </div>
 
           <Card className="clay-card animate-in zoom-in duration-500">
@@ -86,21 +89,21 @@ export default function AnxietyPage() {
                 <step.icon className="size-10" />
               </div>
               <div>
-                <CardTitle className="font-headline text-3xl">{step.title}</CardTitle>
+                <CardTitle className="font-headline text-2xl">{step.title}</CardTitle>
               </div>
             </CardHeader>
             <CardContent className="space-y-6 px-10">
-              <label className="text-xl text-foreground/90 leading-relaxed font-medium">{step.label}</label>
+              <label className="text-lg text-foreground/90 leading-relaxed font-medium">{step.label}</label>
               <Textarea 
                 placeholder="Write your honest thought..." 
-                className="min-h-[200px] text-lg bg-white/40 border-2 border-white rounded-[2rem] p-6 focus-visible:ring-primary/30"
+                className="min-h-[200px] text-base bg-white/40 border-2 border-white rounded-[2rem] p-6 focus-visible:ring-primary/30"
                 value={responses[step.id] || ""}
                 onChange={(e) => setResponses({...responses, [step.id]: e.target.value})}
               />
             </CardContent>
             <CardFooter className="flex justify-between p-10 pt-0">
               <Button variant="ghost" className="rounded-full px-8" onClick={() => setCurrentStep(Math.max(0, currentStep - 1))} disabled={currentStep === 0}>Back</Button>
-              <Button onClick={handleNext} className="px-12 h-14 text-lg font-headline clay-btn">
+              <Button onClick={handleNext} className="px-12 h-14 text-base font-headline clay-btn">
                 {currentStep === stoicSteps.length - 1 ? "Anchor Thoughts" : "Next Principle"}
               </Button>
             </CardFooter>
