@@ -1,32 +1,28 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Sparkles, TrendingUp, BookHeart } from "lucide-react";
+import { Sparkles, TrendingUp, BookHeart, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   const [isExiting, setIsExiting] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsExiting(true);
-    }, 2500);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    if (isExiting) {
-      const redirectTimer = setTimeout(() => {
-        router.push("/dashboard");
-      }, 1000);
-      return () => clearTimeout(redirectTimer);
-    }
-  }, [isExiting, router]);
+  const handleEnter = () => {
+    setIsExiting(true);
+    // Allow time for the fade-out/scale animation before navigating
+    setTimeout(() => {
+      router.push("/dashboard");
+    }, 1000);
+  };
 
   return (
-    <div className="flex h-screen w-full items-center justify-center bg-background overflow-hidden relative">
+    <div 
+      className="flex h-screen w-full items-center justify-center bg-background overflow-hidden relative cursor-pointer"
+      onClick={handleEnter}
+    >
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-primary/20 blur-[120px] rounded-full animate-pulse" />
         <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-secondary/15 blur-[120px] rounded-full animate-pulse delay-700" />
@@ -49,19 +45,28 @@ export default function Home() {
           </div>
         </div>
         
-        <h1 className="font-headline text-[6rem] md:text-[10rem] font-bold text-foreground tracking-tighter leading-none mb-2 animate-in fade-in duration-1000">
+        <h1 className="font-headline text-[5rem] md:text-[8rem] font-bold text-foreground tracking-tighter leading-none mb-2 animate-in fade-in duration-1000">
           Salus
         </h1>
         
-        <div className="h-[3px] w-32 bg-gradient-to-r from-transparent via-primary to-transparent mb-8" />
+        <div className="h-[2px] w-24 bg-gradient-to-r from-transparent via-primary to-transparent mb-8" />
         
-        <p className="font-headline text-xl md:text-3xl text-muted-foreground/80 font-light italic tracking-[0.15em] animate-in slide-in-from-bottom-4 duration-1000 delay-500">
+        <p className="font-headline text-lg md:text-2xl text-muted-foreground/80 font-light italic tracking-[0.15em] animate-in slide-in-from-bottom-4 duration-1000 delay-500">
           “Mens sana in corpore sano”
         </p>
         
-        <div className="mt-24 flex flex-col items-center">
-          <p className="text-[11px] uppercase tracking-[0.4em] font-bold text-muted-foreground mb-6">Your Private Sanctuary</p>
-          <div className="size-3 rounded-full bg-primary animate-ping" />
+        <div className="mt-20 flex flex-col items-center animate-in fade-in duration-1000 delay-700">
+          <p className="text-[10px] uppercase tracking-[0.4em] font-bold text-muted-foreground mb-8">Your Private Sanctuary</p>
+          <Button 
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent double trigger if background click is also active
+              handleEnter();
+            }}
+            className="h-14 px-10 rounded-full clay-btn text-lg font-headline group border-2 border-white"
+          >
+            Enter Sanctuary
+            <ArrowRight className="ml-2 size-5 group-hover:translate-x-1 transition-transform" />
+          </Button>
         </div>
       </main>
     </div>
