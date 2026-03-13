@@ -51,7 +51,7 @@ export default function AnxietyPage() {
   if (finished) {
     return (
       <DashboardLayout pageTitle="Perspective Found">
-        <AmbientPlayer url="https://cdn.pixabay.com/audio/2022/10/25/audio_19c1e0b5f1.mp3" />
+        <AmbientPlayer url="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3" />
         <div className="p-6 lg:p-10 flex flex-col items-center justify-center min-h-[calc(100vh-10rem)]">
           <Card className="clay-card max-w-2xl w-full p-10 text-center space-y-8">
             <h2 className="text-3xl font-headline font-bold italic text-foreground">"We suffer more often in imagination than in reality."</h2>
@@ -75,7 +75,7 @@ export default function AnxietyPage() {
 
   return (
     <DashboardLayout pageTitle="Stoic Perspective">
-      <AmbientPlayer url="https://cdn.pixabay.com/audio/2022/10/25/audio_19c1e0b5f1.mp3" />
+      <AmbientPlayer url="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3" />
       <div className="p-6 lg:p-10 space-y-8 min-h-full animate-in fade-in duration-700">
         <div className="max-w-2xl mx-auto space-y-10">
           <div className="text-center space-y-3">

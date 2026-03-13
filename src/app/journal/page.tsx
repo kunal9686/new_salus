@@ -54,7 +54,7 @@ export default function JournalPage() {
 
   return (
     <DashboardLayout pageTitle="Journal">
-      <AmbientPlayer url="https://cdn.pixabay.com/audio/2022/05/27/audio_1808d30d8b.mp3" />
+      <AmbientPlayer url="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" />
       <div className="flex-1 space-y-10 p-6 md:p-10 animate-in fade-in duration-700">
         <Card className="clay-card max-w-4xl mx-auto animate-in slide-in-from-top-6 duration-700">
           <CardHeader className="p-8 pb-4">
