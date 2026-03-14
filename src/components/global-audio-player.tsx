@@ -14,6 +14,7 @@ const PLAYLIST = [
 ];
 
 export function GlobalAudioPlayer() {
+  const [mounted, setMounted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(30);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -21,8 +22,15 @@ export function GlobalAudioPlayer() {
   const [isBuffering, setIsBuffering] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  // Avoid hydration mismatch by only rendering on the client after mount
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // Initialize Audio
   useEffect(() => {
+    if (!mounted) return;
+
     const audio = new Audio();
     audio.volume = volume / 100;
     audio.crossOrigin = "anonymous";
@@ -81,25 +89,25 @@ export function GlobalAudioPlayer() {
       audio.pause();
       audio.src = "";
     };
-  }, []);
+  }, [mounted]);
 
   // Sync track source
   useEffect(() => {
-    if (audioRef.current) {
+    if (audioRef.current && mounted) {
       audioRef.current.src = PLAYLIST[trackIndex];
       audioRef.current.load();
       if (isPlaying) {
         audioRef.current.play().catch(() => setIsPlaying(false));
       }
     }
-  }, [trackIndex]);
+  }, [trackIndex, mounted]);
 
   // Sync volume state
   useEffect(() => {
-    if (audioRef.current) {
+    if (audioRef.current && mounted) {
       audioRef.current.volume = volume / 100;
     }
-  }, [volume]);
+  }, [volume, mounted]);
 
   const togglePlay = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -112,6 +120,9 @@ export function GlobalAudioPlayer() {
       });
     }
   };
+
+  // Do not render anything on the server to prevent hydration mismatches
+  if (!mounted) return null;
 
   return (
     <div className="fixed top-6 right-6 z-[200] flex flex-col items-center">
@@ -145,7 +156,7 @@ export function GlobalAudioPlayer() {
         >
           {/* Vertical Volume Slider Container */}
           <div className="bg-white/80 backdrop-blur-2xl border-4 border-white rounded-[2.5rem] p-4 py-6 shadow-2xl flex flex-col items-center gap-4 w-14">
-            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-primary select-none">Vol</span>
+            <span suppressHydrationWarning className="text-[9px] font-black uppercase tracking-[0.2em] text-primary select-none">Vol</span>
             <div className="h-32 w-full flex justify-center">
               <Slider
                 orientation="vertical"
@@ -171,7 +182,7 @@ export function GlobalAudioPlayer() {
                   <Play className="size-2.5 text-primary fill-current ml-0.5" />
                 )}
              </div>
-             <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-muted-foreground select-none pointer-events-none">
+             <span suppressHydrationWarning className="text-[9px] font-bold uppercase tracking-[0.15em] text-muted-foreground select-none pointer-events-none">
                {isPlaying ? "Playing" : "Paused"}
              </span>
           </button>
