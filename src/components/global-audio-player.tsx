@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Volume2, VolumeX, Loader2, Play, Pause } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -22,37 +22,34 @@ export function GlobalAudioPlayer() {
   const [isBuffering, setIsBuffering] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Avoid hydration mismatch by only rendering on the client after mount
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Initialize Audio
+  const handleNextTrack = useCallback(() => {
+    setTrackIndex((prev) => (prev + 1) % PLAYLIST.length);
+  }, []);
+
   useEffect(() => {
     if (!mounted) return;
 
     const audio = new Audio();
     audio.volume = volume / 100;
     audio.crossOrigin = "anonymous";
+    audio.preload = "auto";
     audioRef.current = audio;
 
-    const handleEnded = () => {
-      setTrackIndex((prev) => (prev + 1) % PLAYLIST.length);
-    };
-
+    const handleEnded = () => handleNextTrack();
     const handleWaiting = () => setIsBuffering(true);
     const handlePlaying = () => {
       setIsBuffering(false);
       setIsPlaying(true);
     };
     const handlePause = () => setIsPlaying(false);
-    
-    const handleError = () => {
+    const handleError = (e: any) => {
+      console.warn("GlobalAudioPlayer: Media Error, skipping...", e);
       setIsBuffering(false);
-      console.warn("Audio error encountered, attempting next track.");
-      setTimeout(() => {
-        setTrackIndex((prev) => (prev + 1) % PLAYLIST.length);
-      }, 500);
+      setTimeout(handleNextTrack, 500);
     };
 
     audio.addEventListener("ended", handleEnded);
@@ -61,21 +58,18 @@ export function GlobalAudioPlayer() {
     audio.addEventListener("pause", handlePause);
     audio.addEventListener("error", handleError);
 
-    // Initial play attempt on first user interaction to satisfy browser policy
     const startAudioOnInteraction = () => {
       if (audioRef.current && !isPlaying) {
-        audioRef.current.play()
-          .then(() => setIsPlaying(true))
-          .catch(() => {});
+        audioRef.current.play().catch(() => {});
       }
-      window.removeEventListener("mousedown", startAudioOnInteraction);
-      window.removeEventListener("keydown", startAudioOnInteraction);
-      window.removeEventListener("touchstart", startAudioOnInteraction);
+      ["mousedown", "keydown", "touchstart", "click"].forEach(event => 
+        window.removeEventListener(event, startAudioOnInteraction)
+      );
     };
     
-    window.addEventListener("mousedown", startAudioOnInteraction);
-    window.addEventListener("keydown", startAudioOnInteraction);
-    window.addEventListener("touchstart", startAudioOnInteraction);
+    ["mousedown", "keydown", "touchstart", "click"].forEach(event => 
+      window.addEventListener(event, startAudioOnInteraction)
+    );
 
     return () => {
       audio.removeEventListener("ended", handleEnded);
@@ -83,26 +77,24 @@ export function GlobalAudioPlayer() {
       audio.removeEventListener("playing", handlePlaying);
       audio.removeEventListener("pause", handlePause);
       audio.removeEventListener("error", handleError);
-      window.removeEventListener("mousedown", startAudioOnInteraction);
-      window.removeEventListener("keydown", startAudioOnInteraction);
-      window.removeEventListener("touchstart", startAudioOnInteraction);
       audio.pause();
       audio.src = "";
     };
-  }, [mounted]);
+  }, [mounted, handleNextTrack]);
 
-  // Sync track source
   useEffect(() => {
     if (audioRef.current && mounted) {
-      audioRef.current.src = PLAYLIST[trackIndex];
-      audioRef.current.load();
-      if (isPlaying) {
-        audioRef.current.play().catch(() => setIsPlaying(false));
+      const currentSrc = PLAYLIST[trackIndex];
+      if (audioRef.current.src !== currentSrc) {
+        audioRef.current.src = currentSrc;
+        audioRef.current.load();
+        if (isPlaying) {
+          audioRef.current.play().catch(() => setIsPlaying(false));
+        }
       }
     }
   }, [trackIndex, mounted, isPlaying]);
 
-  // Sync volume state
   useEffect(() => {
     if (audioRef.current && mounted) {
       audioRef.current.volume = volume / 100;
@@ -121,13 +113,11 @@ export function GlobalAudioPlayer() {
     }
   };
 
-  // Do not render anything on the server to prevent hydration mismatches
   if (!mounted) return null;
 
   return (
-    <div className="fixed top-6 right-6 z-[200] flex flex-col items-center">
+    <div className="fixed top-6 right-6 z-[200] flex flex-col items-center" suppressHydrationWarning>
       <div className="relative flex flex-col items-center">
-        {/* Main Control Toggle */}
         <Button
           variant="ghost"
           size="icon"
@@ -147,16 +137,14 @@ export function GlobalAudioPlayer() {
           )}
         </Button>
 
-        {/* Expanded Panel */}
         <div
           className={cn(
             "mt-3 transition-all duration-500 ease-in-out origin-top flex flex-col items-center",
             isExpanded ? "translate-y-0 opacity-100 scale-100" : "-translate-y-10 opacity-0 scale-90 pointer-events-none"
           )}
         >
-          {/* Vertical Volume Slider Container */}
           <div className="bg-white/80 backdrop-blur-2xl border-4 border-white rounded-[2.5rem] p-4 py-6 shadow-2xl flex flex-col items-center gap-4 w-14">
-            <span suppressHydrationWarning className="text-[9px] font-black uppercase tracking-[0.2em] text-primary select-none">Vol</span>
+            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-primary select-none" suppressHydrationWarning>Vol</span>
             <div className="h-32 w-full flex justify-center">
               <Slider
                 orientation="vertical"
@@ -169,7 +157,6 @@ export function GlobalAudioPlayer() {
             </div>
           </div>
 
-          {/* Interactive Play/Pause Pill */}
           <button 
             onClick={togglePlay}
             suppressHydrationWarning
@@ -182,7 +169,7 @@ export function GlobalAudioPlayer() {
                   <Play className="size-2.5 text-primary fill-current ml-0.5" />
                 )}
              </div>
-             <span suppressHydrationWarning className="text-[9px] font-bold uppercase tracking-[0.15em] text-muted-foreground select-none pointer-events-none">
+             <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-muted-foreground select-none pointer-events-none" suppressHydrationWarning>
                {isPlaying ? "Playing" : "Paused"}
              </span>
           </button>

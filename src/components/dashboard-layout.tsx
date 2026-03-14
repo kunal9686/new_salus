@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import {
   LayoutDashboard,
   BookHeart,
@@ -94,7 +94,7 @@ const AppSidebar = () => {
       <SidebarFooter className="bg-transparent border-t border-white/20 p-3">
          <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <div className="flex items-center gap-3 cursor-pointer p-2 rounded-full hover:bg-white/30 transition-all w-full border border-transparent hover:border-white/40">
+                <div className="flex items-center gap-3 cursor-pointer p-2 rounded-full hover:bg-white/30 transition-all w-full border border-transparent hover:border-white/40" suppressHydrationWarning>
                     <Avatar className="h-8 w-8 border-2 border-white">
                         <AvatarImage src={user?.photoURL ?? `https://picsum.photos/seed/${user?.uid}/40/40`} alt={user?.displayName ?? "user"} />
                         <AvatarFallback className="bg-primary/20 text-primary">{user?.displayName?.[0].toUpperCase() ?? 'U'}</AvatarFallback>
@@ -146,18 +146,23 @@ export function DashboardLayout({
   const { user, isUserLoading } = useUser();
   const router = useRouter();
   const pathname = usePathname();
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    if (!isUserLoading && !user) {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (isMounted && !isUserLoading && !user) {
        if(pathname !== '/login' && pathname !== '/signup') {
          router.replace('/login');
        }
     }
-  }, [isUserLoading, user, router, pathname]);
+  }, [isMounted, isUserLoading, user, router, pathname]);
 
-  if (isUserLoading || !user) {
+  if (!isMounted || isUserLoading || !user) {
     return (
-       <div className="flex h-screen w-full items-center justify-center" suppressHydrationWarning>
+       <div className="flex h-screen w-full items-center justify-center bg-background" suppressHydrationWarning>
          <div className="flex flex-col items-center gap-4">
            <div className="animate-pulse bg-white/40 p-5 rounded-full border-4 border-white shadow-lg backdrop-blur-md">
              <BookHeart className="h-10 w-10 text-primary" />
