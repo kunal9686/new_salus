@@ -87,6 +87,15 @@
   background-image: radial-gradient(circle at center, hsla(140, 100%, 85%, 0.12), transparent 80%);
 }
 
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
+}
+
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { @apply bg-transparent; }
 ::-webkit-scrollbar-thumb { @apply bg-primary/20 rounded-full hover:bg-primary/40 transition-colors; }
