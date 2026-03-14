@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Volume2, VolumeX, Music, Loader2, Play, Pause } from "lucide-react";
+import { Volume2, VolumeX, Loader2, Play, Pause } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
@@ -21,11 +21,11 @@ export function GlobalAudioPlayer() {
   const [isBuffering, setIsBuffering] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  // Initialize Audio
   useEffect(() => {
     const audio = new Audio();
     audio.volume = volume / 100;
     audio.crossOrigin = "anonymous";
-    audio.loop = false;
     audioRef.current = audio;
 
     const handleEnded = () => {
@@ -41,7 +41,7 @@ export function GlobalAudioPlayer() {
     
     const handleError = () => {
       setIsBuffering(false);
-      // Skip to next track if current one fails
+      console.warn("Audio error encountered, attempting next track.");
       setTimeout(() => {
         setTrackIndex((prev) => (prev + 1) % PLAYLIST.length);
       }, 500);
@@ -53,7 +53,7 @@ export function GlobalAudioPlayer() {
     audio.addEventListener("pause", handlePause);
     audio.addEventListener("error", handleError);
 
-    // Initial play attempt on first interaction
+    // Initial play attempt on first user interaction to satisfy browser policy
     const startAudioOnInteraction = () => {
       if (audioRef.current && !isPlaying) {
         audioRef.current.play()
@@ -62,10 +62,12 @@ export function GlobalAudioPlayer() {
       }
       window.removeEventListener("mousedown", startAudioOnInteraction);
       window.removeEventListener("keydown", startAudioOnInteraction);
+      window.removeEventListener("touchstart", startAudioOnInteraction);
     };
     
     window.addEventListener("mousedown", startAudioOnInteraction);
     window.addEventListener("keydown", startAudioOnInteraction);
+    window.addEventListener("touchstart", startAudioOnInteraction);
 
     return () => {
       audio.removeEventListener("ended", handleEnded);
@@ -75,12 +77,13 @@ export function GlobalAudioPlayer() {
       audio.removeEventListener("error", handleError);
       window.removeEventListener("mousedown", startAudioOnInteraction);
       window.removeEventListener("keydown", startAudioOnInteraction);
+      window.removeEventListener("touchstart", startAudioOnInteraction);
       audio.pause();
       audio.src = "";
     };
   }, []);
 
-  // Sync track index to audio source
+  // Sync track source
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.src = PLAYLIST[trackIndex];
@@ -104,7 +107,9 @@ export function GlobalAudioPlayer() {
     if (isPlaying) {
       audioRef.current.pause();
     } else {
-      audioRef.current.play().catch(() => {});
+      audioRef.current.play().catch((err) => {
+        console.error("Manual play failed:", err);
+      });
     }
   };
 
@@ -140,7 +145,7 @@ export function GlobalAudioPlayer() {
         >
           {/* Vertical Volume Slider Container */}
           <div className="bg-white/80 backdrop-blur-2xl border-4 border-white rounded-[2.5rem] p-4 py-6 shadow-2xl flex flex-col items-center gap-4 w-14">
-            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-primary">Vol</span>
+            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-primary select-none">Vol</span>
             <div className="h-32 w-full flex justify-center">
               <Slider
                 orientation="vertical"
@@ -159,14 +164,14 @@ export function GlobalAudioPlayer() {
             suppressHydrationWarning
             className="mt-4 bg-white/90 backdrop-blur-xl px-5 py-2.5 rounded-full border-2 border-white shadow-lg flex items-center gap-3 cursor-pointer hover:bg-white transition-all active:scale-95 group"
           >
-             <div className="size-5 rounded-full bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 transition-colors">
+             <div className="size-5 rounded-full bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 transition-colors pointer-events-none">
                 {isPlaying ? (
                   <Pause className="size-2.5 text-primary fill-current" />
                 ) : (
                   <Play className="size-2.5 text-primary fill-current ml-0.5" />
                 )}
              </div>
-             <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-muted-foreground">
+             <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-muted-foreground select-none pointer-events-none">
                {isPlaying ? "Playing" : "Paused"}
              </span>
           </button>
