@@ -1,3 +1,4 @@
+
 "use client";
 
 import { DashboardLayout } from "@/components/dashboard-layout";
@@ -7,7 +8,6 @@ import { Badge } from "@/components/ui/badge";
 import { ChevronRight, PenLine, Sparkles, BookOpen, History, Target } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
-import { AmbientPlayer } from "@/components/ambient-player";
 
 const stories = [
   { 
@@ -398,7 +398,6 @@ export default function InspirePage() {
             </div>
           </div>
         )}
-        <AmbientPlayer url="https://cdn.pixabay.com/audio/2022/05/27/audio_1808d3030e.mp3" />
       </div>
     </DashboardLayout>
   );

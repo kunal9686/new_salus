@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -19,7 +20,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useCollection } from "@/firebase/firestore/use-collection";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { AmbientPlayer } from "@/components/ambient-player";
 
 const GUIDED_QUESTIONS = [
   "What has been on your mind the most lately?",
@@ -80,7 +80,6 @@ export default function GrowPage() {
 
   const { data: messages, isLoading: isLoadingMessages } = useCollection(messagesQuery);
   
-  // Hide intro once there are messages
   useEffect(() => {
     if (messages && messages.length > 0) {
       setIsIntroVisible(false);
@@ -117,7 +116,6 @@ export default function GrowPage() {
       });
       setIsLoading(false);
     } else {
-      // Reframe logic
       addDocumentNonBlocking(messagesRef, {
         role: 'assistant',
         content: "I'm ready to help you reframe. Tell me about a situation or a thought that's been bothering you.",
@@ -283,7 +281,6 @@ export default function GrowPage() {
       <div className="flex flex-col h-[calc(100vh-5rem)] bg-transparent animate-in fade-in duration-700 tint-green">
         <ScrollArea className="flex-1 p-6" ref={scrollAreaRef}>
           <div className="space-y-6 max-w-3xl mx-auto pb-8">
-            {/* Intro UI - Persistent until messages exist or action is taken */}
             {isIntroVisible && !isLoadingMessages && (!messages || messages.length === 0) && (
               <div className="space-y-8 pt-12 text-center animate-in fade-in slide-in-from-bottom-6 duration-700">
                 <div className="size-24 rounded-[3rem] bg-white border-4 border-primary/20 flex items-center justify-center mx-auto mb-8 shadow-[12px_12px_30px_rgba(0,0,0,0.05)] animate-bounce-slow">
@@ -454,7 +451,6 @@ export default function GrowPage() {
             Multimodal Voice Reasoning Enabled • Private Encryption Active
           </p>
         </div>
-        <AmbientPlayer url="https://cdn.pixabay.com/audio/2022/05/27/audio_1808d3030e.mp3" />
       </div>
     </DashboardLayout>
   );
