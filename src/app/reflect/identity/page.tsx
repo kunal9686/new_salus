@@ -11,7 +11,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { UserCircle2, ArrowRight } from "lucide-react";
-import { AmbientPlayer } from "@/components/ambient-player";
 
 const prompts = [
   { id: "before", label: "Who were you before life became difficult?", placeholder: "Reflect on your past self..." },
@@ -48,7 +47,6 @@ export default function IdentityPage() {
 
   return (
     <DashboardLayout pageTitle="Identity Reflection">
-      <AmbientPlayer url="https://cdn.pixabay.com/audio/2022/10/25/audio_1f238e8f81.mp3" />
       <div className="p-6 lg:p-10 space-y-10 min-h-full animate-in fade-in duration-700 tint-blue">
         <div className="max-w-3xl mx-auto space-y-12">
           <div className="space-y-4 text-center">

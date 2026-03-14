@@ -11,7 +11,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { BrainCircuit, RefreshCw, AlertCircle, Smile } from "lucide-react";
-import { AmbientPlayer } from "@/components/ambient-player";
 
 export default function CBTPage() {
   const { user } = useUser();
@@ -48,7 +47,6 @@ export default function CBTPage() {
 
   return (
     <DashboardLayout pageTitle="CBT Reframing">
-      <AmbientPlayer url="https://cdn.pixabay.com/audio/2022/03/10/audio_c230e71d68.mp3" />
       <div className="p-6 lg:p-10 space-y-10 min-h-full animate-in fade-in duration-700 tint-blue">
         <div className="max-w-4xl mx-auto space-y-10">
           <div className="text-center space-y-3">

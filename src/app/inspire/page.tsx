@@ -7,7 +7,6 @@ import { Badge } from "@/components/ui/badge";
 import { ChevronRight, PenLine, Sparkles, BookOpen, History, Target } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
-import { AmbientPlayer } from "@/components/ambient-player";
 
 const stories = [
   { 
@@ -245,7 +244,7 @@ const stories = [
     id: 'waris-dirie', 
     title: 'Waris Dirie', 
     category: 'Advocacy', 
-    background: 'Waris Dirie grew up in Somalia where she experienced female genital mutation as a child and later fled an arranged marriage. After escaping to Europe, she began a career in modeling. She eventually used her platform to speak out against harmful cultural practices, becoming a United Nations ambassador and an influential activist working to end female genital mutilation worldwide.', 
+    background: 'Waris Dirie grew up in Somalia where she experienced female genital mutation as a child and later fled an arranged marriage. After escaping to Europe, she began a career in modeling. She eventually used her platform to speak out against harmful cultural practices, becoming a United Nations ambassador and an influential activist working to end female genital mutation worldwide.', 
     struggle: 'Escape from forced marriage and FGM.', 
     breakingPoint: 'The trauma of harmful traditions.', 
     turningPoint: 'Using fame to fight for women\'s rights.', 
@@ -281,7 +280,6 @@ export default function InspirePage() {
 
   return (
     <DashboardLayout pageTitle="Inspire">
-      <AmbientPlayer url="https://cdn.pixabay.com/audio/2022/10/25/audio_1f238e8f81.mp3" />
       <div className="p-6 lg:p-10 space-y-6 bg-transparent min-h-full animate-in fade-in duration-700 tint-yellow">
         {selectedStory ? (
           <div className="max-w-4xl mx-auto space-y-10 animate-in fade-in slide-in-from-right-4 duration-500">

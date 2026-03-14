@@ -11,7 +11,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { Wind, ShieldCheck, Scale, History } from "lucide-react";
-import { AmbientPlayer } from "@/components/ambient-player";
 
 const stoicSteps = [
   { id: "worry", title: "The Worry", label: "What are you currently worrying about?", icon: Wind, color: "text-amaranth", bg: "bg-amaranth/20" },
@@ -50,7 +49,6 @@ export default function AnxietyPage() {
   if (finished) {
     return (
       <DashboardLayout pageTitle="Perspective Found">
-        <AmbientPlayer url="https://cdn.pixabay.com/audio/2022/01/21/audio_31743c589f.mp3" />
         <div className="p-6 lg:p-10 flex flex-col items-center justify-center min-h-[calc(100vh-10rem)] tint-blue">
           <Card className="clay-card max-w-2xl w-full p-10 text-center space-y-8">
             <h2 className="text-2xl font-headline font-bold italic text-foreground">"We suffer more often in imagination than in reality."</h2>
@@ -74,7 +72,6 @@ export default function AnxietyPage() {
 
   return (
     <DashboardLayout pageTitle="Stoic Perspective">
-      <AmbientPlayer url="https://cdn.pixabay.com/audio/2022/01/21/audio_31743c589f.mp3" />
       <div className="p-6 lg:p-10 space-y-8 min-h-full animate-in fade-in duration-700 tint-blue">
         <div className="max-w-2xl mx-auto space-y-10">
           <div className="text-center space-y-3">

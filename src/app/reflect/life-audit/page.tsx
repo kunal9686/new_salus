@@ -11,7 +11,6 @@ import { useState } from "react";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer } from 'recharts';
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { AmbientPlayer } from "@/components/ambient-player";
 
 const categories = [
   { id: 'mental', label: 'Mental Health' },
@@ -64,7 +63,6 @@ export default function LifeAuditPage() {
   if (submitted) {
     return (
       <DashboardLayout pageTitle="Audit Complete">
-        <AmbientPlayer url="https://cdn.pixabay.com/audio/2023/06/11/audio_92e4726a57.mp3" />
         <div className="p-6 lg:p-10 flex flex-col items-center justify-center min-h-[calc(100vh-10rem)] tint-blue">
           <Card className="clay-card max-w-2xl w-full p-10 text-center space-y-10">
             <h2 className="text-2xl font-headline font-bold text-foreground">Your Life Balance</h2>
@@ -96,7 +94,6 @@ export default function LifeAuditPage() {
 
   return (
     <DashboardLayout pageTitle="Life Audit">
-      <AmbientPlayer url="https://cdn.pixabay.com/audio/2023/06/11/audio_92e4726a57.mp3" />
       <div className="p-6 lg:p-10 space-y-10 min-h-full animate-in fade-in duration-700 tint-blue">
         <div className="max-w-2xl mx-auto space-y-8">
           <div className="space-y-3 text-center">
