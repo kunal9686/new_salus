@@ -420,17 +420,17 @@ export default function GrowPage() {
           </div>
         </ScrollArea>
         
-        <div className="p-8 bg-white/40 backdrop-blur-xl border-t-4 border-white/60 animate-in slide-in-from-bottom-10 duration-700">
-          <div className="max-w-4xl mx-auto flex items-end gap-5">
+        <div className="p-4 md:p-6 bg-white/40 backdrop-blur-xl border-t-2 border-white/60 animate-in slide-in-from-bottom-10 duration-700">
+          <div className="max-w-4xl mx-auto flex items-end gap-4">
             <form
               onSubmit={handleSendMessage}
-              className="flex-1 relative overflow-hidden rounded-[2.5rem] border-4 border-white shadow-2xl bg-white/60"
+              className="flex-1 relative overflow-hidden rounded-[1.5rem] border-2 border-white shadow-xl bg-white/60"
             >
               <Label htmlFor="message" className="sr-only">Message</Label>
               <Textarea
                 id="message"
                 placeholder="Type your reflection or choice..."
-                className="min-h-16 resize-none border-0 p-6 shadow-none focus-visible:ring-0 text-lg bg-transparent"
+                className="min-h-10 resize-none border-0 p-3 shadow-none focus-visible:ring-0 text-base bg-transparent"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => {
@@ -441,10 +441,10 @@ export default function GrowPage() {
                 }}
                 disabled={isLoading || isRecording || !user}
               />
-              <div className="flex items-center p-4 pt-0">
-                <Button type="submit" size="sm" className="ml-auto gap-2 rounded-[1.5rem] h-12 px-8 clay-btn text-base" disabled={isLoading || isRecording || !user || !input.trim()}>
+              <div className="flex items-center p-3 pt-0">
+                <Button type="submit" size="sm" className="ml-auto gap-2 rounded-xl h-9 px-4 clay-btn text-sm" disabled={isLoading || isRecording || !user || !input.trim()}>
                   Send
-                  <CornerDownLeft className="size-5" />
+                  <CornerDownLeft className="size-4" />
                 </Button>
               </div>
             </form>
@@ -452,12 +452,12 @@ export default function GrowPage() {
               type="button" 
               onClick={startRecording} 
               disabled={isLoading || isRecording || !user}
-              className={`size-20 rounded-[2rem] border-4 border-white shadow-2xl transition-all ${isRecording ? 'bg-destructive scale-110' : 'bg-secondary hover:bg-secondary/90 hover:scale-105'}`}
+              className={`size-14 rounded-2xl border-2 border-white shadow-xl transition-all ${isRecording ? 'bg-destructive scale-110' : 'bg-secondary hover:bg-secondary/90 hover:scale-105'}`}
             >
-              {isLoading ? <Loader2 className="size-10 animate-spin" /> : <Mic className="size-10 text-secondary-foreground" />}
+              {isLoading ? <Loader2 className="size-7 animate-spin" /> : <Mic className="size-7 text-secondary-foreground" />}
             </Button>
           </div>
-          <p className="text-[10px] text-center text-muted-foreground mt-6 uppercase tracking-[0.3em] font-black opacity-40">
+          <p className="text-[8px] text-center text-muted-foreground mt-4 uppercase tracking-[0.2em] font-black opacity-40">
             Multimodal Voice Reasoning Enabled • Private Encryption Active
           </p>
         </div>
