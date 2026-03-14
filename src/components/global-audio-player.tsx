@@ -60,9 +60,12 @@ export function GlobalAudioPlayer() {
           .then(() => setIsPlaying(true))
           .catch(() => {});
       }
-      window.removeEventListener("click", startAudioOnInteraction);
+      window.removeEventListener("mousedown", startAudioOnInteraction);
+      window.removeEventListener("keydown", startAudioOnInteraction);
     };
-    window.addEventListener("click", startAudioOnInteraction);
+    
+    window.addEventListener("mousedown", startAudioOnInteraction);
+    window.addEventListener("keydown", startAudioOnInteraction);
 
     return () => {
       audio.removeEventListener("ended", handleEnded);
@@ -70,7 +73,8 @@ export function GlobalAudioPlayer() {
       audio.removeEventListener("playing", handlePlaying);
       audio.removeEventListener("pause", handlePause);
       audio.removeEventListener("error", handleError);
-      window.removeEventListener("click", startAudioOnInteraction);
+      window.removeEventListener("mousedown", startAudioOnInteraction);
+      window.removeEventListener("keydown", startAudioOnInteraction);
       audio.pause();
       audio.src = "";
     };
@@ -112,6 +116,7 @@ export function GlobalAudioPlayer() {
           variant="ghost"
           size="icon"
           onClick={() => setIsExpanded(!isExpanded)}
+          suppressHydrationWarning
           className={cn(
             "h-12 w-12 rounded-full border-4 border-white shadow-xl backdrop-blur-2xl transition-all duration-500 hover:scale-110 active:scale-95 bg-white/60",
             isExpanded && "rotate-180"
@@ -151,6 +156,7 @@ export function GlobalAudioPlayer() {
           {/* Interactive Play/Pause Pill */}
           <button 
             onClick={togglePlay}
+            suppressHydrationWarning
             className="mt-4 bg-white/90 backdrop-blur-xl px-5 py-2.5 rounded-full border-2 border-white shadow-lg flex items-center gap-3 cursor-pointer hover:bg-white transition-all active:scale-95 group"
           >
              <div className="size-5 rounded-full bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 transition-colors">
