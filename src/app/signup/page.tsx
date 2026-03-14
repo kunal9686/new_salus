@@ -65,46 +65,46 @@ export default function SignupPage() {
 
   if (isUserLoading || user) {
     return (
-      <div className="flex min-h-screen w-full items-center justify-center bg-black p-4 doodle-pattern">
-        <div className="animate-pulse text-primary flex flex-col items-center gap-4">
-          <BookHeart className="h-12 w-12" />
-          <p className="font-headline tracking-widest uppercase text-xs">Preparing Sanctuary</p>
+      <div className="flex min-h-screen w-full items-center justify-center bg-transparent p-4">
+        <div className="animate-pulse text-primary flex flex-col items-center gap-6">
+          <BookHeart className="h-20 w-20" />
+          <p className="font-headline tracking-[0.3em] uppercase text-sm">Preparing Sanctuary</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-black p-4 relative doodle-pattern">
+    <div className="flex min-h-screen w-full items-center justify-center bg-transparent p-4 relative overflow-hidden">
        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 blur-[150px] rounded-full" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/20 blur-[150px] rounded-full animate-pulse" />
       </div>
 
-      <Card className="mx-auto max-w-sm w-full shadow-2xl bg-card/40 backdrop-blur-xl border-white/25 rounded-3xl relative z-10 border-2">
+      <Card className="mx-auto max-w-md w-full shadow-2xl bg-white/60 backdrop-blur-2xl border-white border-[3px] rounded-[3rem] relative z-10 p-4 animate-in zoom-in-95 duration-700">
         <CardHeader className="text-center pt-8">
-           <div className="size-12 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4 border-2 border-primary/20 shadow-[0_0_20px_rgba(var(--primary),0.2)]">
-             <BookHeart className="text-primary size-6" />
+           <div className="size-16 rounded-[2rem] bg-primary/10 flex items-center justify-center mx-auto mb-6 border-2 border-white shadow-xl">
+             <BookHeart className="text-primary size-8" />
           </div>
-          <CardTitle className="text-3xl font-headline font-bold">Join Salus</CardTitle>
-          <CardDescription className="text-muted-foreground/80 italic mt-1">
+          <CardTitle className="text-4xl font-headline font-bold text-foreground">Join Salus</CardTitle>
+          <CardDescription className="text-muted-foreground text-lg italic mt-2">
             Begin your personal journey today.
           </CardDescription>
         </CardHeader>
-        <CardContent className="pb-8">
-          <form onSubmit={handleSignup} className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="full-name" className="text-xs uppercase tracking-widest font-bold ml-1">Full name</Label>
+        <CardContent className="pb-8 px-8">
+          <form onSubmit={handleSignup} className="grid gap-6">
+            <div className="grid gap-3">
+              <Label htmlFor="full-name" className="text-xs uppercase tracking-[0.2em] font-bold ml-2 text-muted-foreground">Full name</Label>
               <Input 
                 id="full-name" 
                 placeholder="John Doe" 
                 required 
                 value={fullName} 
                 onChange={(e) => setFullName(e.target.value)} 
-                className="bg-black/40 border-white/20 rounded-xl h-12 focus-visible:ring-primary/50" 
+                className="bg-white/40 border-white border-2 rounded-2xl h-14 text-lg focus-visible:ring-primary/30" 
               />
             </div>
-            <div className="grid gap-2">
-              <Label htmlFor="email" className="text-xs uppercase tracking-widest font-bold ml-1">Email</Label>
+            <div className="grid gap-3">
+              <Label htmlFor="email" className="text-xs uppercase tracking-[0.2em] font-bold ml-2 text-muted-foreground">Email</Label>
               <Input
                 id="email"
                 type="email"
@@ -112,27 +112,27 @@ export default function SignupPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="bg-black/40 border-white/20 rounded-xl h-12 focus-visible:ring-primary/50"
+                className="bg-white/40 border-white border-2 rounded-2xl h-14 text-lg focus-visible:ring-primary/30"
               />
             </div>
-            <div className="grid gap-2">
-              <Label htmlFor="password" className="text-xs uppercase tracking-widest font-bold ml-1">Password</Label>
+            <div className="grid gap-3">
+              <Label htmlFor="password" className="text-xs uppercase tracking-[0.2em] font-bold ml-2 text-muted-foreground">Password</Label>
               <Input 
                 id="password" 
                 type="password" 
                 required 
                 value={password} 
                 onChange={(e) => setPassword(e.target.value)} 
-                className="bg-black/40 border-white/20 rounded-xl h-12 focus-visible:ring-primary/50" 
+                className="bg-white/40 border-white border-2 rounded-2xl h-14 text-lg focus-visible:ring-primary/30" 
               />
             </div>
-            <Button type="submit" className="w-full h-12 rounded-xl text-lg font-headline transition-all hover:scale-[1.02] shadow-lg shadow-primary/20">
+            <Button type="submit" className="w-full h-14 rounded-2xl text-xl font-headline clay-btn transition-all mt-4">
               Create Account
             </Button>
           </form>
-          <div className="mt-6 text-center text-sm text-muted-foreground">
+          <div className="mt-8 text-center text-sm text-muted-foreground">
             Already have an account?{" "}
-            <Link href="/login" className="underline text-primary font-semibold">
+            <Link href="/login" className="underline text-primary font-bold hover:text-primary/80">
               Log in
             </Link>
           </div>

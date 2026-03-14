@@ -47,7 +47,7 @@ export default function LoginPage() {
 
   if (isUserLoading || user) {
     return (
-      <div className="flex min-h-screen w-full items-center justify-center bg-background p-4 doodle-pattern">
+      <div className="flex min-h-screen w-full items-center justify-center bg-transparent p-4">
         <div className="animate-pulse text-primary flex flex-col items-center gap-6">
           <BookHeart className="h-20 w-20" />
           <p className="font-headline tracking-[0.3em] uppercase text-sm">Entering Sanctuary</p>
@@ -57,7 +57,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-background p-4 relative doodle-pattern overflow-hidden">
+    <div className="flex min-h-screen w-full items-center justify-center bg-transparent p-4 relative overflow-hidden">
        <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/20 blur-[150px] rounded-full animate-pulse" />
       </div>
