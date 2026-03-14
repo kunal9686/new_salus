@@ -19,6 +19,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useCollection } from "@/firebase/firestore/use-collection";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+import { AmbientPlayer } from "@/components/ambient-player";
 
 const GUIDED_QUESTIONS = [
   "What has been on your mind the most lately?",
@@ -327,7 +328,7 @@ export default function GrowPage() {
               </div>
             )}
 
-            {messages?.map((message, idx) => (
+            {messages?.map((message: any, idx: number) => (
               <div
                 key={message.id}
                 className={`flex items-start gap-4 animate-in fade-in slide-in-from-bottom-4 duration-300 ${message.role === "user" ? "justify-end" : ""}`}
@@ -453,6 +454,7 @@ export default function GrowPage() {
             Multimodal Voice Reasoning Enabled • Private Encryption Active
           </p>
         </div>
+        <AmbientPlayer url="https://cdn.pixabay.com/audio/2022/05/27/audio_1808d3030e.mp3" />
       </div>
     </DashboardLayout>
   );
