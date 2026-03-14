@@ -268,8 +268,18 @@ export default function GrowPage() {
     try {
       const { audioUri } = await textToSpeech({ text });
       const audio = new Audio(audioUri);
+      
       audio.onended = () => setPlayingAudioId(null);
-      audio.play();
+      audio.onerror = () => {
+        setPlayingAudioId(null);
+        toast({
+          variant: "destructive",
+          title: "Audio Error",
+          description: "Could not play the generated speech.",
+        });
+      };
+      
+      await audio.play();
     } catch (error) {
       console.error("TTS failed:", error);
       setPlayingAudioId(null);

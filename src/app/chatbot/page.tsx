@@ -1,7 +1,8 @@
+
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { CornerDownLeft, Volume2, Loader2 } from "lucide-react";
+import { CornerDownLeft, Volume2, Loader2, AlertCircle } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -15,6 +16,7 @@ import { useUser, useFirestore, useMemoFirebase } from "@/firebase/provider";
 import { collection, doc, serverTimestamp, query, orderBy, getDocs, getDoc, limit } from "firebase/firestore";
 import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { useCollection } from "@/firebase/firestore/use-collection";
+import { useToast } from "@/hooks/use-toast";
 
 interface Message {
   id: string;
@@ -25,6 +27,7 @@ interface Message {
 export default function ChatbotPage() {
   const { user } = useUser();
   const firestore = useFirestore();
+  const { toast } = useToast();
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [sessionId, setSessionId] = useState<string | null>(null);
@@ -126,8 +129,18 @@ export default function ChatbotPage() {
     try {
       const { audioUri } = await textToSpeech({ text });
       const audio = new Audio(audioUri);
+      
       audio.onended = () => setPlayingAudioId(null);
-      audio.play();
+      audio.onerror = () => {
+        setPlayingAudioId(null);
+        toast({
+          variant: "destructive",
+          title: "Audio Error",
+          description: "Could not play the generated speech.",
+        });
+      };
+      
+      await audio.play();
     } catch (error) {
       console.error("TTS failed:", error);
       setPlayingAudioId(null);
