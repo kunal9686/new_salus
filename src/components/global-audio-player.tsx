@@ -2,15 +2,15 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Volume2, VolumeX, Music, Loader2 } from "lucide-react";
+import { Volume2, VolumeX, Music, Loader2, Play, Pause } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 
 const PLAYLIST = [
   "https://cdn.pixabay.com/audio/2022/02/22/audio_d0c6ff1bab.mp3", // Lofi Study
-  "https://cdn.pixabay.com/audio/2022/01/21/audio_31743c589f.mp3", // Lofi Relax
-  "https://cdn.pixabay.com/audio/2021/11/25/audio_91b325ef02.mp3", // Rain
+  "https://cdn.pixabay.com/audio/2022/05/27/audio_1808737487.mp3", // Rain & Lofi
+  "https://cdn.pixabay.com/audio/2021/11/25/audio_91b325ef02.mp3", // Pure Rain
 ];
 
 export function GlobalAudioPlayer() {
@@ -94,7 +94,8 @@ export function GlobalAudioPlayer() {
     }
   }, [volume]);
 
-  const togglePlay = () => {
+  const togglePlay = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (!audioRef.current) return;
     if (isPlaying) {
       audioRef.current.pause();
@@ -106,6 +107,7 @@ export function GlobalAudioPlayer() {
   return (
     <div className="fixed top-6 right-6 z-[200] flex flex-col items-center">
       <div className="relative flex flex-col items-center">
+        {/* Main Control Toggle */}
         <Button
           variant="ghost"
           size="icon"
@@ -124,34 +126,44 @@ export function GlobalAudioPlayer() {
           )}
         </Button>
 
+        {/* Expanded Panel */}
         <div
           className={cn(
             "mt-3 transition-all duration-500 ease-in-out origin-top flex flex-col items-center",
             isExpanded ? "translate-y-0 opacity-100 scale-100" : "-translate-y-10 opacity-0 scale-90 pointer-events-none"
           )}
         >
-          <div className="bg-white/70 backdrop-blur-2xl border-4 border-white rounded-[2.5rem] p-4 pt-5 pb-6 shadow-2xl flex flex-col items-center gap-3 w-12">
-            <span className="text-[8px] font-black uppercase tracking-[0.2em] text-primary">Vol</span>
-            <div className="h-24 w-full flex justify-center">
+          {/* Vertical Volume Slider Container */}
+          <div className="bg-white/80 backdrop-blur-2xl border-4 border-white rounded-[2.5rem] p-4 py-6 shadow-2xl flex flex-col items-center gap-4 w-14">
+            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-primary">Vol</span>
+            <div className="h-32 w-full flex justify-center">
               <Slider
                 orientation="vertical"
                 value={[volume]}
                 max={100}
                 step={1}
                 onValueChange={(val) => setVolume(val[0])}
-                className="h-full"
+                className="h-full cursor-pointer"
               />
             </div>
           </div>
-          <div 
+
+          {/* Interactive Play/Pause Pill */}
+          <button 
             onClick={togglePlay}
-            className="mt-3 bg-white/80 backdrop-blur-xl px-4 py-1.5 rounded-full border-2 border-white shadow-lg flex items-center gap-2 cursor-pointer hover:bg-white transition-colors"
+            className="mt-4 bg-white/90 backdrop-blur-xl px-5 py-2.5 rounded-full border-2 border-white shadow-lg flex items-center gap-3 cursor-pointer hover:bg-white transition-all active:scale-95 group"
           >
-             <Music className={cn("size-2.5 text-primary", isPlaying && "animate-spin-slow")} />
-             <span className="text-[8px] font-bold uppercase tracking-widest text-muted-foreground">
+             <div className="size-5 rounded-full bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 transition-colors">
+                {isPlaying ? (
+                  <Pause className="size-2.5 text-primary fill-current" />
+                ) : (
+                  <Play className="size-2.5 text-primary fill-current ml-0.5" />
+                )}
+             </div>
+             <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-muted-foreground">
                {isPlaying ? "Playing" : "Paused"}
              </span>
-          </div>
+          </button>
         </div>
       </div>
     </div>
