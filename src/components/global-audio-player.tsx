@@ -100,7 +100,7 @@ export function GlobalAudioPlayer() {
         audioRef.current.play().catch(() => setIsPlaying(false));
       }
     }
-  }, [trackIndex, mounted]);
+  }, [trackIndex, mounted, isPlaying]);
 
   // Sync volume state
   useEffect(() => {

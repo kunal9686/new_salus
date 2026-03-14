@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -156,7 +157,7 @@ export function DashboardLayout({
 
   if (isUserLoading || !user) {
     return (
-       <div className="flex h-screen w-full items-center justify-center">
+       <div className="flex h-screen w-full items-center justify-center" suppressHydrationWarning>
          <div className="flex flex-col items-center gap-4">
            <div className="animate-pulse bg-white/40 p-5 rounded-full border-4 border-white shadow-lg backdrop-blur-md">
              <BookHeart className="h-10 w-10 text-primary" />
@@ -173,7 +174,7 @@ export function DashboardLayout({
   return (
     <SidebarProvider>
         <AppSidebar />
-        <SidebarInset className="bg-transparent">
+        <SidebarInset className="bg-transparent" suppressHydrationWarning>
             <AppHeader pageTitle={pageTitle} />
             <main className="flex-1 overflow-y-auto">
               {children}
