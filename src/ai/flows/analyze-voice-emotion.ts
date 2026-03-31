@@ -23,7 +23,7 @@ const AnalyzeVoiceEmotionOutputSchema = z.object({
   detectedEmotion: z.string().describe('The primary emotion detected in the voice recording.'),
   intensity: z.number().min(1).max(10).describe('The emotional intensity detected on a scale of 1-10.'),
   insight: z.string().describe('A psychological insight or observation based on the emotional subtext (pacing, tone, pauses).'),
-  suggestedAction: z.string().describe('A recommended Salus reflection module (e.g., CBT, Stoic, Ikigai, Identity).'),
+  suggestedAction: z.string().describe('A recommended Salus reflection module (e.g., CBT, Ikigai, Life Audit, Free Journal).'),
   summary: z.string().describe('A brief summary of what the user said.'),
 });
 export type AnalyzeVoiceEmotionOutput = z.infer<typeof AnalyzeVoiceEmotionOutputSchema>;

@@ -5,3 +5,5 @@ config();
 import '@/ai/flows/chatbot-personalized-guidance.ts';
 import '@/ai/flows/analyze-voice-emotion.ts';
 import '@/ai/flows/text-to-speech.ts';
+import '@/ai/flows/cbt-reframing-coach.ts';
+import '@/ai/flows/ikigai-insight-generator.ts';

@@ -4,13 +4,11 @@ import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { useUser, useFirestore } from "@/firebase/provider";
-import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
-import { collection, serverTimestamp } from "firebase/firestore";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { Heart, Star, Globe, DollarSign, CheckCircle2 } from "lucide-react";
+import { Heart, Star, Globe, DollarSign, CheckCircle2, Sparkles, Compass, Target } from "lucide-react";
+import { ikigaiInsightGenerator, type IkigaiInsightGeneratorOutput } from "@/ai/flows/ikigai-insight-generator";
 
 const steps = [
   {
@@ -65,16 +63,17 @@ const steps = [
 ];
 
 export default function IkigaiPage() {
-  const { user } = useUser();
-  const firestore = useFirestore();
   const router = useRouter();
   const { toast } = useToast();
   
   const [currentStep, setCurrentStep] = useState(0);
   const [responses, setResponses] = useState<Record<string, string>>({});
   const [isFinished, setIsFinished] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [insights, setInsights] = useState<IkigaiInsightGeneratorOutput | null>(null);
 
   const handleNext = () => {
+    if (isSubmitting) return;
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
@@ -82,21 +81,41 @@ export default function IkigaiPage() {
     }
   };
 
-  const handleSubmit = () => {
-    if (!user || !firestore) return;
-    const ref = collection(firestore, "users", user.uid, "journalEntries");
-    addDocumentNonBlocking(ref, {
-      userId: user.uid,
-      type: 'ikigai',
-      content: 'Completed Ikigai Discovery module.',
-      moduleData: responses,
-      timestamp: serverTimestamp(),
-    });
-    setIsFinished(true);
-    toast({
-      title: "Discovery Saved",
-      description: "Your Ikigai reflection has been added to your journal.",
-    });
+  const handleSubmit = async () => {
+    const hasAnyResponse = Object.values(responses).some((value) => value?.trim());
+    if (!hasAnyResponse) {
+      toast({
+        variant: "destructive",
+        title: "Add some reflection first",
+        description: "Please answer at least one prompt before generating Ikigai insights.",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const response = await ikigaiInsightGenerator({
+        whatYouLove: responses.love || "",
+        whatYouAreGoodAt: responses.goodAt || "",
+        whatWorldNeeds: responses.worldNeeds || "",
+        whatYouCanBePaidFor: responses.paidFor || "",
+      });
+
+      setInsights(response);
+      setIsFinished(true);
+      toast({
+        title: "Insights generated",
+        description: "Gemini created your Ikigai direction from your responses.",
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Generation failed",
+        description: "Could not generate Ikigai insights right now. Please try again.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isFinished) {
@@ -139,6 +158,36 @@ export default function IkigaiPage() {
               ))}
             </div>
 
+            {insights && (
+              <div className="space-y-5">
+                <div className="rounded-[2rem] bg-primary/10 border-2 border-primary/20 p-6">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Sparkles className="size-5 text-primary" />
+                    <h3 className="font-headline font-bold text-lg text-primary">Ikigai Core Statement</h3>
+                  </div>
+                  <p className="text-sm text-foreground font-medium leading-relaxed">{insights.ikigaiStatement}</p>
+                </div>
+                <div className="rounded-[2rem] bg-white/50 border-2 border-white p-6">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Compass className="size-5 text-heliotrope" />
+                    <h3 className="font-headline font-bold text-lg text-foreground">Direction</h3>
+                  </div>
+                  <p className="text-sm text-foreground font-medium leading-relaxed">{insights.direction}</p>
+                </div>
+                <div className="rounded-[2rem] bg-white/50 border-2 border-white p-6">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Target className="size-5 text-amaranth" />
+                    <h3 className="font-headline font-bold text-lg text-foreground">Next 3 Practical Steps</h3>
+                  </div>
+                  <ul className="space-y-2">
+                    {insights.nextSteps.map((step, index) => (
+                      <li key={index} className="text-sm text-foreground font-medium leading-relaxed">{index + 1}. {step}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            )}
+
             <Button onClick={() => router.push('/reflect')} className="w-full h-14 text-lg font-headline clay-btn">Return to Reflect Hub</Button>
           </Card>
         </div>
@@ -174,7 +223,17 @@ export default function IkigaiPage() {
                     placeholder="Type your reflection here..." 
                     className="min-h-[120px] bg-white/40 border-2 border-white rounded-[2rem] p-5 text-sm"
                     value={responses[`${step.id}_${i}`] || ""}
-                    onChange={(e) => setResponses({...responses, [step.id]: (responses[step.id] || "") + "\n" + e.target.value, [`${step.id}_${i}`]: e.target.value})}
+                    onChange={(e) => {
+                      const nextResponses = {
+                        ...responses,
+                        [`${step.id}_${i}`]: e.target.value,
+                      };
+                      nextResponses[step.id] = step.questions
+                        .map((_, questionIndex) => nextResponses[`${step.id}_${questionIndex}`] || "")
+                        .filter((answer) => answer.trim().length > 0)
+                        .join("\n");
+                      setResponses(nextResponses);
+                    }}
                   />
                 </div>
               ))}
@@ -188,8 +247,8 @@ export default function IkigaiPage() {
               >
                 Previous
               </Button>
-              <Button onClick={handleNext} className="gap-3 px-12 h-14 text-sm font-headline clay-btn">
-                {currentStep === steps.length - 1 ? "Complete Discovery" : "Next Section"}
+              <Button onClick={handleNext} className="gap-3 px-12 h-14 text-sm font-headline clay-btn" disabled={isSubmitting}>
+                {currentStep === steps.length - 1 ? (isSubmitting ? "Generating Insights..." : "Generate Ikigai Insights") : "Next Section"}
                 <CheckCircle2 className="size-4" />
               </Button>
             </CardFooter>

@@ -5,8 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
   PenLine, 
   Search, 
-  UserCircle2, 
-  Wind, 
   BrainCircuit, 
   Activity, 
   ChevronRight 
@@ -40,24 +38,6 @@ const modules = [
     color: 'text-cyber-lime',
     bg: 'bg-cyber-lime/20',
     href: '/reflect/life-audit'
-  },
-  {
-    id: 'identity',
-    title: 'Identity Reflection',
-    desc: 'Rebuild your sense of self during transformative times.',
-    icon: UserCircle2,
-    color: 'text-digital-lavender',
-    bg: 'bg-digital-lavender/20',
-    href: '/reflect/identity'
-  },
-  {
-    id: 'anxiety',
-    title: 'Stoic Perspective',
-    desc: 'Refocus on what is within your control to ease anxiety.',
-    icon: Wind,
-    color: 'text-amaranth',
-    bg: 'bg-amaranth/20',
-    href: '/reflect/anxiety'
   },
   {
     id: 'cbt',

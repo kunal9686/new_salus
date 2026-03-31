@@ -1,21 +1,15 @@
 "use client";
 
 import { DashboardLayout } from "@/components/dashboard-layout";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { useUser, useFirestore } from "@/firebase/provider";
-import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
-import { collection, serverTimestamp } from "firebase/firestore";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { BrainCircuit, RefreshCw, AlertCircle, Smile } from "lucide-react";
+import { BrainCircuit, RefreshCw, AlertCircle, Smile, Sparkles } from "lucide-react";
+import { cbtReframingCoach, type CbtReframingCoachOutput } from "@/ai/flows/cbt-reframing-coach";
 
 export default function CBTPage() {
-  const { user } = useUser();
-  const firestore = useFirestore();
-  const router = useRouter();
   const { toast } = useToast();
 
   const [data, setData] = useState({
@@ -26,23 +20,42 @@ export default function CBTPage() {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [result, setResult] = useState<CbtReframingCoachOutput | null>(null);
 
-  const handleSubmit = () => {
-    if (!user || !firestore) return;
+  const handleSubmit = async () => {
+    if (!data.situation.trim() || !data.thought.trim() || !data.emotion.trim()) {
+      toast({
+        variant: "destructive",
+        title: "More context needed",
+        description: "Please fill situation, thought, and emotion before generating a reframe.",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
-    const ref = collection(firestore, "users", user.uid, "journalEntries");
-    addDocumentNonBlocking(ref, {
-      userId: user.uid,
-      type: 'cbt',
-      content: `Reframed thought: "${data.thought}" into "${data.alternative}"`,
-      moduleData: data,
-      timestamp: serverTimestamp(),
-    });
-    toast({
-      title: "Thought Reframed",
-      description: "Consistency builds new neural pathways. Great job.",
-    });
-    router.push('/reflect');
+
+    try {
+      const response = await cbtReframingCoach({
+        situation: data.situation,
+        automaticThought: data.thought,
+        emotion: data.emotion,
+        userAlternative: data.alternative,
+      });
+
+      setResult(response);
+      toast({
+        title: "Reframe generated",
+        description: "Your balanced perspective is ready.",
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Generation failed",
+        description: "Could not generate a CBT response right now. Please try again.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -121,7 +134,7 @@ export default function CBTPage() {
               </CardHeader>
               <CardContent className="p-8 pt-0">
                 <Textarea 
-                  placeholder="e.g. 'Feedback is for growth. One email doesn't define my career.'" 
+                    placeholder="Optional: your own alternative thought draft" 
                   className="min-h-[120px] bg-white/60 border-2 border-white rounded-[2rem] p-5 text-sm font-medium"
                   value={data.alternative}
                   onChange={(e) => setData({...data, alternative: e.target.value})}
@@ -130,9 +143,37 @@ export default function CBTPage() {
             </Card>
           </div>
 
+            {result && (
+              <Card className="clay-card border-primary/40 bg-white/70 shadow-xl">
+                <CardHeader className="p-8 pb-4">
+                  <CardTitle className="flex items-center gap-3 text-primary font-headline text-xl">
+                    <div className="p-3 rounded-2xl bg-primary/20 border-2 border-white"><Sparkles className="size-5" /></div>
+                    Gemini CBT Response
+                  </CardTitle>
+                  <CardDescription className="text-xs font-medium text-foreground/70">
+                    Generated in real time from your current reflection.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="p-8 pt-0 space-y-6">
+                  <div className="rounded-[1.5rem] bg-white/70 border-2 border-white p-5">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-amaranth mb-2">Likely Distortion</p>
+                    <p className="text-sm text-foreground font-medium">{result.distortion}</p>
+                  </div>
+                  <div className="rounded-[1.5rem] bg-white/70 border-2 border-white p-5">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-heliotrope mb-2">Balanced Reframe</p>
+                    <p className="text-sm text-foreground font-medium">{result.balancedReframe}</p>
+                  </div>
+                  <div className="rounded-[1.5rem] bg-white/70 border-2 border-white p-5">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-digital-lavender mb-2">Action Step</p>
+                    <p className="text-sm text-foreground font-medium">{result.actionStep}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
           <div className="flex justify-center pt-10">
             <Button onClick={handleSubmit} size="lg" className="px-16 py-8 text-lg font-headline rounded-[2.5rem] clay-btn" disabled={isSubmitting}>
-              Apply Reframe
+                {isSubmitting ? "Generating..." : "Generate CBT Reframe"}
             </Button>
           </div>
         </div>
